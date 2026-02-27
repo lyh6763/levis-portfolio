@@ -1,0 +1,331 @@
+/* ========================================
+   Levi's Heritage - Common Styles
+   Mobile First (base: ~768px)
+======================================== */
+
+/* ----------------------------------------
+   CSS Variables
+---------------------------------------- */
+:root {
+  /* Colors - Deep Indigo (1930s Vintage Workwear) */
+  --color-bg-main: #1F2937;        /* Deep indigo blue */
+  --color-bg-sub: #2E3B4E;         /* Lighter indigo blue */
+  --color-text-main: #F5EFE6;      /* Warm cream/off-white */
+  --color-text-sub: #B8AFA3;       /* Faded beige */
+  --color-accent: #A8112E;         /* Levi's official red tab */
+  --color-stitch: #D4B896;         /* Sand/tan stitch */
+  --color-border: #3D4B5F;         /* Medium indigo border */
+
+  /* Typography */
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+
+  /* Font Sizes - Mobile */
+  --fs-h1: 2.5rem;      /* 40px */
+  --fs-h2: 1.75rem;     /* 28px */
+  --fs-h3: 1.25rem;     /* 20px */
+  --fs-body: 1rem;      /* 16px */
+  --fs-small: 0.875rem; /* 14px */
+  --fs-caption: 0.75rem; /* 12px */
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+
+  /* Container */
+  --container-padding: 1.25rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ----------------------------------------
+   Base Styles
+---------------------------------------- */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-main);
+}
+
+/* ----------------------------------------
+   Typography
+---------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+p {
+  color: var(--color-text-sub);
+  line-height: 1.7;
+}
+
+/* ----------------------------------------
+   Layout
+---------------------------------------- */
+.container {
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+  margin: 0 auto;
+}
+
+.section {
+  padding: var(--spacing-2xl) 0;
+}
+
+/* ----------------------------------------
+   Components
+---------------------------------------- */
+
+/* Skip Link */
+.skip-link {
+  position: fixed;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  z-index: 1000;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: translateY(-200%);
+  transition: transform var(--transition-fast);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Focus Visible */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Red Tab Label */
+.red-tab {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+}
+
+/* Read More Link */
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-main);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color var(--transition-fast);
+}
+
+.read-more::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: width var(--transition-base);
+}
+
+.read-more:hover::after,
+.read-more:focus::after {
+  width: 100%;
+}
+
+.read-more svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.read-more:hover svg {
+  transform: translateX(4px);
+}
+
+/* Stitch Line Divider - Double Stitch */
+.stitch-line {
+  width: 100%;
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='8' viewBox='0 0 24 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 2 L 10 2' stroke='%23D4B896' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M 0 6 L 10 6' stroke='%23D4B896' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+  margin: var(--spacing-lg) 0;
+  opacity: 0.7;
+}
+
+/* Section Header */
+.section-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-header__label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-stitch);
+  margin-bottom: var(--spacing-xs);
+}
+
+.section-header__title {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Card Base */
+.card {
+  background-color: var(--color-bg-sub);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card__content {
+  padding: var(--spacing-md);
+}
+
+.card__title {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--spacing-xs);
+}
+
+.card__desc {
+  font-size: var(--fs-small);
+}
+
+/* ----------------------------------------
+   Utilities
+---------------------------------------- */
+.text-center {
+  text-align: center;
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-stitch {
+  color: var(--color-stitch);
+}
+
+.mb-sm {
+  margin-bottom: var(--spacing-sm);
+}
+
+.mb-md {
+  margin-bottom: var(--spacing-md);
+}
+
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mb-xl {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ----------------------------------------
+   Animations
+---------------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ----------------------------------------
+   Tablet Breakpoint (768px)
+---------------------------------------- */
+@media (min-width: 768px) {
+  :root {
+    --fs-h1: 3.5rem;      /* 56px */
+    --fs-h2: 2.25rem;     /* 36px */
+    --fs-h3: 1.5rem;      /* 24px */
+    --container-padding: 2rem;
+    --spacing-2xl: 5rem;
+  }
+
+  .container {
+    max-width: 720px;
+  }
+}
