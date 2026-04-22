@@ -41,6 +41,9 @@ Levi's 브랜드의 **헤리티지/아카이브/공정**을 중심으로, 커머
 - Stitch Line Draw(섹션 디바이더)
 - Archive Hover Texture
 - Read More Accent
+- data-bg 기반 지연 배경 로딩
+- 모바일 메뉴 ESC 닫기 및 포커스 순환
+- 스크롤 위치 기반 타임라인 활성 상태
 
 ## 미확정 항목
 - 없음

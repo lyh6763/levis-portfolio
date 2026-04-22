@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero(6).png">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/reset.css">
@@ -45,7 +46,7 @@
   <main id="main-content">
     <!-- Page Hero -->
     <section class="page-hero">
-      <div class="page-hero__bg" style="background-image: url('images/hero(6).png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+      <div class="page-hero__bg" data-bg="images/hero(6).png" data-bg-eager aria-hidden="true"></div>
       <div class="container page-hero__content">
         <span class="red-tab">Since 1873</span>
         <h1 class="page-hero__title">Heritage</h1>
@@ -197,7 +198,7 @@
 
         <div class="symbols__grid">
           <article class="symbols__item">
-            <div class="symbols__image" style="background-image: url('images/red_tab(1).png');" role="img" aria-label="레드 탭 디테일 이미지"></div>
+            <div class="symbols__image" data-bg="images/red_tab(1).png" role="img" aria-label="레드 탭 디테일 이미지"></div>
             <div class="symbols__content">
               <h3 class="symbols__title">Red Tab</h3>
               <p class="symbols__desc">
@@ -209,7 +210,7 @@
           </article>
 
           <article class="symbols__item">
-            <div class="symbols__image" style="background-image: url('images/arcuate_stitch.png');" role="img" aria-label="아큐에이트 스티치 디테일 이미지"></div>
+            <div class="symbols__image" data-bg="images/arcuate_stitch.png" role="img" aria-label="아큐에이트 스티치 디테일 이미지"></div>
             <div class="symbols__content">
               <h3 class="symbols__title">Arcuate Stitch</h3>
               <p class="symbols__desc">
@@ -221,7 +222,7 @@
           </article>
 
           <article class="symbols__item">
-            <div class="symbols__image" style="background-image: url('images/copper_rivet.png');" role="img" aria-label="코퍼 리벳 디테일 이미지"></div>
+            <div class="symbols__image" data-bg="images/copper_rivet.png" role="img" aria-label="코퍼 리벳 디테일 이미지"></div>
             <div class="symbols__content">
               <h3 class="symbols__title">Copper Rivet</h3>
               <p class="symbols__desc">
@@ -233,12 +234,13 @@
           </article>
 
           <article class="symbols__item">
-            <div class="symbols__image" style="background-image: url('images/the_beginning(2).png');" role="img" aria-label="투호스 패치 이미지"></div>
+            <div class="symbols__image" data-bg="images/the_beginning(2).png" role="img" aria-label="골드러시 시대 작업복 기원 이미지"></div>
             <div class="symbols__content">
-              <h3 class="symbols__title">Two Horse Patch</h3>
+              <h3 class="symbols__title">Gold Rush Origins</h3>
               <p class="symbols__desc">
-                두 마리 말이 청바지를 잡아당기는 가죽 패치.
-                1886년 도입된 리바이스의 내구성을 상징하는 그래픽.
+                캘리포니아 골드러시 현장의 노동자들.
+                리바이스 데님은 가장 거친 작업 환경을 버티기 위한
+                실용적 작업복에서 출발했다.
               </p>
             </div>
           </article>

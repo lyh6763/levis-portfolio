@@ -55,6 +55,14 @@ body {
   background-color: var(--color-bg-main);
 }
 
+body.nav-open {
+  overflow: hidden;
+}
+
+[data-bg] {
+  background-repeat: no-repeat;
+}
+
 /* ----------------------------------------
    Typography
 ---------------------------------------- */

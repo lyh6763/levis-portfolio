@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero(7).png">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/reset.css">
@@ -45,7 +46,7 @@
   <main id="main-content">
     <!-- Page Hero -->
     <section class="page-hero">
-      <div class="page-hero__bg" style="background-image: url('images/hero(7).png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+      <div class="page-hero__bg" data-bg="images/hero(7).png" data-bg-eager aria-hidden="true"></div>
       <div class="container page-hero__content">
         <span class="red-tab">Craftsmanship</span>
         <h1 class="page-hero__title">The Craft</h1>
@@ -77,7 +78,7 @@
           </div>
           <div class="process__body">
             <div class="process__image-wrap">
-              <div class="process__image" style="background-image: url('images/crafting(2).png');" role="img" aria-label="셀비지 데님 원단 이미지"></div>
+              <div class="process__image" data-bg="images/crafting(2).png" role="img" aria-label="셀비지 데님 원단 이미지"></div>
             </div>
             <div class="process__content">
               <h3 class="process__subtitle">셀비지 데님</h3>
@@ -110,7 +111,7 @@
           </div>
           <div class="process__body process__body--reverse">
             <div class="process__image-wrap">
-              <div class="process__image" style="background-image: url('images/dye(2).png');" role="img" aria-label="인디고 염색 공정 이미지"></div>
+              <div class="process__image" data-bg="images/dye(2).png" role="img" aria-label="인디고 염색 공정 이미지"></div>
             </div>
             <div class="process__content">
               <h3 class="process__subtitle">전통 인디고 염색</h3>
@@ -142,7 +143,7 @@
           </div>
           <div class="process__body">
             <div class="process__image-wrap">
-              <div class="process__image" style="background-image: url('images/crafting(3).png');" role="img" aria-label="재단과 봉제 공정 이미지"></div>
+              <div class="process__image" data-bg="images/crafting(3).png" role="img" aria-label="재단과 봉제 공정 이미지"></div>
             </div>
             <div class="process__content">
               <h3 class="process__subtitle">재단과 봉제</h3>
@@ -167,32 +168,32 @@
 
         <div class="stitch-line"></div>
 
-        <!-- Step 4: Finishing -->
+        <!-- Step 4: Final Stitching -->
         <article class="process__step">
           <div class="process__header">
             <span class="process__number">04</span>
-            <h2 class="process__title">Finishing</h2>
+            <h2 class="process__title">Final Stitching</h2>
           </div>
           <div class="process__body process__body--reverse">
             <div class="process__image-wrap">
-              <div class="process__image" style="background-image: url('images/stitch_rivet(2).png');" role="img" aria-label="리벳과 마감 디테일 이미지"></div>
+              <div class="process__image" data-bg="images/stitch_rivet(2).png" role="img" aria-label="봉제 마감 디테일 이미지"></div>
             </div>
             <div class="process__content">
-              <h3 class="process__subtitle">디테일 마감</h3>
+              <h3 class="process__subtitle">봉제 마감 디테일</h3>
               <p>
-                구리 리벳, 레드 탭, 가죽 패치.
-                리바이스를 리바이스답게 만드는
-                상징적인 디테일들이 더해진다.
+                마지막 공정에서는 굵은 실과 견고한 봉제로
+                데님의 구조를 완성한다.
+                체인 스티치와 보강 스티치가 내구성을 만든다.
               </p>
               <p>
-                모든 디테일은 기능성과 미적 가치를 동시에 갖춘다.
-                리벳은 내구성을, 레드 탭은 정체성을,
-                아치 스티치는 아름다움을 완성한다.
+                주요 심과 접합부를 정밀하게 마감해
+                오래 입을수록 더 입체적인 페이드와 주름이 남는다.
+                기능성과 완성도를 결정하는 단계다.
               </p>
               <ul class="process__list">
-                <li>리벳: 구리/은색 합금</li>
-                <li>버튼: 각인된 메탈 버튼</li>
-                <li>패치: 투호스 가죽 패치</li>
+                <li>스티치: 체인/락 스티치</li>
+                <li>포인트: 심 보강 및 접합 마감</li>
+                <li>효과: 내구성 강화와 페이드 형성</li>
               </ul>
             </div>
           </div>
@@ -211,20 +212,20 @@
 
         <div class="detail-gallery__grid">
           <div class="detail-gallery__item">
-            <div class="detail-gallery__image" style="background-image: url('images/stitch_rivet(1).png');" role="img" aria-label="스티치 디테일 이미지"></div>
+            <div class="detail-gallery__image" data-bg="images/stitch_rivet(1).png" role="img" aria-label="스티치 디테일 이미지"></div>
             <span class="detail-gallery__label">Stitch Detail</span>
           </div>
           <div class="detail-gallery__item">
-            <div class="detail-gallery__image" style="background-image: url('images/copper_rivet.png');" role="img" aria-label="리벳 클로즈업 이미지"></div>
+            <div class="detail-gallery__image" data-bg="images/copper_rivet.png" role="img" aria-label="리벳 클로즈업 이미지"></div>
             <span class="detail-gallery__label">Rivet Close-up</span>
           </div>
           <div class="detail-gallery__item">
-            <div class="detail-gallery__image" style="background-image: url('images/dye(3).png');" role="img" aria-label="데님 텍스처 이미지"></div>
+            <div class="detail-gallery__image" data-bg="images/dye(3).png" role="img" aria-label="데님 텍스처 이미지"></div>
             <span class="detail-gallery__label">Denim Texture</span>
           </div>
           <div class="detail-gallery__item">
-            <div class="detail-gallery__image" style="background-image: url('images/red_tab.png');" role="img" aria-label="버튼 마크 디테일 이미지"></div>
-            <span class="detail-gallery__label">Button Mark</span>
+            <div class="detail-gallery__image" data-bg="images/red_tab.png" role="img" aria-label="레드 탭 디테일 이미지"></div>
+            <span class="detail-gallery__label">Red Tab Detail</span>
           </div>
         </div>
       </div>

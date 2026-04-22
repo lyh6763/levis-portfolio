@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero(8).png">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/reset.css">
@@ -45,7 +46,7 @@
   <main id="main-content">
     <!-- Page Hero -->
     <section class="page-hero">
-      <div class="page-hero__bg" style="background-image: url('images/hero(8).png'); background-size: cover; background-position: center;" aria-hidden="true"></div>
+      <div class="page-hero__bg" data-bg="images/hero(8).png" data-bg-eager aria-hidden="true"></div>
       <div class="container page-hero__content">
         <span class="red-tab">Collection</span>
         <h1 class="page-hero__title">Archive</h1>
@@ -65,7 +66,7 @@
         <div class="models__list">
           <article class="models__item">
             <div class="models__image-wrap">
-              <div class="models__image" style="background-image: url('images/501.png');" role="img" aria-label="501 오리지널 핏 이미지"></div>
+              <div class="models__image" data-bg="images/501.png" role="img" aria-label="501 오리지널 핏 이미지"></div>
             </div>
             <div class="models__content">
               <span class="models__year">Since 1873</span>
@@ -86,7 +87,7 @@
 
           <article class="models__item">
             <div class="models__image-wrap">
-              <div class="models__image" style="background-image: url('images/505.png');" role="img" aria-label="505 레귤러 핏 이미지"></div>
+              <div class="models__image" data-bg="images/505.png" role="img" aria-label="505 레귤러 핏 이미지"></div>
             </div>
             <div class="models__content">
               <span class="models__year">Since 1967</span>
@@ -107,7 +108,7 @@
 
           <article class="models__item">
             <div class="models__image-wrap">
-              <div class="models__image" style="background-image: url('images/517.png');" role="img" aria-label="517 부츠컷 핏 이미지"></div>
+              <div class="models__image" data-bg="images/517.png" role="img" aria-label="517 부츠컷 핏 이미지"></div>
             </div>
             <div class="models__content">
               <span class="models__year">Since 1969</span>
@@ -140,24 +141,24 @@
 
         <div class="texture-gallery__grid">
           <div class="texture-gallery__item texture-gallery__item--large">
-            <div class="texture-gallery__image" style="background-image: url('images/hero(1).png');" role="img" aria-label="위스커 페이드 텍스처 이미지"></div>
-            <span class="texture-gallery__label">Whisker Fade</span>
+            <div class="texture-gallery__image" data-bg="images/hero(1).png" role="img" aria-label="해진 데님 레이어 텍스처 이미지"></div>
+            <span class="texture-gallery__label">Frayed Layers</span>
           </div>
           <div class="texture-gallery__item">
-            <div class="texture-gallery__image" style="background-image: url('images/abstract_pattern.png');" role="img" aria-label="허니콤 페이드 텍스처 이미지"></div>
-            <span class="texture-gallery__label">Honeycomb</span>
+            <div class="texture-gallery__image" data-bg="images/abstract_pattern.png" role="img" aria-label="패치워크 데님 텍스처 이미지"></div>
+            <span class="texture-gallery__label">Patchwork</span>
           </div>
           <div class="texture-gallery__item">
-            <div class="texture-gallery__image" style="background-image: url('images/hero(9).png');" role="img" aria-label="트레인트랙 페이드 텍스처 이미지"></div>
-            <span class="texture-gallery__label">Train Track</span>
+            <div class="texture-gallery__image" data-bg="images/hero(9).png" role="img" aria-label="데님 심 스티치 클로즈업 이미지"></div>
+            <span class="texture-gallery__label">Seam Detail</span>
           </div>
           <div class="texture-gallery__item">
-            <div class="texture-gallery__image" style="background-image: url('images/dye(1).png');" role="img" aria-label="포켓 페이드 텍스처 이미지"></div>
-            <span class="texture-gallery__label">Pocket Fade</span>
+            <div class="texture-gallery__image" data-bg="images/dye(1).png" role="img" aria-label="인디고 염색 공정 이미지"></div>
+            <span class="texture-gallery__label">Indigo Vat</span>
           </div>
           <div class="texture-gallery__item">
-            <div class="texture-gallery__image" style="background-image: url('images/crafting(1).png');" role="img" aria-label="셀비지 라인 텍스처 이미지"></div>
-            <span class="texture-gallery__label">Selvedge Line</span>
+            <div class="texture-gallery__image" data-bg="images/crafting(1).png" role="img" aria-label="직조 중인 데님 워프 실 이미지"></div>
+            <span class="texture-gallery__label">Warp Threads</span>
           </div>
         </div>
       </div>
@@ -175,7 +176,7 @@
         <div class="culture-full__list">
           <article class="culture-full__item">
             <div class="culture-full__image-wrap">
-              <div class="culture-full__image" style="background-image: url('images/the_beginning(2).png');" role="img" aria-label="워크웨어 기원 이미지"></div>
+              <div class="culture-full__image" data-bg="images/the_beginning(2).png" role="img" aria-label="워크웨어 기원 이미지"></div>
             </div>
             <div class="culture-full__content">
               <span class="culture-full__tag">Workwear</span>
@@ -190,22 +191,22 @@
 
           <article class="culture-full__item">
             <div class="culture-full__image-wrap">
-              <div class="culture-full__image" style="background-image: url('images/advertisement(1).png');" role="img" aria-label="할리우드 광고 이미지"></div>
+              <div class="culture-full__image" data-bg="images/advertisement(1).png" role="img" aria-label="빈티지 리바이스 캠페인 광고 이미지"></div>
             </div>
             <div class="culture-full__content">
-              <span class="culture-full__tag">Hollywood</span>
-              <h3 class="culture-full__title">Silver Screen</h3>
+              <span class="culture-full__tag">Campaign</span>
+              <h3 class="culture-full__title">Rugged Wear Ad</h3>
               <p class="culture-full__desc">
-                1950년대, Marlon Brando와 James Dean이
-                스크린에서 청바지를 입었을 때,
-                청바지는 반항과 젊음의 상징이 되었다.
+                워크웨어 이미지를 전면에 내세운 빈티지 광고.
+                리바이스는 견고함과 야외성을 시각 언어로 만들며
+                브랜드 신화를 더 넓은 대중에게 확장했다.
               </p>
             </div>
           </article>
 
           <article class="culture-full__item">
             <div class="culture-full__image-wrap">
-              <div class="culture-full__image" style="background-image: url(&quot;images/rock'n'roll(2).png&quot;);" role="img" aria-label="록 앤 롤 문화 이미지"></div>
+              <div class="culture-full__image" data-bg="images/rock'n'roll(2).png" role="img" aria-label="록 앤 롤 문화 이미지"></div>
             </div>
             <div class="culture-full__content">
               <span class="culture-full__tag">Rock & Roll</span>
@@ -220,7 +221,7 @@
 
           <article class="culture-full__item">
             <div class="culture-full__image-wrap">
-              <div class="culture-full__image" style="background-image: url('images/streetculture(2).png');" role="img" aria-label="스트리트 문화 이미지"></div>
+              <div class="culture-full__image" data-bg="images/streetculture(2).png" role="img" aria-label="스트리트 문화 이미지"></div>
             </div>
             <div class="culture-full__content">
               <span class="culture-full__tag">Street</span>
