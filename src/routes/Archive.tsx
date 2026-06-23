@@ -6,8 +6,14 @@ import { RevealSection } from '../components/RevealSection';
 import { SectionHeader } from '../components/SectionHeader';
 import { cultureItems, models, textureGallery } from '../data/content';
 import { imagePath } from '../data/assets';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 export function Archive() {
+  useDocumentMeta(
+    "Archive | LEVI'S Heritage",
+    '501·505·517 모델과 텍스처 갤러리, 리바이스를 둘러싼 문화 아카이브.',
+  );
+
   return (
     <>
       <PageHero label="Collection" title="Archive" description="시간이 만든 텍스처와 무드" image={imagePath('hero(8).png')} />

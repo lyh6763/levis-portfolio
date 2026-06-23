@@ -14,8 +14,14 @@ import {
   homeTimeline,
 } from '../data/content';
 import { imagePath } from '../data/assets';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 export function Home() {
+  useDocumentMeta(
+    "LEVI'S Heritage | Since 1853",
+    '1853년부터 이어진 리바이스 데님의 역사와 장인 정신을 담은 헤리티지 아카이브.',
+  );
+
   return (
     <>
       <section className="hero">

@@ -5,8 +5,14 @@ import { RevealSection } from '../components/RevealSection';
 import { SectionHeader } from '../components/SectionHeader';
 import { detailGallery, processSteps } from '../data/content';
 import { imagePath } from '../data/assets';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 export function Craft() {
+  useDocumentMeta(
+    "Craft | LEVI'S Heritage",
+    '셀비지 데님 원단, 인디고 염색, 재단과 봉제까지 리바이스 청바지 제작 공정.',
+  );
+
   return (
     <>
       <PageHero

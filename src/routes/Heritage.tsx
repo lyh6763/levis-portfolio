@@ -5,8 +5,14 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Timeline } from '../components/Timeline';
 import { heritageTimeline, symbols } from '../data/content';
 import { imagePath } from '../data/assets';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 export function Heritage() {
+  useDocumentMeta(
+    "Heritage | LEVI'S Heritage",
+    '1853년 창업부터 150주년까지, 리바이스 데님이 걸어온 역사의 타임라인.',
+  );
+
   return (
     <>
       <PageHero label="Since 1873" title="Heritage" description="150년의 역사, 데님의 유산" image={imagePath('hero(6).png')} />
