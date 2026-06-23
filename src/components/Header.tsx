@@ -100,7 +100,7 @@ export function Header() {
         <nav className="nav" ref={navRef} onKeyDown={handleKeyDown}>
           <Link to="/" className="nav__logo" onClick={() => closeMenu()}>
             <span className="nav__logo-text">LEVI'S</span>
-            <span className="red-tab">EST. 1873</span>
+            <span className="red-tab">EST. 1853</span>
           </Link>
 
           <button
