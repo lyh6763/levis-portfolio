@@ -3,8 +3,8 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 
-SOURCE_DIR = Path("public/images")
-TARGET_DIR = SOURCE_DIR / "optimized"
+SOURCE_DIR = Path("images-src")
+TARGET_DIR = Path("public/images/optimized")
 MAX_LONG_EDGE = 1600
 QUALITY = 78
 
