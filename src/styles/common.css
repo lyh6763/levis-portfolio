@@ -310,6 +310,21 @@ button:focus-visible {
   animation: fadeInUp 0.6s ease forwards;
 }
 
+.fade-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header.is-scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -318,6 +333,12 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .fade-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
@@ -335,5 +356,26 @@ button:focus-visible {
 
   .container {
     max-width: 720px;
+  }
+}
+
+/* ----------------------------------------
+   Desktop Breakpoints
+---------------------------------------- */
+@media (min-width: 1024px) {
+  :root {
+    --fs-h1: 4.25rem;      /* 68px */
+    --fs-h2: 2.75rem;      /* 44px */
+    --spacing-2xl: 6rem;
+  }
+
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1120px;
   }
 }
