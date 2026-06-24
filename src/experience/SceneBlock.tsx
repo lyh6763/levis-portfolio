@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 type SceneBlockProps = {
-  variant: 'hero' | 'origin';
+  variant: 'hero' | 'origin' | 'story';
   eyebrow: string;
   eyebrowVariant?: 'tab' | 'chapter';
   children: ReactNode;

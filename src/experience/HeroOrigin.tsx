@@ -22,7 +22,7 @@ export function HeroOrigin() {
 
     const tokens = getComputedStyle(document.documentElement);
     const indigoRaw = tokens.getPropertyValue('--color-indigo-900').trim();
-    const indigoWash = tokens.getPropertyValue('--color-indigo-500').trim();
+    const indigoWash = tokens.getPropertyValue('--color-indigo-600').trim();
 
     // reduced-motion: 핀/스크럽 없이 raw indigo + 정적 스택
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

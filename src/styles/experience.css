@@ -136,12 +136,14 @@
 
 /* ---------- Scenes ---------- */
 .experience .scene {
+  max-width: 460px;
+  z-index: 4;
+}
+.experience .chapter .scene {
   position: absolute;
   left: var(--grid-desktop-margin);
   top: 50%;
   transform: translateY(-50%);
-  max-width: 460px;
-  z-index: 4;
 }
 .experience .eyebrow {
   display: inline-block;
@@ -215,25 +217,62 @@
   bottom: 28px;
 }
 
-/* ---------- Placeholder (Stage C에서 대체) ---------- */
-.experience .placeholder {
+/* ---------- Story chapters (reveal, 단계적 tone) ---------- */
+.experience .story-chapter {
   min-height: 100vh;
   display: flex;
   align-items: center;
   padding: 0 var(--grid-desktop-margin);
-  background: var(--color-ecru-200);
+}
+.experience .story-chapter.mode-dark {
+  color: var(--color-ecru-50);
+}
+.experience .story-chapter.mode-light {
   color: var(--color-ink-900);
 }
-.experience .placeholder h2 {
+.experience .tone-600 {
+  background: var(--color-indigo-600);
+}
+.experience .tone-500 {
+  background: var(--color-indigo-500);
+}
+.experience .tone-ecru {
+  background: var(--color-ecru-200);
+}
+.experience .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--motion-ease-ui),
+    transform 0.8s var(--motion-ease-ui);
+}
+.experience .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.experience .story__title {
   font-family: var(--font-family-display);
   font-weight: 700;
-  font-size: var(--type-display-l);
+  font-size: var(--type-display-xl);
+  line-height: var(--leading-snug);
 }
-.experience .placeholder p {
-  margin-top: 16px;
-  max-width: 460px;
-  line-height: 1.7;
+.experience .story__body {
+  font-size: var(--type-body-l);
+  line-height: 1.75;
+  margin-top: 20px;
+  max-width: 480px;
+}
+.experience .story-chapter.mode-dark .story__body {
+  color: var(--color-ecru-200);
+}
+.experience .story-chapter.mode-light .story__body {
   color: var(--color-text-on-light-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience .reveal {
+    transition: none;
+  }
 }
 
 /* ---------- reduced-motion: 정적 스택 (raw indigo 시작 유지) ---------- */

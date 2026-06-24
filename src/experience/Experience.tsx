@@ -1,5 +1,41 @@
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import { HeroOrigin } from './HeroOrigin';
+import { StoryChapter, StoryChapterProps } from './StoryChapter';
+
+const chapters: Required<StoryChapterProps>[] = [
+  {
+    id: 'patent',
+    tone: 'tone-600',
+    mode: 'dark',
+    eyebrow: 'Chapter 02 · 1873',
+    title: 'The Patent.',
+    body: 'Jacob Davis와 함께 리벳으로 보강한 청바지 특허를 취득하며 오늘날 청바지의 원형을 만들었습니다.',
+  },
+  {
+    id: 'culture',
+    tone: 'tone-500',
+    mode: 'dark',
+    eyebrow: 'Chapter 03 · 1936–1967',
+    title: 'Cultural Icon.',
+    body: 'Red Tab과 청년·반문화 속에서 데님은 자유와 개성의 상징으로 자리 잡았습니다.',
+  },
+  {
+    id: 'craft',
+    tone: 'tone-500',
+    mode: 'dark',
+    eyebrow: 'Chapter 04',
+    title: 'The Craft.',
+    body: '셀비지 원단·인디고 염색·재단·봉제. 한 벌의 청바지가 시간을 입을 준비를 합니다.',
+  },
+  {
+    id: 'today',
+    tone: 'tone-ecru',
+    mode: 'light',
+    eyebrow: 'Chapter 05 · Today',
+    title: '150 Years, Worn-in.',
+    body: '오래 입을수록 선명해지는 헤리티지. 당신이 스크롤한 만큼 길든 한 벌처럼.',
+  },
+];
 
 export function Experience() {
   useSmoothScroll();
@@ -20,13 +56,9 @@ export function Experience() {
 
       <HeroOrigin />
 
-      {/* Stage C에서 Patent 1873 · Culture · Craft · Today 챕터로 대체될 자리 */}
-      <section className="placeholder" id="craft">
-        <div>
-          <h2>The story continues.</h2>
-          <p>다음 챕터(Patent 1873 → Today)가 이어집니다. (Stage C)</p>
-        </div>
-      </section>
+      {chapters.map((chapter) => (
+        <StoryChapter key={chapter.id} {...chapter} />
+      ))}
     </div>
   );
 }
