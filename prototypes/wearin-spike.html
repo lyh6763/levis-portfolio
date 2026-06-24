@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Levi's · wear-in scroll spike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  :root {
+    /* tokens.css 미로드 환경(프리뷰/file://) 대비 자체 포함 미러 — 값은 tokens.css와 동일 */
+    --color-indigo-900: #12213d;
+    --color-indigo-500: #4e648c;
+    --color-ecru-50: #f3ead7;
+    --color-ecru-100: #e7dcc4;
+    --color-ecru-200: #d8cdb8;
+    --color-selvedge-500: #a8112e;
+    --color-ink-900: #14213d;
+    --font-family-display: "Oswald", "Arial Narrow", sans-serif;
+    --font-family-body: "IBM Plex Sans", system-ui, sans-serif;
+
+    /* 시맨틱 별칭 → 원시 토큰 참조 (디자인-코드 연결) */
+    --indigo-raw: var(--color-indigo-900);
+    --indigo-wash: var(--color-indigo-500);
+    --ecru: var(--color-ecru-200);
+    --cream: var(--color-ecru-50);
+    --selvedge: var(--color-selvedge-500);
+    --ink: var(--color-ink-900);
+    --font-display: var(--font-family-display);
+    --font-body: var(--font-family-body);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--indigo-raw); color: var(--cream); }
+
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+  }
+  .nav__brand { display: flex; align-items: center; gap: 10px; }
+  .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 21px; letter-spacing: 1px; color: var(--cream); }
+  .nav__tab { font-size: 10px; font-weight: 600; background: var(--selvedge); color: #fff; padding: 3px 7px; border-radius: 2px; letter-spacing: 0.5px; }
+  .nav__links { display: flex; gap: 22px; font-family: var(--font-display); font-size: 13px; letter-spacing: 1px; color: var(--cream); }
+
+  .hero { position: relative; height: 100vh; overflow: hidden; background: var(--indigo-raw); }
+
+  .wear { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .wear g { stroke: var(--color-ecru-100); opacity: 0.05; }
+
+  .thread { position: absolute; left: 28px; top: 80px; bottom: 32px; width: 3px; }
+  .thread__track { position: absolute; inset: 0; background: rgba(243,234,215,0.16); }
+  .thread__fill { position: absolute; top: 0; left: -1px; width: 5px; height: 0; background: var(--selvedge); }
+  .thread__dot { position: absolute; bottom: -7px; left: -5px; width: 13px; height: 13px; border-radius: 50%; background: #fff; border: 2px solid var(--selvedge); }
+  .thread__knot { position: absolute; top: 52%; left: -6px; width: 15px; height: 15px; border-radius: 50%; background: var(--indigo-raw); border: 2.5px solid var(--selvedge); visibility: hidden; opacity: 0; }
+
+  .yearmark { position: absolute; right: 24px; top: 14vh; font-family: var(--font-display); font-weight: 700; font-size: 30vh; line-height: 1; color: var(--cream); opacity: 0; user-select: none; }
+
+  .scene { position: absolute; left: 7vw; top: 50%; transform: translateY(-50%); max-width: 420px; }
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1.6px; margin-bottom: 18px; }
+  .eyebrow--tab { background: var(--selvedge); color: #fff; padding: 4px 11px; border-radius: 2px; }
+  .eyebrow--chapter { color: var(--selvedge); letter-spacing: 2px; }
+  .hero__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 8vw, 88px); line-height: 0.92; letter-spacing: -1px; }
+  .hero__title .stitch { border-bottom: 4px dashed var(--selvedge); padding-bottom: 6px; }
+  .hero__desc { font-size: 15px; line-height: 1.6; margin-top: 24px; color: var(--ecru); }
+
+  .scene--origin { opacity: 0; visibility: hidden; }
+  .scene--origin .origin__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 6vw, 60px); line-height: 0.98; }
+  .scene--origin p { font-size: 16px; line-height: 1.75; margin-top: 20px; color: var(--ecru); max-width: 460px; }
+
+  .hud { position: absolute; bottom: 22px; font-family: 'IBM Plex Sans', monospace; font-size: 12px; color: #b9ad92; }
+  .hud--hint { left: 0; right: 0; text-align: center; }
+  .hud--state { right: 28px; }
+
+  /* 핀이 풀린 뒤 이어지는 다음 섹션 (Craft 티저) */
+  .next { min-height: 110vh; background: var(--ecru); color: var(--ink); display: flex; align-items: center; padding: 0 7vw; }
+  .next h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 5vw, 56px); }
+  .next p { margin-top: 16px; max-width: 460px; line-height: 1.7; color: #4a4636; }
+
+  /* prefers-reduced-motion: 모션 없이 정적 — 초기 raw indigo + 두 장면 스택 */
+  body.reduced .hero { height: auto; min-height: 100vh; background: var(--indigo-raw); }
+  body.reduced .scene { position: static; transform: none; max-width: 560px; padding: 0 7vw; }
+  body.reduced .scene--hero { opacity: 1; visibility: visible; padding-top: 132px; }
+  body.reduced .scene--origin { opacity: 1; visibility: visible; padding-top: 40px; padding-bottom: 120px; }
+  body.reduced .yearmark, body.reduced .hud, body.reduced .thread__knot { display: none; }
+  body.reduced .thread__fill { height: 100%; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__brand">
+      <span class="nav__logo">LEVI'S</span>
+      <span class="nav__tab">EST. 1853</span>
+    </div>
+    <div class="nav__links"><span>HERITAGE</span><span>CRAFT</span><span>ARCHIVE</span></div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <svg class="wear" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <g id="wearG" stroke-width="1.5">
+        <line x1="230" y1="-40" x2="140" y2="1040"></line>
+        <line x1="440" y1="-40" x2="360" y2="1040"></line>
+        <line x1="690" y1="-40" x2="790" y2="1040"></line>
+        <line x1="850" y1="-40" x2="940" y2="1040"></line>
+      </g>
+    </svg>
+
+    <div class="thread">
+      <div class="thread__track"></div>
+      <div class="thread__fill" id="threadFill"><div class="thread__dot"></div></div>
+      <div class="thread__knot" id="knot"></div>
+    </div>
+
+    <div class="yearmark" id="yearmark">53</div>
+
+    <div class="scene scene--hero" id="heroScene">
+      <span class="eyebrow eyebrow--tab">ORIGINAL AMERICAN DENIM</span>
+      <h1 class="hero__title">DENIM.<br><span class="stitch">SINCE 1873.</span></h1>
+      <p class="hero__desc">150년의 역사, 변하지 않는 본질.</p>
+    </div>
+
+    <div class="scene scene--origin" id="originScene">
+      <span class="eyebrow eyebrow--chapter">CHAPTER 01 · 1853</span>
+      <h2 class="origin__title">The Founding.</h2>
+      <p>독일 이민자 Levi Strauss가 샌프란시스코에서 직물·건화물 사업을 시작합니다. 한 가닥의 실이 여기서 풀려 나가기 시작합니다.</p>
+    </div>
+
+    <div class="hud hud--hint" id="hint">스크롤 ↓</div>
+    <div class="hud hud--state"><span id="pct">0%</span> worn</div>
+  </section>
+
+  <section class="next">
+    <div>
+      <h2>The Craft.</h2>
+      <p>핀이 풀리고 이야기는 제작 공정으로 이어집니다. 여기서부터 다음 챕터의 스크럽 타임라인이 시작됩니다.</p>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script>
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce) {
+      // 모션 비활성: 초기 raw indigo Hero + Origin을 정적으로 스택 (전환 점프 없음)
+      document.body.classList.add('reduced');
+    } else {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Lenis 부드러운 관성 스크롤 ↔ ScrollTrigger 동기화
+      const lenis = new Lenis();
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+
+      const hint = document.getElementById('hint');
+      const pct = document.getElementById('pct');
+
+      // tokens.css의 fade-scale 색을 직접 읽어 적용 (토큰 → 코드 연결)
+      const tokens = getComputedStyle(document.documentElement);
+      const indigoRaw = tokens.getPropertyValue('--color-indigo-900').trim();
+      const indigoWash = tokens.getPropertyValue('--color-indigo-500').trim();
+      gsap.set('#hero', { backgroundColor: indigoRaw });
+
+      // Hero를 핀으로 고정하고 스크롤 1400px 동안 타임라인을 scrub
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: '+=1400',
+          pin: true,
+          scrub: 1,
+          onUpdate: (self) => {
+            pct.textContent = Math.round(self.progress * 100) + '%';
+            hint.style.opacity = String(1 - Math.min(self.progress / 0.05, 1));
+          },
+        },
+      });
+
+      tl.to('#hero', { backgroundColor: indigoWash }, 0)                 // 인디고 → washing (fade/00 → fade/50)
+        .to('#wearG', { opacity: 0.45 }, 0)                              // 마모 흔적 부상
+        .to('#threadFill', { height: '100%' }, 0)                        // 셀비지 실 draw
+        .to('#yearmark', { opacity: 0.12 }, 0.35)
+        .to('#heroScene', { yPercent: -18, autoAlpha: 0, duration: 0.22 }, 0.30)
+        .fromTo('#originScene', { yPercent: 10, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.28 }, 0.46)
+        .to('#knot', { autoAlpha: 1, duration: 0.06 }, 0.5);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+/* ============================================================
+   Levi's Heritage — Design Tokens (wear-in)
+   Figma Variables 1:1 매핑. slash(/) → dash(-) 네이밍.
+   원시(primitive) → 시맨틱(semantic) alias 구조.
+   ============================================================ */
+
+:root {
+  /* ---------- Color · Primitive: Indigo ramp (데님 보디 · fade-scale 원천) ---------- */
+  --color-indigo-950: #0d1830;
+  --color-indigo-900: #12213d; /* raw — Hero 시작 */
+  --color-indigo-800: #1c2e4f;
+  --color-indigo-700: #283f6a; /* Patent · washing 시작 */
+  --color-indigo-600: #3a527f;
+  --color-indigo-500: #4e648c; /* washed — 중간점 */
+  --color-indigo-400: #6c80a4;
+  --color-indigo-300: #8fa0bd;
+  --color-indigo-200: #b4c0d3;
+  --color-indigo-100: #d8dfe9;
+
+  /* ---------- Color · Primitive: Ecru ramp (worn-in 캔버스 · 페이퍼) ---------- */
+  --color-ecru-50:  #f3ead7; /* cream — on-dark 텍스트 */
+  --color-ecru-100: #e7dcc4;
+  --color-ecru-200: #d8cdb8; /* ecru base — worn-in 도착 */
+  --color-ecru-300: #c5b89c;
+  --color-ecru-400: #a89a7c;
+
+  /* ---------- Color · Primitive: Accent & technical ---------- */
+  --color-selvedge-400: #c43048; /* focus/light */
+  --color-selvedge-500: #a8112e; /* 셀비지 레드 — 단일 액센트 */
+  --color-selvedge-600: #8a0e26; /* hover/press */
+  --color-copper-400:   #c98a4f;
+  --color-copper-500:   #b06a2c; /* ③ Archive 리벳·기술 액센트 */
+  --color-topstitch-500:#d6a23e; /* 골드 탑스티치 라인 */
+  --color-ink-900:      #14213d; /* on-light 본문 잉크 */
+  --color-blueprint-bg:   #eceef1; /* ③ 기술 스튜디오 배경 */
+  --color-blueprint-line: #dce0e6; /* ③ 그리드/측정선 */
+
+  /* ---------- Color · fade-scale (스크롤 진행 → 척추) ---------- */
+  --fade-00:  var(--color-indigo-900); /* 0%   Hero — raw */
+  --fade-25:  var(--color-indigo-700); /* 25%  Patent — washing */
+  --fade-50:  var(--color-indigo-500); /* 50%  Craft — washed */
+  --fade-75:  var(--color-ecru-300);   /* 75%  전환 */
+  --fade-100: var(--color-ecru-200);   /* 100% Today — worn-in */
+
+  /* ---------- Color · Semantic (무대별 · Figma Mode 분기 대상) ---------- */
+  /* Narrative mode (① 인디고 몰입) — bg는 스크롤로 fade-00↔100 보간 */
+  --color-text-on-dark:        var(--color-ecru-50);
+  --color-text-on-dark-muted:  var(--color-ecru-200);
+  /* Editorial mode (② 에크루 미니멀) */
+  --color-bg-canvas:           var(--color-ecru-200);
+  --color-text-on-light:       var(--color-ink-900);
+  --color-text-on-light-muted: #5a6270;
+  /* Blueprint mode (③ Archive 기술) */
+  --color-bg-blueprint:        var(--color-blueprint-bg);
+  --color-border-blueprint:    var(--color-blueprint-line);
+  /* 공통 */
+  --color-accent-selvedge:     var(--color-selvedge-500);
+  --color-accent-copper:       var(--color-copper-500);
+  --color-stitch-topstitch:    var(--color-topstitch-500);
+  --color-interactive-default: var(--color-selvedge-500);
+  --color-interactive-hover:   var(--color-selvedge-600);
+  --color-focus-ring:          var(--color-selvedge-400);
+
+  /* ---------- Typography · Family ---------- */
+  --font-family-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-family-body:    "IBM Plex Sans", system-ui, sans-serif;
+  --font-family-mono:    "IBM Plex Mono", monospace;
+
+  /* ---------- Typography · Role sizes ---------- */
+  --type-display-hero: clamp(48px, 8vw, 88px);
+  --type-display-xl:   64px;
+  --type-display-l:    48px;
+  --type-heading-m:    32px;
+  --type-heading-s:    24px;
+  --type-title-nav:    20px;
+  --type-body-l:       18px;
+  --type-body-m:       16px;
+  --type-body-s:       14px;
+  --type-caption:      12px;
+  --type-eyebrow:      11px;
+  --type-mono-hud:     12px;
+
+  /* ---------- Typography · Primitives ---------- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --leading-tight: 0.92;
+  --leading-snug: 0.98;
+  --leading-heading: 1.10;
+  --leading-base: 1.70;
+  --leading-label: 1.40;
+  --tracking-display: -1px;
+  --tracking-nav: 1px;
+  --tracking-eyebrow: 1.6px;
+  --tracking-base: 0;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+
+  /* ---------- Section rhythm ---------- */
+  --section-pad-y-desktop: 120px;
+  --section-pad-y-desktop-lg: 160px;
+  --section-pad-y-mobile: 72px;
+  --section-pad-y-mobile-lg: 96px;
+
+  /* ---------- Grid ---------- */
+  --grid-desktop-columns: 12;
+  --grid-desktop-gutter: 24px;
+  --grid-desktop-margin: 7vw; /* max content 1440px; Hero/Archive는 full-bleed */
+  --grid-mobile-columns: 4;
+  --grid-mobile-gutter: 16px;
+  --grid-mobile-margin: 20px;
+  /* Breakpoints (참고 — 미디어쿼리는 변수 사용 불가): sm 480 / md 768 / lg 1024 / xl 1440 */
+
+  /* ---------- Radius (에디토리얼 — 샤프 우선) ---------- */
+  --radius-tab: 2px;  /* 레드탭·에브로우 라벨 */
+  --radius-sm: 4px;
+  --radius-md: 8px;   /* Archive 카드 */
+  --radius-full: 9999px;
+
+  /* ---------- Motion (scrub/pin은 JS 설정 — 값 참조용) ---------- */
+  --motion-scrub: 1;        /* GSAP ScrollTrigger scrub */
+  --motion-pin-end: 1400px; /* Hero 핀 구간 기준 */
+  --motion-dur-micro: 0.2s; /* rivet-snap 등 */
+  --motion-dur-base: 0.6s;
+  --motion-ease-ui: cubic-bezier(0.22, 1, 0.36, 1);
+  /* reduced-motion: scrub off → fade-scale 고정 스냅 */
+}

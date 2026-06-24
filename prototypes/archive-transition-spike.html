@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Levi's · Archive 모드 전환 spike (②→③)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  :root {
+    /* tokens.css 미로드 환경(프리뷰/file://) 대비 자체 포함 미러 — 값은 tokens.css와 동일 */
+    --color-ecru-200: #d8cdb8;
+    --color-blueprint-bg: #eceef1;
+    --color-blueprint-line: #dce0e6;
+    --color-indigo-600: #3a527f;
+    --color-indigo-700: #283f6a;
+    --color-indigo-800: #1c2e4f;
+    --color-stitch-topstitch: #d6a23e;
+    --color-accent-copper: #b06a2c;
+    --color-accent-selvedge: #a8112e;
+    --color-ink-900: #14213d;
+    --color-text-on-light-muted: #5a6270;
+    --radius-tab: 2px;
+    --font-family-display: "Oswald", "Arial Narrow", sans-serif;
+    --font-family-body: "IBM Plex Sans", system-ui, sans-serif;
+    --font-family-mono: "IBM Plex Mono", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-family-body); background: var(--color-ecru-200); color: var(--color-ink-900); }
+
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between; padding: 16px 7vw;
+  }
+  .nav__brand { display: flex; align-items: center; gap: 10px; }
+  .nav__logo { font-family: var(--font-family-display); font-weight: 700; font-size: 20px; letter-spacing: 1px; color: var(--color-ink-900); }
+  .nav__tab { font-size: 10px; font-weight: 600; background: var(--color-accent-selvedge); color: #fff; padding: 3px 7px; border-radius: var(--radius-tab); letter-spacing: .5px; }
+  .nav__links { display: flex; gap: 22px; font-family: var(--font-family-display); font-size: 13px; letter-spacing: 1px; color: var(--color-ink-900); }
+
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1.6px; }
+  .eyebrow--tab { background: var(--color-accent-selvedge); color: #fff; padding: 4px 11px; border-radius: var(--radius-tab); }
+
+  /* 진입 — ② Editorial */
+  .lead { min-height: 92vh; display: flex; flex-direction: column; justify-content: center; padding: 0 7vw; }
+  .lead h1 { font-family: var(--font-family-display); font-weight: 700; font-size: clamp(48px, 8vw, 84px); line-height: .95; letter-spacing: -1px; margin: 16px 0 0; }
+  .lead .models { display: flex; gap: 28px; margin-top: 40px; font-family: var(--font-family-mono); font-size: 13px; color: var(--color-text-on-light-muted); }
+  .lead .models b { font-family: var(--font-family-display); font-weight: 600; color: var(--color-ink-900); }
+  .lead .hint { margin-top: 48px; font-family: var(--font-family-mono); font-size: 13px; color: var(--color-accent-selvedge); }
+
+  /* 전환 — ③ Blueprint (PIN 구간) */
+  .stage { position: relative; height: 100vh; overflow: hidden; background: var(--color-ecru-200); }
+  .stage__title { position: absolute; left: 7vw; top: 88px; z-index: 4; }
+  .stage__title h2 { font-family: var(--font-family-display); font-weight: 700; font-size: 30px; line-height: 1; color: var(--color-ink-900); margin-top: 12px; }
+  .jean { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .denim   { fill: var(--color-indigo-600); stroke: var(--color-indigo-800); stroke-width: 2; }
+  .denim-2 { fill: var(--color-indigo-700); stroke: var(--color-indigo-800); stroke-width: 1.5; }
+  .stitch  { fill: none; stroke: var(--color-stitch-topstitch); }
+  .rivet   { fill: var(--color-accent-copper); }
+  .tab     { fill: var(--color-accent-selvedge); }
+  .patch   { fill: #7a5630; stroke: #4f361b; stroke-width: 1.2; }
+  .patch-l { stroke: #d8c3a0; stroke-width: .8; }
+  .grid-l  { stroke: var(--color-blueprint-line); stroke-width: .8; }
+  .callout { fill: var(--color-ink-900); font-family: var(--font-family-display); font-size: 13px; }
+  .callout--red { fill: var(--color-accent-selvedge); }
+  .lead-line { stroke: #9aa2ad; stroke-width: .8; }
+
+  .hud { position: absolute; z-index: 4; font-family: var(--font-family-mono); font-size: 12px; color: var(--color-text-on-light-muted); }
+  .hud--state { right: 7vw; bottom: 28px; }
+  .hud--hint  { left: 0; right: 0; bottom: 28px; text-align: center; opacity: 0; }
+
+  /* 이탈 — ② 복귀 */
+  .out { min-height: 80vh; display: flex; align-items: center; padding: 0 7vw; background: var(--color-ecru-200); }
+  .out h2 { font-family: var(--font-family-display); font-weight: 700; font-size: clamp(36px, 5vw, 56px); }
+  .out a { color: var(--color-accent-selvedge); text-decoration: none; }
+
+  /* reduced-motion: 폭발 완료 상태 정적 표시 */
+  body.reduced .stage { background: var(--color-blueprint-bg); }
+  body.reduced #grid, body.reduced #labels { opacity: 1; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__brand"><span class="nav__logo">LEVI'S</span><span class="nav__tab">EST. 1853</span></div>
+    <div class="nav__links"><span>HERITAGE</span><span>CRAFT</span><span>ARCHIVE</span></div>
+  </nav>
+
+  <section class="lead">
+    <span class="eyebrow eyebrow--tab">COLLECTION</span>
+    <h1>The Archive.</h1>
+    <div class="models"><span><b>501</b> · 1873</span><span><b>505</b> · 1967</span><span><b>517</b> · 1969</span></div>
+    <p class="hint">↓ deconstruct the 501</p>
+  </section>
+
+  <section class="stage" id="stage">
+    <div class="stage__title"><span class="eyebrow eyebrow--tab">DECONSTRUCTED · 1873</span><h2>Anatomy of a 501.</h2></div>
+
+    <svg class="jean" viewBox="0 0 680 470" preserveAspectRatio="xMidYMid meet">
+      <g id="grid" opacity="0">
+        <line class="grid-l" x1="120" y1="0" x2="120" y2="470"/><line class="grid-l" x1="240" y1="0" x2="240" y2="470"/>
+        <line class="grid-l" x1="360" y1="0" x2="360" y2="470"/><line class="grid-l" x1="480" y1="0" x2="480" y2="470"/>
+        <line class="grid-l" x1="600" y1="0" x2="600" y2="470"/>
+        <line class="grid-l" x1="0" y1="120" x2="680" y2="120"/><line class="grid-l" x1="0" y1="240" x2="680" y2="240"/>
+        <line class="grid-l" x1="0" y1="360" x2="680" y2="360"/>
+      </g>
+
+      <g id="labels" opacity="0">
+        <line class="lead-line" x1="392" y1="44" x2="400" y2="80"/>
+        <text class="callout" x="300" y="40">Waistband + belt loops</text>
+        <text class="callout" x="540" y="60">Arcuate stitch · 1873</text>
+        <text class="callout" x="556" y="116">Leather patch · 1886</text>
+        <text class="callout" x="556" y="196">Back pocket</text>
+        <text class="callout callout--red" x="556" y="258">Red Tab · 1936</text>
+        <text class="callout" x="520" y="342">Copper rivet · 1873</text>
+        <text class="callout" x="150" y="338">Back pocket</text>
+        <text class="callout" x="320" y="456">Selvedge denim · 501</text>
+      </g>
+
+      <g id="gBody" data-dx="0" data-dy="70">
+        <path class="denim" d="M322,120 L312,162 L300,432 L372,432 L399,250 L426,432 L498,432 L486,162 L478,120 Z"/>
+        <line class="stitch" x1="399" y1="126" x2="399" y2="250" stroke-dasharray="4 3"/>
+      </g>
+      <g id="gWaist" data-dx="0" data-dy="-72">
+        <rect class="denim-2" x="320" y="92" width="160" height="30" rx="3"/>
+        <rect class="denim-2" x="330" y="84" width="7" height="12" rx="1"/><rect class="denim-2" x="372" y="84" width="7" height="12" rx="1"/>
+        <rect class="denim-2" x="420" y="84" width="7" height="12" rx="1"/><rect class="denim-2" x="462" y="84" width="7" height="12" rx="1"/>
+        <line class="stitch" x1="324" y1="116" x2="476" y2="116" stroke-dasharray="4 3"/>
+      </g>
+      <g id="gPatch" data-dx="125" data-dy="14">
+        <rect class="patch" x="440" y="86" width="36" height="24" rx="2"/>
+        <line class="patch-l" x1="445" y1="95" x2="471" y2="95"/><line class="patch-l" x1="445" y1="101" x2="471" y2="101"/>
+      </g>
+      <g id="gPocketL" data-dx="-156" data-dy="186"><path class="denim-2" d="M334,132 L386,132 L386,166 L360,184 L334,166 Z"/></g>
+      <g id="gPocketR" data-dx="150" data-dy="44"><path class="denim-2" d="M414,132 L466,132 L466,166 L440,184 L414,166 Z"/></g>
+      <g id="gArc" data-dx="128" data-dy="-90">
+        <path class="stitch" d="M337,141 Q360,164 383,141" stroke-width="1.6"/><path class="stitch" d="M337,149 Q360,172 383,149" stroke-width="1.6"/>
+        <path class="stitch" d="M417,141 Q440,164 463,141" stroke-width="1.6"/><path class="stitch" d="M417,149 Q440,172 463,149" stroke-width="1.6"/>
+      </g>
+      <g id="gTab" data-dx="186" data-dy="106"><rect class="tab" x="410" y="140" width="6" height="17" rx="1"/></g>
+      <g id="gRivets" data-dx="160" data-dy="196">
+        <circle class="rivet" cx="334" cy="132" r="3.4"/><circle class="rivet" cx="386" cy="132" r="3.4"/>
+        <circle class="rivet" cx="414" cy="132" r="3.4"/><circle class="rivet" cx="466" cy="132" r="3.4"/>
+        <circle class="rivet" cx="312" cy="160" r="3.4"/><circle class="rivet" cx="486" cy="160" r="3.4"/>
+      </g>
+    </svg>
+
+    <div class="hud hud--hint" id="hint">drag to rotate · click a part  (R3F)</div>
+    <div class="hud hud--state"><span id="pct">0%</span> exploded</div>
+  </section>
+
+  <section class="out">
+    <div>
+      <h2>Texture Gallery <a href="#">→</a></h2>
+      <p>핀이 풀리고 모드가 ecru로 복귀하며 선형 탐색이 재개됩니다.</p>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script>
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const parts = ['gBody','gWaist','gPatch','gPocketL','gPocketR','gArc','gTab','gRivets']
+      .map(id => { const el = document.getElementById(id); return { el, dx: +el.getAttribute('data-dx'), dy: +el.getAttribute('data-dy') }; });
+
+    if (reduce) {
+      // 모션 비활성: 폭발 완료 + blueprint 모드 정적
+      document.body.classList.add('reduced');
+      parts.forEach(p => p.el.setAttribute('transform', `translate(${p.dx},${p.dy})`));
+      document.getElementById('pct').textContent = '100%';
+    } else {
+      gsap.registerPlugin(ScrollTrigger);
+      const lenis = new Lenis();
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+
+      const tk = getComputedStyle(document.documentElement);
+      const ecru = tk.getPropertyValue('--color-ecru-200').trim();
+      const blueprint = tk.getPropertyValue('--color-blueprint-bg').trim();
+      const pct = document.getElementById('pct');
+
+      gsap.set('#stage', { backgroundColor: ecru });
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '#stage', start: 'top top', end: '+=1600', pin: true, scrub: 1,
+          onUpdate: (self) => {
+            const e = Math.min(Math.max((self.progress - 0.18) / 0.62, 0), 1);
+            pct.textContent = Math.round(e * 100) + '%';
+          },
+        },
+      });
+
+      // 0 → 0.18 : ② → ③ 모드 크로스페이드 (ecru → blueprint, 그리드 인)
+      tl.to('#stage', { backgroundColor: blueprint, duration: 0.18 }, 0)
+        .to('#grid', { opacity: 1, duration: 0.18 }, 0)
+        .fromTo('.jean', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.18 }, 0);
+
+      // 0.18 → 0.8 : 부품 폭발 (조립 → exploded)
+      parts.forEach(p => tl.to(p.el, { x: p.dx, y: p.dy, ease: 'power1.out', duration: 0.62 }, 0.18));
+
+      // 0.4 → 0.7 : 콜아웃 + 인터랙션 힌트 페이드인
+      tl.to('#labels', { opacity: 1, duration: 0.3 }, 0.4)
+        .to('#hint', { opacity: 1, duration: 0.3 }, 0.45);
+
+      // 0.8 → 1.0 : hold (핀 유지 = 자유 탐색 여지)
+      tl.to({}, { duration: 0.2 });
+    }
+  </script>
+</body>
+</html>
