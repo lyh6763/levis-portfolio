@@ -1,5 +1,5 @@
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
-import { Hero } from './Hero';
+import { HeroOrigin } from './HeroOrigin';
 
 export function Experience() {
   useSmoothScroll();
@@ -12,19 +12,19 @@ export function Experience() {
           <span className="nav__tab">EST. 1853</span>
         </div>
         <div className="nav__links">
-          <a href="#origin">Heritage</a>
+          <a href="#hero">Heritage</a>
           <a href="#craft">Craft</a>
           <a href="#archive">Archive</a>
         </div>
       </nav>
 
-      <Hero />
+      <HeroOrigin />
 
-      {/* Stage B에서 Origin·Patent·Culture·Craft 챕터로 대체될 자리 */}
-      <section className="placeholder" id="origin">
+      {/* Stage C에서 Patent 1873 · Culture · Craft · Today 챕터로 대체될 자리 */}
+      <section className="placeholder" id="craft">
         <div>
           <h2>The story continues.</h2>
-          <p>여기서부터 wear-in 내러티브 챕터(Origin 1853 → Today)가 스크럽으로 이어집니다. (Stage B)</p>
+          <p>다음 챕터(Patent 1873 → Today)가 이어집니다. (Stage C)</p>
         </div>
       </section>
     </div>

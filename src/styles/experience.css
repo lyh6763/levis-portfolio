@@ -10,6 +10,7 @@
   font-family: var(--font-family-body);
 }
 
+/* ---------- Nav ---------- */
 .experience .nav {
   position: fixed;
   top: 0;
@@ -54,12 +55,14 @@
   text-decoration: none;
 }
 
-.experience .hero {
+/* ---------- Chapter (pinned scrub stage) ---------- */
+.experience .chapter {
   position: relative;
   height: 100vh;
   overflow: hidden;
   background: var(--color-indigo-900);
 }
+
 .experience .hero__wear {
   position: absolute;
   inset: 0;
@@ -72,12 +75,73 @@
   opacity: 0.05;
 }
 
+/* ---------- Selvedge thread (②) ---------- */
+.experience .thread {
+  position: absolute;
+  left: 28px;
+  top: 80px;
+  bottom: 32px;
+  width: 3px;
+  z-index: 3;
+}
+.experience .thread__track {
+  position: absolute;
+  inset: 0;
+  background: rgba(243, 234, 215, 0.16);
+}
+.experience .thread__fill {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 5px;
+  height: 0;
+  background: var(--color-accent-selvedge);
+}
+.experience .thread__dot {
+  position: absolute;
+  bottom: -7px;
+  left: -5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--color-accent-selvedge);
+}
+.experience .thread__knot {
+  position: absolute;
+  top: 52%;
+  left: -6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--color-indigo-900);
+  border: 2.5px solid var(--color-accent-selvedge);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ---------- Year watermark ---------- */
+.experience .yearmark {
+  position: absolute;
+  right: 24px;
+  top: 14vh;
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 30vh;
+  line-height: 1;
+  color: var(--color-ecru-50);
+  opacity: 0;
+  user-select: none;
+}
+
+/* ---------- Scenes ---------- */
 .experience .scene {
   position: absolute;
   left: var(--grid-desktop-margin);
   top: 50%;
   transform: translateY(-50%);
-  max-width: 420px;
+  max-width: 460px;
+  z-index: 4;
 }
 .experience .eyebrow {
   display: inline-block;
@@ -92,6 +156,10 @@
   color: #fff;
   padding: 4px 11px;
   border-radius: var(--radius-tab);
+}
+.experience .eyebrow--chapter {
+  color: var(--color-accent-selvedge);
+  letter-spacing: 2px;
 }
 .experience .hero__title {
   font-family: var(--font-family-display);
@@ -110,9 +178,28 @@
   margin-top: 24px;
   color: var(--color-ecru-200);
 }
+.experience .scene--origin {
+  opacity: 0;
+  visibility: hidden;
+}
+.experience .origin__title {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-display-l);
+  line-height: var(--leading-snug);
+}
+.experience .origin__desc {
+  font-size: var(--type-body-l);
+  line-height: 1.75;
+  margin-top: 20px;
+  color: var(--color-ecru-200);
+  max-width: 460px;
+}
 
+/* ---------- HUD ---------- */
 .experience .hud {
   position: absolute;
+  z-index: 4;
   font-family: var(--font-family-mono);
   font-size: var(--type-mono-hud);
   color: var(--color-ecru-200);
@@ -123,7 +210,12 @@
   bottom: 28px;
   text-align: center;
 }
+.experience .hud--state {
+  right: var(--grid-desktop-margin);
+  bottom: 28px;
+}
 
+/* ---------- Placeholder (Stage C에서 대체) ---------- */
 .experience .placeholder {
   min-height: 100vh;
   display: flex;
@@ -144,8 +236,31 @@
   color: var(--color-text-on-light-muted);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .experience .hud--hint {
-    display: none;
-  }
+/* ---------- reduced-motion: 정적 스택 (raw indigo 시작 유지) ---------- */
+.experience .chapter.is-static {
+  height: auto;
+  min-height: 100vh;
+}
+.experience .chapter.is-static .scene {
+  position: static;
+  transform: none;
+  max-width: 560px;
+  padding: 0 var(--grid-desktop-margin);
+}
+.experience .chapter.is-static .scene--hero {
+  padding-top: 132px;
+}
+.experience .chapter.is-static .scene--origin {
+  opacity: 1;
+  visibility: visible;
+  padding-top: 40px;
+  padding-bottom: 120px;
+}
+.experience .chapter.is-static .yearmark,
+.experience .chapter.is-static .hud,
+.experience .chapter.is-static .thread__knot {
+  display: none;
+}
+.experience .chapter.is-static .thread__fill {
+  height: 100%;
 }
