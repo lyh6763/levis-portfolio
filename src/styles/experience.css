@@ -1,0 +1,151 @@
+/* ============================================================
+   Experience — wear-in 단일 몰입형 스크롤 (재설계)
+   토큰: src/styles/tokens.css. 모든 색/타입/간격은 var(--*) 참조.
+   .experience 하위로 스코프해 기존 레거시 클래스와 격리.
+   ============================================================ */
+
+.experience {
+  background: var(--color-indigo-900);
+  color: var(--color-ecru-50);
+  font-family: var(--font-family-body);
+}
+
+.experience .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px var(--grid-desktop-margin);
+}
+.experience .nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.experience .nav__logo {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-title-nav);
+  letter-spacing: var(--tracking-nav);
+  color: var(--color-ecru-50);
+}
+.experience .nav__tab {
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--color-accent-selvedge);
+  color: #fff;
+  padding: 3px 7px;
+  border-radius: var(--radius-tab);
+  letter-spacing: 0.5px;
+}
+.experience .nav__links {
+  display: flex;
+  gap: 22px;
+  font-family: var(--font-family-display);
+  font-size: var(--type-body-s);
+  letter-spacing: 1px;
+}
+.experience .nav__links a {
+  color: var(--color-ecru-50);
+  text-decoration: none;
+}
+
+.experience .hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-indigo-900);
+}
+.experience .hero__wear {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.experience .hero__wear g {
+  stroke: var(--color-ecru-100);
+  opacity: 0.05;
+}
+
+.experience .scene {
+  position: absolute;
+  left: var(--grid-desktop-margin);
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 420px;
+}
+.experience .eyebrow {
+  display: inline-block;
+  font-size: var(--type-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.experience .eyebrow--tab {
+  background: var(--color-accent-selvedge);
+  color: #fff;
+  padding: 4px 11px;
+  border-radius: var(--radius-tab);
+}
+.experience .hero__title {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-display-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+.experience .hero__title .stitch {
+  border-bottom: 4px dashed var(--color-accent-selvedge);
+  padding-bottom: 6px;
+}
+.experience .hero__desc {
+  font-size: var(--type-body-m);
+  line-height: 1.6;
+  margin-top: 24px;
+  color: var(--color-ecru-200);
+}
+
+.experience .hud {
+  position: absolute;
+  font-family: var(--font-family-mono);
+  font-size: var(--type-mono-hud);
+  color: var(--color-ecru-200);
+}
+.experience .hud--hint {
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  text-align: center;
+}
+
+.experience .placeholder {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--grid-desktop-margin);
+  background: var(--color-ecru-200);
+  color: var(--color-ink-900);
+}
+.experience .placeholder h2 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-display-l);
+}
+.experience .placeholder p {
+  margin-top: 16px;
+  max-width: 460px;
+  line-height: 1.7;
+  color: var(--color-text-on-light-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience .hud--hint {
+    display: none;
+  }
+}
