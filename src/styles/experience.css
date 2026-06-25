@@ -124,13 +124,14 @@
   position: absolute;
   inset: 0;
   background: var(--color-accent-selvedge);
-  transform: scaleY(0);
+  transform: scaleY(var(--rail-progress, 0));
   transform-origin: top;
 }
 .experience .rail__dot {
   position: absolute;
   left: -4px;
-  top: 0;
+  top: calc(var(--rail-progress, 0) * 100%);
+  margin-top: -5px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -447,12 +448,31 @@
     font-size: 12px;
   }
 
+  /* 레일: 세로 좌측 → 상단 가로 진행바 (디바이스 네이티브) */
   .experience .rail {
-    left: 14px;
-    top: 68px;
+    top: 52px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+  .experience .rail__fill {
+    transform: scaleX(var(--rail-progress, 0));
+    transform-origin: left;
+  }
+  .experience .rail__dot {
+    left: calc(var(--rail-progress, 0) * 100%);
+    top: 50%;
+    margin-top: -5px;
+    margin-left: -5px;
   }
 
+  /* 히어로: 좌측-중앙 → 하단 앵커 텍스트 + 풀블리드 연도 배경 (세로 구도) */
   .experience .chapter .scene {
+    top: auto;
+    bottom: 13vh;
+    transform: none;
     right: 20px;
     max-width: none;
   }
@@ -463,8 +483,13 @@
     font-size: 30px;
   }
   .experience .yearmark {
-    font-size: 18vh;
-    right: 12px;
+    top: auto;
+    bottom: 16vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 46vw;
+    line-height: 0.8;
   }
 
   .experience .story__title {
