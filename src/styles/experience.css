@@ -425,6 +425,17 @@
   display: none;
 }
 
+/* R3F island: 캔버스 오버레이 + 준비되면 SVG 부품/콜아웃 숨김 (그리드는 유지) */
+.experience .arch-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.experience .archive-stage--3d .arch-parts,
+.experience .archive-stage--3d #archLabels {
+  display: none;
+}
+
 /* reduced-motion: blueprint + 폭발 완료 정적 */
 .experience .archive-stage.is-static {
   background: var(--color-blueprint-bg);

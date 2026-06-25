@@ -1,6 +1,10 @@
-import { useLayoutEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import { isWebGLAvailable } from './archive3d/webgl';
+
+const JeanCanvas = lazy(() => import('./archive3d/JeanCanvas'));
 
 /** 분해 벡터 (assembled → exploded). SVG group id ↔ 이동량. */
 const PARTS = [
@@ -16,11 +20,24 @@ const PARTS = [
 
 /**
  * Archive 시그니처: ②→③ 모드 전환(ecru→blueprint) + 501 조립→폭발 핀 스크럽.
- * 핀 구간이 "읽기 → 만지기"로 모드를 바꾸는 비트. (지금은 SVG = WebGL 폴백, 추후 R3F island로 교체.)
+ * 데스크탑+WebGL이면 R3F island(드래그 회전)를 코드분할 로드해 SVG 위에 스왑,
+ * 그 외(모바일·미지원·reduced-motion)는 SVG 폭발도를 폴백으로 유지.
+ * 폭발 정도는 스크롤 진행(explodeRef)으로 두 경로가 공유한다.
  */
 export function ArchiveExploded() {
   const root = useRef<HTMLElement>(null);
   const pctRef = useRef<HTMLSpanElement>(null);
+  const explodeRef = useRef<number>(0);
+
+  const [use3D] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      isWebGLAvailable() &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      window.innerWidth > 768,
+  );
+  const [near, setNear] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -55,6 +72,7 @@ export function ArchiveExploded() {
           scrub: 1,
           onUpdate: (self) => {
             const e = Math.min(Math.max((self.progress - 0.18) / 0.62, 0), 1);
+            explodeRef.current = e; // 3D 경로가 매 프레임 읽음
             if (pctRef.current) {
               pctRef.current.textContent = `${Math.round(e * 100)}%`;
             }
@@ -67,8 +85,10 @@ export function ArchiveExploded() {
         .to('#archGrid', { opacity: 1, duration: 0.18 }, 0)
         .fromTo('.arch-jean', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.18 }, 0);
 
-      // 0.18 → 0.8: 부품 폭발
-      PARTS.forEach((p) => tl.to(`#${p.id}`, { x: p.dx, y: p.dy, ease: 'power1.out', duration: 0.62 }, 0.18));
+      // 0.18 → 0.8: SVG 부품 폭발 (3D 경로에선 explodeRef가 대신 구동하므로 생략)
+      if (!use3D) {
+        PARTS.forEach((p) => tl.to(`#${p.id}`, { x: p.dx, y: p.dy, ease: 'power1.out', duration: 0.62 }, 0.18));
+      }
 
       // 콜아웃 + 인터랙션 힌트
       tl.to('#archLabels', { opacity: 1, duration: 0.3 }, 0.4).to('#archHint', { opacity: 1, duration: 0.3 }, 0.45);
@@ -78,10 +98,28 @@ export function ArchiveExploded() {
     }, root);
 
     return () => ctx.revert();
-  }, []);
+  }, [use3D]);
+
+  // 3D: Archive가 뷰포트에 접근하면 캔버스(three.js 청크)를 로드
+  useEffect(() => {
+    if (!use3D) {
+      return;
+    }
+    const el = root.current;
+    if (!el) {
+      return;
+    }
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: 'top bottom',
+      once: true,
+      onEnter: () => setNear(true),
+    });
+    return () => st.kill();
+  }, [use3D]);
 
   return (
-    <section className="archive-stage" ref={root}>
+    <section className={`archive-stage${canvasReady ? ' archive-stage--3d' : ''}`} ref={root}>
       <div className="arch-title">
         <span className="eyebrow eyebrow--tab">Deconstructed · 1873</span>
         <h3>Anatomy of a 501.</h3>
@@ -111,50 +149,60 @@ export function ArchiveExploded() {
           <text className="arch-callout" x="320" y="456">Selvedge denim · 501</text>
         </g>
 
-        <g id="gBody">
-          <path
-            className="arch-denim"
-            d="M322,120 L312,162 L300,432 L372,432 L399,250 L426,432 L498,432 L486,162 L478,120 Z"
-          />
-          <line className="arch-stitch" x1="399" y1="126" x2="399" y2="250" strokeDasharray="4 3" />
-        </g>
-        <g id="gWaist">
-          <rect className="arch-denim-2" x="320" y="92" width="160" height="30" rx="3" />
-          <rect className="arch-denim-2" x="330" y="84" width="7" height="12" rx="1" />
-          <rect className="arch-denim-2" x="372" y="84" width="7" height="12" rx="1" />
-          <rect className="arch-denim-2" x="420" y="84" width="7" height="12" rx="1" />
-          <rect className="arch-denim-2" x="462" y="84" width="7" height="12" rx="1" />
-          <line className="arch-stitch" x1="324" y1="116" x2="476" y2="116" strokeDasharray="4 3" />
-        </g>
-        <g id="gPatch">
-          <rect className="arch-patch" x="440" y="86" width="36" height="24" rx="2" />
-          <line className="arch-patch-l" x1="445" y1="95" x2="471" y2="95" />
-          <line className="arch-patch-l" x1="445" y1="101" x2="471" y2="101" />
-        </g>
-        <g id="gPocketL">
-          <path className="arch-denim-2" d="M334,132 L386,132 L386,166 L360,184 L334,166 Z" />
-        </g>
-        <g id="gPocketR">
-          <path className="arch-denim-2" d="M414,132 L466,132 L466,166 L440,184 L414,166 Z" />
-        </g>
-        <g id="gArc">
-          <path className="arch-stitch" d="M337,141 Q360,164 383,141" strokeWidth="1.6" />
-          <path className="arch-stitch" d="M337,149 Q360,172 383,149" strokeWidth="1.6" />
-          <path className="arch-stitch" d="M417,141 Q440,164 463,141" strokeWidth="1.6" />
-          <path className="arch-stitch" d="M417,149 Q440,172 463,149" strokeWidth="1.6" />
-        </g>
-        <g id="gTab">
-          <rect className="arch-tab" x="410" y="140" width="6" height="17" rx="1" />
-        </g>
-        <g id="gRivets">
-          <circle className="arch-rivet" cx="334" cy="132" r="3.4" />
-          <circle className="arch-rivet" cx="386" cy="132" r="3.4" />
-          <circle className="arch-rivet" cx="414" cy="132" r="3.4" />
-          <circle className="arch-rivet" cx="466" cy="132" r="3.4" />
-          <circle className="arch-rivet" cx="312" cy="160" r="3.4" />
-          <circle className="arch-rivet" cx="486" cy="160" r="3.4" />
+        <g className="arch-parts">
+          <g id="gBody">
+            <path
+              className="arch-denim"
+              d="M322,120 L312,162 L300,432 L372,432 L399,250 L426,432 L498,432 L486,162 L478,120 Z"
+            />
+            <line className="arch-stitch" x1="399" y1="126" x2="399" y2="250" strokeDasharray="4 3" />
+          </g>
+          <g id="gWaist">
+            <rect className="arch-denim-2" x="320" y="92" width="160" height="30" rx="3" />
+            <rect className="arch-denim-2" x="330" y="84" width="7" height="12" rx="1" />
+            <rect className="arch-denim-2" x="372" y="84" width="7" height="12" rx="1" />
+            <rect className="arch-denim-2" x="420" y="84" width="7" height="12" rx="1" />
+            <rect className="arch-denim-2" x="462" y="84" width="7" height="12" rx="1" />
+            <line className="arch-stitch" x1="324" y1="116" x2="476" y2="116" strokeDasharray="4 3" />
+          </g>
+          <g id="gPatch">
+            <rect className="arch-patch" x="440" y="86" width="36" height="24" rx="2" />
+            <line className="arch-patch-l" x1="445" y1="95" x2="471" y2="95" />
+            <line className="arch-patch-l" x1="445" y1="101" x2="471" y2="101" />
+          </g>
+          <g id="gPocketL">
+            <path className="arch-denim-2" d="M334,132 L386,132 L386,166 L360,184 L334,166 Z" />
+          </g>
+          <g id="gPocketR">
+            <path className="arch-denim-2" d="M414,132 L466,132 L466,166 L440,184 L414,166 Z" />
+          </g>
+          <g id="gArc">
+            <path className="arch-stitch" d="M337,141 Q360,164 383,141" strokeWidth="1.6" />
+            <path className="arch-stitch" d="M337,149 Q360,172 383,149" strokeWidth="1.6" />
+            <path className="arch-stitch" d="M417,141 Q440,164 463,141" strokeWidth="1.6" />
+            <path className="arch-stitch" d="M417,149 Q440,172 463,149" strokeWidth="1.6" />
+          </g>
+          <g id="gTab">
+            <rect className="arch-tab" x="410" y="140" width="6" height="17" rx="1" />
+          </g>
+          <g id="gRivets">
+            <circle className="arch-rivet" cx="334" cy="132" r="3.4" />
+            <circle className="arch-rivet" cx="386" cy="132" r="3.4" />
+            <circle className="arch-rivet" cx="414" cy="132" r="3.4" />
+            <circle className="arch-rivet" cx="466" cy="132" r="3.4" />
+            <circle className="arch-rivet" cx="312" cy="160" r="3.4" />
+            <circle className="arch-rivet" cx="486" cy="160" r="3.4" />
+          </g>
         </g>
       </svg>
+
+      {use3D && near && (
+        <div className="arch-canvas">
+          <Suspense fallback={null}>
+            <JeanCanvas explodeRef={explodeRef} onReady={() => setCanvasReady(true)} />
+          </Suspense>
+        </div>
+      )}
 
       {/* 모바일: SVG 콜아웃 대신 읽히는 캡션 리스트 (데스크탑에선 숨김) */}
       <ul className="arch-captions">
@@ -188,7 +236,7 @@ export function ArchiveExploded() {
         <span ref={pctRef}>0%</span> exploded
       </div>
       <div className="arch-hud arch-hud--hint" id="archHint">
-        drag to rotate · click a part (R3F)
+        {use3D ? 'drag to rotate' : 'scroll to deconstruct'}
       </div>
     </section>
   );
