@@ -275,6 +275,144 @@
   }
 }
 
+/* ---------- Archive 방 (②→③ 모드 전환 + 501 분해) ---------- */
+.experience .archive-threshold {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--grid-desktop-margin);
+  background: var(--color-ecru-200);
+  color: var(--color-ink-900);
+}
+.experience .archive-threshold h2 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-display-hero);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  margin-top: 16px;
+}
+.experience .archive-threshold .models {
+  display: flex;
+  gap: 28px;
+  margin-top: 40px;
+  font-family: var(--font-family-mono);
+  font-size: var(--type-body-s);
+  color: var(--color-text-on-light-muted);
+}
+.experience .archive-threshold .models b {
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  color: var(--color-ink-900);
+}
+.experience .archive-threshold .deconstruct-hint {
+  margin-top: 48px;
+  font-family: var(--font-family-mono);
+  font-size: var(--type-body-s);
+  color: var(--color-accent-selvedge);
+}
+
+.experience .archive-stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-ecru-200);
+}
+.experience .arch-title {
+  position: absolute;
+  left: var(--grid-desktop-margin);
+  top: 88px;
+  z-index: 4;
+}
+.experience .arch-title h3 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: var(--type-heading-m);
+  line-height: 1;
+  color: var(--color-ink-900);
+  margin-top: 12px;
+}
+.experience .arch-jean {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.experience .arch-denim {
+  fill: var(--color-indigo-600);
+  stroke: var(--color-indigo-800);
+  stroke-width: 2;
+}
+.experience .arch-denim-2 {
+  fill: var(--color-indigo-700);
+  stroke: var(--color-indigo-800);
+  stroke-width: 1.5;
+}
+.experience .arch-stitch {
+  fill: none;
+  stroke: var(--color-stitch-topstitch);
+}
+.experience .arch-rivet {
+  fill: var(--color-accent-copper);
+}
+.experience .arch-tab {
+  fill: var(--color-accent-selvedge);
+}
+.experience .arch-patch {
+  fill: #7a5630;
+  stroke: #4f361b;
+  stroke-width: 1.2;
+}
+.experience .arch-patch-l {
+  stroke: #d8c3a0;
+  stroke-width: 0.8;
+}
+.experience .arch-grid-l {
+  stroke: var(--color-blueprint-line);
+  stroke-width: 0.8;
+}
+.experience .arch-callout {
+  fill: var(--color-ink-900);
+  font-family: var(--font-family-display);
+  font-size: 13px;
+}
+.experience .arch-callout--red {
+  fill: var(--color-accent-selvedge);
+}
+.experience .arch-lead {
+  stroke: #9aa2ad;
+  stroke-width: 0.8;
+}
+.experience .arch-hud {
+  position: absolute;
+  z-index: 4;
+  font-family: var(--font-family-mono);
+  font-size: var(--type-mono-hud);
+  color: var(--color-text-on-light-muted);
+}
+.experience .arch-hud--state {
+  right: var(--grid-desktop-margin);
+  bottom: 28px;
+}
+.experience .arch-hud--hint {
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  text-align: center;
+  opacity: 0;
+}
+
+/* reduced-motion: blueprint + 폭발 완료 정적 */
+.experience .archive-stage.is-static {
+  background: var(--color-blueprint-bg);
+}
+.experience .archive-stage.is-static #archGrid,
+.experience .archive-stage.is-static #archLabels,
+.experience .archive-stage.is-static .arch-hud--hint {
+  opacity: 1;
+}
+
 /* ---------- reduced-motion: 정적 스택 (raw indigo 시작 유지) ---------- */
 .experience .chapter.is-static {
   height: auto;

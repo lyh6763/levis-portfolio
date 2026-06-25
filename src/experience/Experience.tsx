@@ -1,4 +1,5 @@
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
+import { Archive } from './Archive';
 import { HeroOrigin } from './HeroOrigin';
 import { StoryChapter, StoryChapterProps } from './StoryChapter';
 
@@ -59,6 +60,8 @@ export function Experience() {
       {chapters.map((chapter) => (
         <StoryChapter key={chapter.id} {...chapter} />
       ))}
+
+      <Archive />
     </div>
   );
 }
