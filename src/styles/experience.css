@@ -421,6 +421,9 @@
   text-align: center;
   opacity: 0;
 }
+.experience .arch-captions {
+  display: none;
+}
 
 /* reduced-motion: blueprint + 폭발 완료 정적 */
 .experience .archive-stage.is-static {
@@ -513,6 +516,54 @@
   }
   .experience .arch-title h3 {
     font-size: 22px;
+  }
+
+  /* Archive: SVG 콜아웃/HUD 숨기고 → 하단 캡션 리스트로 */
+  .experience #archLabels,
+  .experience .arch-hud {
+    display: none;
+  }
+  .experience .arch-captions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 28px;
+    z-index: 4;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-family-mono);
+    font-size: 12px;
+    color: var(--color-ink-900);
+  }
+  .experience .arch-captions li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .experience .arch-captions .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .experience .arch-captions .dot--denim {
+    background: var(--color-indigo-600);
+  }
+  .experience .arch-captions .dot--stitch {
+    background: var(--color-stitch-topstitch);
+  }
+  .experience .arch-captions .dot--tab {
+    background: var(--color-accent-selvedge);
+  }
+  .experience .arch-captions .dot--rivet {
+    background: var(--color-accent-copper);
+  }
+  .experience .arch-captions .dot--patch {
+    background: #7a5630;
   }
 }
 

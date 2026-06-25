@@ -156,6 +156,34 @@ export function ArchiveExploded() {
         </g>
       </svg>
 
+      {/* 모바일: SVG 콜아웃 대신 읽히는 캡션 리스트 (데스크탑에선 숨김) */}
+      <ul className="arch-captions">
+        <li>
+          <span className="dot dot--denim" aria-hidden="true" />
+          Selvedge denim · 501
+        </li>
+        <li>
+          <span className="dot dot--stitch" aria-hidden="true" />
+          Arcuate stitch · 1873
+        </li>
+        <li>
+          <span className="dot dot--tab" aria-hidden="true" />
+          Red Tab · 1936
+        </li>
+        <li>
+          <span className="dot dot--rivet" aria-hidden="true" />
+          Copper rivet · 1873
+        </li>
+        <li>
+          <span className="dot dot--patch" aria-hidden="true" />
+          Leather patch · 1886
+        </li>
+        <li>
+          <span className="dot dot--denim" aria-hidden="true" />
+          Back pocket
+        </li>
+      </ul>
+
       <div className="arch-hud arch-hud--state">
         <span ref={pctRef}>0%</span> exploded
       </div>
