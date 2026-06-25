@@ -10,6 +10,32 @@
   font-family: var(--font-family-body);
 }
 
+/* ---------- Accessibility ---------- */
+.experience .skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 50;
+  background: var(--color-accent-selvedge);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: var(--type-body-s);
+  transform: translateY(-150%);
+  transition: transform 0.2s ease;
+}
+.experience .skip-link:focus {
+  transform: translateY(0);
+}
+.experience a:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.experience main:focus {
+  outline: none;
+}
+
 /* ---------- Nav ---------- */
 .experience .nav {
   position: fixed;

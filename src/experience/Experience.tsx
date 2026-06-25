@@ -68,6 +68,10 @@ export function Experience() {
 
   return (
     <div className="experience">
+      <a className="skip-link" href="#main-content">
+        본문 바로가기
+      </a>
+
       <nav className="nav">
         <div className="nav__brand">
           <span className="nav__logo">LEVI&apos;S</span>
@@ -82,13 +86,15 @@ export function Experience() {
 
       <ProgressRail />
 
-      <HeroOrigin />
+      <main id="main-content" tabIndex={-1}>
+        <HeroOrigin />
 
-      {chapters.map((chapter) => (
-        <StoryChapter key={chapter.id} {...chapter} />
-      ))}
+        {chapters.map((chapter) => (
+          <StoryChapter key={chapter.id} {...chapter} />
+        ))}
 
-      <Archive />
+        <Archive />
+      </main>
     </div>
   );
 }
