@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import { Archive } from './Archive';
 import { HeroOrigin } from './HeroOrigin';
@@ -40,6 +43,27 @@ const chapters: Required<StoryChapterProps>[] = [
 
 export function Experience() {
   useSmoothScroll();
+
+  // 밝은 섹션(Today → Archive) 위에서는 nav를 잉크색으로 전환
+  useEffect(() => {
+    const nav = document.querySelector<HTMLElement>('.experience .nav');
+    const firstLight = document.querySelector<HTMLElement>('.experience .mode-light');
+    const lastLight = document.querySelector<HTMLElement>('.experience .archive-stage');
+    if (!nav || !firstLight || !lastLight) {
+      return;
+    }
+
+    const trigger = ScrollTrigger.create({
+      trigger: firstLight,
+      start: 'top 56px',
+      endTrigger: lastLight,
+      end: 'bottom 56px',
+      onToggle: (self) => nav.classList.toggle('is-light', self.isActive),
+    });
+    ScrollTrigger.refresh();
+
+    return () => trigger.kill();
+  }, []);
 
   return (
     <div className="experience">

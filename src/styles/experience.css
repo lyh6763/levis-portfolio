@@ -54,6 +54,15 @@
   color: var(--color-ecru-50);
   text-decoration: none;
 }
+.experience .nav__logo,
+.experience .nav__links a {
+  transition: color 0.3s var(--motion-ease-ui);
+}
+/* 밝은 섹션 위: nav를 잉크색으로 (레드탭은 유지) */
+.experience .nav.is-light .nav__logo,
+.experience .nav.is-light .nav__links a {
+  color: var(--color-ink-900);
+}
 
 /* ---------- Chapter (pinned scrub stage) ---------- */
 .experience .chapter {
