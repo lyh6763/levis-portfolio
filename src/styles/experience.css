@@ -405,6 +405,66 @@
   opacity: 1;
 }
 
+/* ---------- Mobile (≤768) ---------- */
+@media (max-width: 768px) {
+  .experience {
+    --grid-desktop-margin: 20px; /* 모바일 페이지 마진 */
+  }
+  .experience .nav {
+    padding: 14px 20px;
+  }
+  .experience .nav__tab {
+    display: none;
+  }
+  .experience .nav__links {
+    gap: 14px;
+    font-size: 12px;
+  }
+
+  .experience .rail {
+    left: 14px;
+    top: 68px;
+  }
+
+  .experience .chapter .scene {
+    right: 20px;
+    max-width: none;
+  }
+  .experience .hero__title {
+    font-size: clamp(38px, 12vw, 56px);
+  }
+  .experience .origin__title {
+    font-size: 30px;
+  }
+  .experience .yearmark {
+    font-size: 18vh;
+    right: 12px;
+  }
+
+  .experience .story__title {
+    font-size: 34px;
+  }
+  .experience .story__body,
+  .experience .hero__desc,
+  .experience .origin__desc {
+    font-size: var(--type-body-m);
+  }
+
+  .experience .archive-threshold h2 {
+    font-size: clamp(40px, 13vw, 60px);
+  }
+  .experience .archive-threshold .models {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .experience .arch-title {
+    top: 68px;
+  }
+  .experience .arch-title h3 {
+    font-size: 22px;
+  }
+}
+
 /* ---------- reduced-motion: 정적 스택 (raw indigo 시작 유지) ---------- */
 .experience .chapter.is-static {
   height: auto;

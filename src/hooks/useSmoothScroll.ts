@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+// 모바일 주소창 show/hide로 인한 리프레시(핀 점프) 방지
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 /**
  * Lenis 관성 스크롤을 GSAP ticker / ScrollTrigger와 동기화한다.
