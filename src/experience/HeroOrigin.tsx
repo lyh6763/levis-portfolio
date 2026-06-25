@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { SceneBlock } from './SceneBlock';
-import { SelvedgeThread } from './SelvedgeThread';
 
 /**
  * 첫 챕터: Hero → Origin(1853) 핀 + 스크럽.
@@ -53,7 +52,6 @@ export function HeroOrigin() {
       tl.to(el, { backgroundColor: indigoWash }, 0)
         .to('.hero__wear g', { opacity: 0.45 }, 0)
         .to('.hud--hint', { autoAlpha: 0, duration: 0.08 }, 0)
-        .to('.thread__fill', { height: '100%' }, 0)
         .to('.yearmark', { opacity: 0.12 }, 0.35)
         .to('.scene--hero', { yPercent: -18, autoAlpha: 0, duration: 0.22 }, 0.3)
         .fromTo(
@@ -61,8 +59,7 @@ export function HeroOrigin() {
           { yPercent: 10, autoAlpha: 0 },
           { yPercent: 0, autoAlpha: 1, duration: 0.28 },
           0.46,
-        )
-        .to('.thread__knot', { autoAlpha: 1, duration: 0.06 }, 0.5);
+        );
     }, root);
 
     return () => ctx.revert();
@@ -78,8 +75,6 @@ export function HeroOrigin() {
           <line x1="850" y1="-40" x2="940" y2="1040" />
         </g>
       </svg>
-
-      <SelvedgeThread />
 
       <div className="yearmark" aria-hidden="true">
         53

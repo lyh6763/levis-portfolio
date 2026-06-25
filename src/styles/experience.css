@@ -84,49 +84,32 @@
   opacity: 0.05;
 }
 
-/* ---------- Selvedge thread (②) ---------- */
-.experience .thread {
-  position: absolute;
-  left: 28px;
+/* ---------- Selvedge thread (②) — 전 구간 고정 진행 레일 ---------- */
+.experience .rail {
+  position: fixed;
+  left: 26px;
   top: 80px;
-  bottom: 32px;
-  width: 3px;
-  z-index: 3;
+  bottom: 28px;
+  width: 2px;
+  z-index: 15;
+  background: rgba(120, 120, 120, 0.28);
 }
-.experience .thread__track {
+.experience .rail__fill {
   position: absolute;
   inset: 0;
-  background: rgba(243, 234, 215, 0.16);
-}
-.experience .thread__fill {
-  position: absolute;
-  top: 0;
-  left: -1px;
-  width: 5px;
-  height: 0;
   background: var(--color-accent-selvedge);
+  transform: scaleY(0);
+  transform-origin: top;
 }
-.experience .thread__dot {
+.experience .rail__dot {
   position: absolute;
-  bottom: -7px;
-  left: -5px;
-  width: 13px;
-  height: 13px;
+  left: -4px;
+  top: 0;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--color-accent-selvedge);
-}
-.experience .thread__knot {
-  position: absolute;
-  top: 52%;
-  left: -6px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--color-indigo-900);
-  border: 2.5px solid var(--color-accent-selvedge);
-  opacity: 0;
-  visibility: hidden;
+  background: var(--color-accent-selvedge);
+  border: 2px solid #fff;
 }
 
 /* ---------- Year watermark ---------- */
@@ -443,10 +426,6 @@
   padding-bottom: 120px;
 }
 .experience .chapter.is-static .yearmark,
-.experience .chapter.is-static .hud,
-.experience .chapter.is-static .thread__knot {
+.experience .chapter.is-static .hud {
   display: none;
-}
-.experience .chapter.is-static .thread__fill {
-  height: 100%;
 }

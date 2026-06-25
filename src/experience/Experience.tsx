@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import { Archive } from './Archive';
 import { HeroOrigin } from './HeroOrigin';
+import { ProgressRail } from './ProgressRail';
 import { StoryChapter, StoryChapterProps } from './StoryChapter';
 
 const chapters: Required<StoryChapterProps>[] = [
@@ -78,6 +79,8 @@ export function Experience() {
           <a href="#archive">Archive</a>
         </div>
       </nav>
+
+      <ProgressRail />
 
       <HeroOrigin />
 
