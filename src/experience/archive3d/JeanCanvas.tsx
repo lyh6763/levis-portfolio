@@ -6,11 +6,11 @@ import * as THREE from 'three';
 // SVG 폭발도(680×470)와 동일한 부품 좌표를 3D로 가져온다.
 const S = 0.018;
 const CX = 399;
-const CY = 276;
+const CY = 258;
 const cx = (x: number) => (x - CX) * S;
 const cy = (y: number) => -(y - CY) * S;
 
-function extrude(points: number[][], depth = 0.12): THREE.ExtrudeGeometry {
+function extrude(points: number[][], depth = 0.2): THREE.ExtrudeGeometry {
   const shape = new THREE.Shape();
   points.forEach(([x, y], i) => {
     const X = (x - CX) * S;
@@ -54,9 +54,9 @@ function useParts(): Part[] {
         geometry: extrude([[414, 132], [466, 132], [466, 166], [440, 184], [414, 166]]),
         color: denim2, roughness: 0.85, metalness: 0, base: [0, 0, 0.05], target: [1.4, -0.2, 0.6],
       },
-      { geometry: box(160, 30, 0.14), color: denim2, roughness: 0.85, metalness: 0, base: [cx(400), cy(107), 0], target: [0, 1.0, 0.4] },
-      { geometry: box(6, 17, 0.1), color: '#a8112e', roughness: 0.5, metalness: 0, base: [cx(413), cy(148.5), 0.1], target: [1.8, 0.3, 0.9] },
-      { geometry: box(36, 24, 0.06), color: '#7a5630', roughness: 0.7, metalness: 0, base: [cx(458), cy(98), 0.1], target: [0.6, 1.4, 0.7] },
+      { geometry: box(160, 30, 0.22), color: denim2, roughness: 0.85, metalness: 0, base: [cx(400), cy(107), 0], target: [0, 1.0, 0.4] },
+      { geometry: box(6, 17, 0.16), color: '#a8112e', roughness: 0.5, metalness: 0, base: [cx(413), cy(148.5), 0.12], target: [1.8, 0.3, 0.9] },
+      { geometry: box(36, 24, 0.12), color: '#7a5630', roughness: 0.7, metalness: 0, base: [cx(458), cy(98), 0.12], target: [0.6, 1.4, 0.7] },
     ];
 
     const rivet = new THREE.SphereGeometry(0.06, 16, 16);
@@ -85,7 +85,7 @@ function Jean({ explodeRef }: { explodeRef: RefObject<number> }) {
   });
 
   return (
-    <group rotation={[0.12, -0.5, 0]}>
+    <group scale={0.46} rotation={[0.14, -0.32, 0]}>
       {parts.map((p, i) => (
         <mesh
           key={i}
@@ -111,7 +111,7 @@ export default function JeanCanvas({
   return (
     <Canvas
       style={{ width: '100%', height: '100%' }}
-      camera={{ position: [0, 0, 8], fov: 32 }}
+      camera={{ position: [0, 0, 10], fov: 32 }}
       gl={{ alpha: true, antialias: true }}
       onCreated={() => onReady?.()}
     >
@@ -119,7 +119,7 @@ export default function JeanCanvas({
       <directionalLight position={[3, 4, 6]} intensity={1.3} />
       <directionalLight position={[-4, -2, 2]} intensity={0.4} />
       <Jean explodeRef={explodeRef} />
-      <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+      <OrbitControls enableZoom={false} enablePan={false} />
     </Canvas>
   );
 }
