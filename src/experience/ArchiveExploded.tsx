@@ -125,7 +125,7 @@ export function ArchiveExploded() {
         <h3>Anatomy of a 501.</h3>
       </div>
 
-      <svg className="arch-jean" viewBox="0 0 680 470" preserveAspectRatio="xMidYMid meet">
+      <svg className="arch-jean" viewBox="0 0 680 470" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <g id="archGrid" opacity="0">
           <line className="arch-grid-l" x1="120" y1="0" x2="120" y2="470" />
           <line className="arch-grid-l" x1="240" y1="0" x2="240" y2="470" />
@@ -197,15 +197,15 @@ export function ArchiveExploded() {
       </svg>
 
       {use3D && near && (
-        <div className="arch-canvas">
+        <div className="arch-canvas" aria-hidden="true">
           <Suspense fallback={null}>
             <JeanCanvas explodeRef={explodeRef} onReady={() => setCanvasReady(true)} />
           </Suspense>
         </div>
       )}
 
-      {/* 모바일: SVG 콜아웃 대신 읽히는 캡션 리스트 (데스크탑에선 숨김) */}
-      <ul className="arch-captions">
+      {/* 501 부품의 읽히는 대체 텍스트 — 모바일은 시각 표시, 데스크탑은 SR 전용(sr-only) */}
+      <ul className="arch-captions" aria-label="501 구성 요소">
         <li>
           <span className="dot dot--denim" aria-hidden="true" />
           Selvedge denim · 501
