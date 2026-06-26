@@ -1,6 +1,9 @@
+import { ArchiveCulture } from './ArchiveCulture';
 import { ArchiveExploded } from './ArchiveExploded';
+import { ArchiveGallery } from './ArchiveGallery';
+import { ArchiveModels } from './ArchiveModels';
 
-/** Archive 탐색 방: 에디토리얼 threshold(②) → 501 분해 폭발도(③). */
+/** Archive 탐색 방: threshold(②) → 501 분해(③) → 라인업·텍스처·문화(② 복귀). */
 export function Archive() {
   return (
     <>
@@ -22,6 +25,9 @@ export function Archive() {
       </section>
 
       <ArchiveExploded />
+      <ArchiveModels />
+      <ArchiveGallery />
+      <ArchiveCulture />
     </>
   );
 }

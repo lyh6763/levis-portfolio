@@ -49,7 +49,7 @@ export function Experience() {
   useEffect(() => {
     const nav = document.querySelector<HTMLElement>('.experience .nav');
     const firstLight = document.querySelector<HTMLElement>('.experience .mode-light');
-    const lastLight = document.querySelector<HTMLElement>('.experience .archive-stage');
+    const lastLight = document.querySelector<HTMLElement>('.experience .archive-culture');
     if (!nav || !firstLight || !lastLight) {
       return;
     }
