@@ -87,6 +87,7 @@ export function HeroOrigin() {
           <span className="stitch">SINCE 1873.</span>
         </h1>
         <p className="hero__desc">150년의 역사, 변하지 않는 본질.</p>
+        <p className="hero__note">Levi Strauss &amp; Co. est. 1853 · the blue jean since 1873</p>
       </SceneBlock>
 
       <SceneBlock variant="origin" eyebrow="Chapter 01 · 1853" eyebrowVariant="chapter">

@@ -35,6 +35,18 @@
 .experience main:focus {
   outline: none;
 }
+/* 키보드로 skip-link 이동 시에만 절제된 표시 */
+.experience main:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: -3px;
+}
+/* 앵커 이동 시 고정 nav에 콘텐츠가 가리지 않도록 */
+.experience #main-content,
+.experience #hero,
+.experience #craft,
+.experience #archive {
+  scroll-margin-top: 80px;
+}
 
 /* ---------- Nav ---------- */
 .experience .nav {
@@ -198,6 +210,14 @@
   line-height: 1.6;
   margin-top: 24px;
   color: var(--color-ecru-200);
+}
+.experience .hero__note {
+  margin-top: 18px;
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  color: var(--color-ecru-200);
+  opacity: 0.7;
 }
 .experience .scene--origin {
   opacity: 0;
@@ -811,6 +831,9 @@
 }
 .experience .scene--hero > *:nth-child(3) {
   animation-delay: 0.48s;
+}
+.experience .scene--hero > *:nth-child(4) {
+  animation-delay: 0.62s;
 }
 
 /* 2. Nav 링크 호버 밑줄 (좌→우 draw) */
