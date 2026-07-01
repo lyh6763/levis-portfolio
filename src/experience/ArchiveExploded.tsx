@@ -6,7 +6,7 @@ import { isWebGLAvailable } from './archive3d/webgl';
 
 const JeanCanvas = lazy(() => import('./archive3d/JeanCanvas'));
 
-/** 분해 벡터 (assembled → exploded). SVG group id ↔ 이동량. */
+// Shared exploded offsets for the SVG fallback and the 3D canvas progress.
 const PARTS = [
   { id: 'gBody', dx: 0, dy: 70 },
   { id: 'gWaist', dx: 0, dy: -72 },
@@ -18,12 +18,6 @@ const PARTS = [
   { id: 'gRivets', dx: 160, dy: 196 },
 ];
 
-/**
- * Archive 시그니처: ②→③ 모드 전환(ecru→blueprint) + 501 조립→폭발 핀 스크럽.
- * 데스크탑+WebGL이면 R3F island(드래그 회전)를 코드분할 로드해 SVG 위에 스왑,
- * 그 외(모바일·미지원·reduced-motion)는 SVG 폭발도를 폴백으로 유지.
- * 폭발 정도는 스크롤 진행(explodeRef)으로 두 경로가 공유한다.
- */
 export function ArchiveExploded() {
   const root = useRef<HTMLElement>(null);
   const pctRef = useRef<HTMLSpanElement>(null);
@@ -49,12 +43,11 @@ export function ArchiveExploded() {
     const ecru = tokens.getPropertyValue('--color-ecru-200').trim();
     const blueprint = tokens.getPropertyValue('--color-blueprint-bg').trim();
 
-    // reduced-motion: 핀/스크럽 없이 blueprint + 폭발 완료(정보 우선) 정적
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       el.classList.add('is-static');
       gsap.set(el, { backgroundColor: blueprint });
-      PARTS.forEach((p) => {
-        el.querySelector(`#${p.id}`)?.setAttribute('transform', `translate(${p.dx},${p.dy})`);
+      PARTS.forEach((part) => {
+        el.querySelector(`#${part.id}`)?.setAttribute('transform', `translate(${part.dx},${part.dy})`);
       });
       return;
     }
@@ -71,36 +64,32 @@ export function ArchiveExploded() {
           pin: true,
           scrub: 1,
           onUpdate: (self) => {
-            const e = Math.min(Math.max((self.progress - 0.18) / 0.62, 0), 1);
-            explodeRef.current = e; // 3D 경로가 매 프레임 읽음
+            const explode = Math.min(Math.max((self.progress - 0.18) / 0.62, 0), 1);
+            explodeRef.current = explode;
             if (pctRef.current) {
-              pctRef.current.textContent = `${Math.round(e * 100)}%`;
+              pctRef.current.textContent = `${Math.round(explode * 100)}%`;
             }
           },
         },
       });
 
-      // 0 → 0.18: ② → ③ 모드 크로스페이드 + 그리드 인 + 살짝 부양
       tl.to(el, { backgroundColor: blueprint, duration: 0.18 }, 0)
         .to('#archGrid', { opacity: 1, duration: 0.18 }, 0)
         .fromTo('.arch-jean', { scale: 0.96, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.18 }, 0);
 
-      // 0.18 → 0.8: SVG 부품 폭발 (3D 경로에선 explodeRef가 대신 구동하므로 생략)
       if (!use3D) {
-        PARTS.forEach((p) => tl.to(`#${p.id}`, { x: p.dx, y: p.dy, ease: 'power1.out', duration: 0.62 }, 0.18));
+        PARTS.forEach((part) =>
+          tl.to(`#${part.id}`, { x: part.dx, y: part.dy, ease: 'power1.out', duration: 0.62 }, 0.18),
+        );
       }
 
-      // 콜아웃 + 인터랙션 힌트
       tl.to('#archLabels', { opacity: 1, duration: 0.3 }, 0.4).to('#archHint', { opacity: 1, duration: 0.3 }, 0.45);
-
-      // hold (핀 유지 = 자유 탐색 여지)
       tl.to({}, { duration: 0.2 });
     }, root);
 
     return () => ctx.revert();
   }, [use3D]);
 
-  // 3D: Archive가 뷰포트에 접근하면 캔버스(three.js 청크)를 로드
   useEffect(() => {
     if (!use3D) {
       return;
@@ -204,7 +193,6 @@ export function ArchiveExploded() {
         </div>
       )}
 
-      {/* 501 부품의 읽히는 대체 텍스트 — 모바일은 시각 표시, 데스크탑은 SR 전용(sr-only) */}
       <ul className="arch-captions" aria-label="501 구성 요소">
         <li>
           <span className="dot dot--denim" aria-hidden="true" />

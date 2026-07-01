@@ -1,47 +1,60 @@
 # Non-Functional Review
 
-기능 동작 외 접근성·콘텐츠 명확성·SEO/공유 품질·유지보수 관점 검토.
-치명적 비기능 오류는 없으며(`typecheck`/`build`/렌더 통과), 아래는 완성도 항목.
+## Scope
 
-## 처리 현황 (2026-06)
+기능 동작 자체보다 접근성, SEO/공유 미리보기, 문서 품질, 유지보수성, 포트폴리오 완성도를 기준으로 검토했습니다. 3D archive chunk는 계속 리파인 중인 영역으로 보고, 현재 평가는 치명적 결함 여부 중심으로 제한했습니다.
+
+## Status
+
 | 항목 | 상태 |
-|---|---|
-| P2. Archive SVG 접근성 | ✅ 해결 |
-| P3. SEO/공유 메타 | ✅ 해결 |
-| P3. skip-link 포커스 표시 | ⬜ 보류(선택) |
-| P3. 1853/1873 카피 명확화 | ⬜ 보류(의도적, 선택) |
+| --- | --- |
+| Archive SVG/3D 접근성 | 해결 |
+| SEO/공유 메타데이터 | 해결 |
+| OG image | 전용 이미지 추가 |
+| skip link/focus 표시 | 해결 |
+| 1853/1873 메시지 구분 | 보완 |
+| generated image 기본 모드 | 적용 |
+| 이미지 운용 문서 | 정리 |
 
 ## Findings
 
-### ✅ P2. Archive SVG 접근성 — 해결
+### P2. Archive SVG/3D 접근성 - 해결
+
 - 파일: `src/experience/ArchiveExploded.tsx`, `src/styles/experience.css`
-- 조치: 장식 SVG·R3F 캔버스에 `aria-hidden="true"` 부여. 501 부품 콜아웃을 읽히는 캡션 리스트로 대체 — 데스크탑은 sr-only(접근성 트리 노출, `display:none` 아님, `aria-label="501 구성 요소"`), 모바일은 시각 표시. 스크린리더가 조각난 SVG 텍스트를 읽던 문제 해소.
+- 조치: 장식용 SVG와 R3F canvas는 `aria-hidden` 처리하고, 501 구성 요소는 보조기술이 읽을 수 있는 캡션 리스트로 대체했습니다.
+- 결과: 스크린 리더가 시각 조각의 내부 텍스트를 불필요하게 읽는 문제를 줄였습니다.
 
-### ✅ P3. SEO 및 공유 미리보기 메타 — 해결
+### P3. SEO/공유 미리보기 메타데이터 - 해결
+
 - 파일: `index.html`
-- 조치: Open Graph(`og:type/title/description/image/image:alt`) + Twitter Card(`summary_large_image`) + `theme-color`(#12213d) + `canonical` 추가. 미사용 hero preload 제거.
-- 남은 TODO: `og:image`가 `%BASE_URL%` 상대 경로 → **배포 도메인 확정 시 절대 URL로 교체**(이상적으로 전용 1200×630 이미지, 예: 히어로 스크린샷).
+- 조치: title, description, canonical, Open Graph, Twitter Card, theme-color를 정리했습니다.
+- 추가 조치: `public/images/og-image.webp` 전용 공유 이미지를 생성하고 `og:image`/`twitter:image`에 연결했습니다.
+- 남은 선택 사항: 실제 배포 도메인이 확정되면 `%BASE_URL%` 기반 경로를 절대 URL로 고정하면 공유 플랫폼 호환성이 더 좋아집니다.
 
-### ⬜ P3. Skip link 이동 후 포커스 표시 — 보류
-- 파일: `src/styles/experience.css`(`main:focus { outline: none }`)
-- 평가: 경미. -1 tabindex 컨테이너 전체에 아웃라인을 안 주는 건 흔한 관행이라 논쟁적. 다만 함께 권장된 `scroll-margin-top`(고정 nav에 본문이 가리지 않게)은 가치 있음.
-- 권장: `outline:none` 유지하되 절제된 `:focus-visible` + `scroll-margin-top` 추가.
+### P3. Skip Link와 Focus 표시 - 해결
 
-### ⬜ P3. 1853 vs 1873 의미 구분 — 보류(선택)
-- 파일: `index.html`, `src/experience/*`
-- 평가: 역사적으로 자연스럽고(1853 창업/1873 블루진) 의도적으로 구분한 것이라 버그 아님. 한 줄 보조 카피로 더 친절해질 수 있는 정도.
+- 파일: `src/styles/experience.css`
+- 조치: skip link 이동 시 포커스 표시를 명확히 하고, 고정 내비게이션에 가려지지 않도록 주요 anchor에 `scroll-margin-top`을 적용했습니다.
+
+### P3. 1853/1873 메시지 구분 - 보완
+
+- 파일: `src/experience/HeroOrigin.tsx`
+- 조치: 브랜드 창업 1853과 블루진 탄생 1873을 함께 명시해 첫 화면의 역사 정보 오해 가능성을 줄였습니다.
+
+### P3. 문서 품질 - 보완
+
+- 파일: `README.md`, `docs/IMAGE_ASSET_PLAN.md`, `docs/NON_FUNCTIONAL_REVIEW.md`
+- 조치: 깨진 한글 문서와 stale placeholder 기준 설명을 현재 generated 기본 모드 기준으로 정리했습니다.
 
 ## Verified Items
-- `typecheck` / `build` 통과
-- 데스크탑 렌더 콘솔 에러 없음 (프리뷰 직접 검증)
-- 한글 표시 정상 · 가로 스크롤 없음
-- Archive 3D(R3F) 렌더 정상 (프레이밍 수정 후)
 
-## Remaining Next Steps (선택)
-1. skip-link 포커스 표시 + `scroll-margin-top`.
-2. Hero/Archive 카피에서 1853/1873 차이 명시.
-3. 배포 시 `og:image` 절대 URL/전용 이미지 교체.
+- generated image mode가 기본값입니다.
+- placeholder mode는 `.env.placeholder` 또는 `npm run dev:placeholder`/`npm run build:placeholder`로 확인 가능합니다.
+- dedicated OG image가 존재합니다: `public/images/og-image.webp`
+- GitHub Pages deep link fallback을 위한 `404.html` 복사 스크립트가 유지됩니다.
 
-## Review Scope
-포함: 접근성·키보드 사용성·콘텐츠 명확성·SEO/공유·완성도.
-제외: 주요 기능 검증·3D 청크 크기 최적화·3D 연출 세부·전면 디자인 시스템 리팩터.
+## Remaining Polish
+
+- 배포 URL 확정 후 canonical/OG URL 절대 경로 검토.
+- README의 case study 문서도 최종 공개 전 한 번 더 인코딩과 표현을 점검.
+- 3D archive chunk는 기능 결함이 아니라 품질 리파인 항목으로 별도 추적.
