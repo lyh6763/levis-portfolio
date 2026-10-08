@@ -60,12 +60,19 @@ npm run assets:og
 
 ## Deployment
 
-GitHub Pages 배포를 기준으로 기본 `base`는 `/levis/`입니다. 빌드 후 `scripts/copy-404.mjs`가 `dist/index.html`을 `dist/404.html`로 복사해 `/chapters/...` 같은 딥 링크를 지원합니다.
+배포 주소: https://lyh6763.github.io/levis-portfolio/
 
-커스텀 도메인의 root에 배포할 경우:
+`main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능). 빌드 후 `scripts/copy-404.mjs`가 `dist/index.html`을 `dist/404.html`로 복사해 `/chapters/...` 같은 딥 링크를 지원합니다.
+
+경로 설정은 두 곳입니다.
+
+- `vite.config.ts`의 `base`: 기본값 `/levis-portfolio/`
+- `.env`의 `VITE_SITE_URL`: canonical과 공유 미리보기(OG) 태그가 쓰는 절대 주소
+
+저장소 이름을 바꾸거나 커스텀 도메인 root에 배포한다면 둘을 함께 바꿉니다. 예:
 
 ```bash
-VITE_BASE_PATH=/ npm run build
+VITE_BASE_PATH=/ VITE_SITE_URL=https://example.com/ npm run build
 ```
 
 ## Docs Map
