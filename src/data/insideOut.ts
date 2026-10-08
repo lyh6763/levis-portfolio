@@ -1,7 +1,9 @@
 /**
  * Inside Out: 빈티지 501 연대 감정 단서.
  * 각 선택지는 가능한 연도 구간을 좁힌다. 경계 연도는 전환기를 감안해 서로 겹치게 잡았다.
- * 501 기준의 일반적인 경향이며 공장·재고·수선에 따라 예외가 있다. (근거: lsco-501, downey2016)
+ * 501 기준의 일반적인 경향이며 공장·재고·수선에 따라 예외가 있다.
+ * 근거: lsco-coverup2017(숨은 리벳·바택), lsco-ww2(전시 규격), lsco-selvedge2023(셀비지 종료 1983~84),
+ * lsco-501(패치·레드탭), ftc-care(케어 라벨 규칙 1971 공포, 1972 시행).
  */
 
 export const DOMAIN: [number, number] = [1873, 2025];
@@ -62,7 +64,8 @@ export const clues: Clue[] = [
     glyph: 'crotch',
     chapter: 'lot-501',
     options: [
-      { value: 'yes', label: '있다', range: [1873, 1941] },
+      // 전시 물자 통제로 사라졌다. 자료마다 1941~1944년으로 엇갈려 구간을 겹쳐 둔다.
+      { value: 'yes', label: '있다', range: [1873, 1944] },
       { value: 'no', label: '없다', range: [1941, 2025] },
     ],
   },
@@ -74,7 +77,7 @@ export const clues: Clue[] = [
     glyph: 'cinch',
     chapter: 'war-and-rebellion',
     options: [
-      { value: 'yes', label: '있다', range: [1873, 1942] },
+      { value: 'yes', label: '있다', range: [1873, 1944] },
       { value: 'no', label: '없다', range: [1942, 2025] },
     ],
   },

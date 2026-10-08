@@ -10,8 +10,8 @@ export function SourcesPage() {
         <p className="page__kicker">Back matter</p>
         <h1 className="page__title">Sources</h1>
         <p className="page__dek">
-          본문의 각주가 가리키는 자료입니다. 이 사이트는 초안 단계이며, 일부 연도와 수치는 원문 대조를 진행하고
-          있습니다.
+          본문의 각주가 가리키는 자료입니다. 온라인 자료는 2026년 10월에 본문 서술과 대조했습니다. 단행본은 아직
+          원문과 대조하지 못해 보조 근거로만 달았고, 따로 표시해 두었습니다.
         </p>
       </header>
       <ol className="sources">
@@ -22,6 +22,9 @@ export function SourcesPage() {
             <span className="sources__pub">
               {source.publisher ? `${source.publisher}, ` : ''}
               {source.year}
+            </span>
+            <span className={`sources__status${source.checked ? ' is-checked' : ''}`}>
+              {source.checked ? `${source.checked.replace('-', '.')} 대조` : '원문 대조 전'}
             </span>
             {source.url && (
               <a className="sources__link" href={source.url} target="_blank" rel="noreferrer">

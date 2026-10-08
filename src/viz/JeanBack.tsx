@@ -1,6 +1,7 @@
 /**
  * 연도별 501 뒷면 도식. 03장 연도 슬라이더와 Heritage Line 상품 도식이 함께 쓴다.
- * 연도 경계는 lsco-501 기준 (docs/REDESIGN_PLAN.md 참고).
+ * 연도 경계는 lsco-coverup2017, lsco-beltloops2022, lsco-ww2, lsco-501 기준.
+ * 전시 규격(신치·가랑이 리벳 제거, 페인트 아큐에이트)은 자료마다 1941~1944년으로 엇갈려 1942년으로 대표한다.
  */
 
 export type RivetStyle = 'exposed' | 'hidden' | 'bartack';
@@ -12,7 +13,7 @@ export function featuresAt(year: number) {
     beltLoops: year >= 1922,
     suspenderButtons: year < 1937,
     cinch: year < 1942,
-    crotchRivet: year < 1941,
+    crotchRivet: year < 1942,
     redTab: year >= 1936 ? (year >= 1971 ? "Levi's" : "LEVI'S") : null,
     rivets,
     paintedArcuate: year >= 1942 && year < 1947,

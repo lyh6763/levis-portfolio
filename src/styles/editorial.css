@@ -872,6 +872,22 @@ body {
   color: var(--color-ink-muted);
 }
 
+.sources__status {
+  justify-self: start;
+  padding: 1px 8px;
+  border: 1px dashed var(--color-ink-muted);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+  color: var(--color-ink-muted);
+}
+
+.sources__status.is-checked {
+  border-style: solid;
+  border-color: var(--color-indigo-500);
+  color: var(--color-indigo-700);
+}
+
 .sources__link {
   justify-self: start;
   font-size: var(--type-body-s);

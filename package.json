@@ -5,14 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:generated": "vite --mode generated",
-    "dev:placeholder": "vite --mode placeholder",
     "typecheck": "tsc --noEmit",
     "build": "node scripts/prepare-dist.mjs && tsc --noEmit && vite build && node scripts/copy-404.mjs",
-    "build:generated": "node scripts/prepare-dist.mjs && tsc --noEmit && vite build --mode generated && node scripts/copy-404.mjs",
-    "build:placeholder": "node scripts/prepare-dist.mjs && tsc --noEmit && vite build --mode placeholder && node scripts/copy-404.mjs",
-    "assets:placeholders": "node scripts/create-placeholders.mjs",
-    "assets:generated": "node scripts/run-python.mjs scripts/optimize-generated-images.py",
     "assets:og": "node scripts/run-python.mjs scripts/create-og-image.py",
     "preview": "vite preview"
   },

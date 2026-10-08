@@ -2,7 +2,7 @@
 
 Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토리얼 포트폴리오입니다. 사진 대신 타이포그래피와 직접 그린 SVG 도식으로 이야기를 전하고, 모든 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
 
-> 이전 버전(wear-in 스크롤 경험)에서 전면 개편 중입니다. 기획과 진행 상태는 [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md)에 있습니다.
+> 기획 배경과 구현 과정은 [CASE_STUDY.md](CASE_STUDY.md), 우선순위와 진행 상태는 [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md)에 있습니다.
 
 ## Tech Stack
 
@@ -52,6 +52,12 @@ npm run build
 npm run preview
 ```
 
+공유 미리보기 이미지(`public/images/og-image.png`)는 표지 디자인을 옮겨 생성합니다. Python 3와 Pillow가 필요하고, Windows 기본 폰트(Georgia, Malgun Gothic, Consolas)를 씁니다.
+
+```bash
+npm run assets:og
+```
+
 ## Deployment
 
 GitHub Pages 배포를 기준으로 기본 `base`는 `/levis/`입니다. 빌드 후 `scripts/copy-404.mjs`가 `dist/index.html`을 `dist/404.html`로 복사해 `/chapters/...` 같은 딥 링크를 지원합니다.
@@ -66,7 +72,6 @@ VITE_BASE_PATH=/ npm run build
 
 | 문서 | 내용 |
 | --- | --- |
+| [CASE_STUDY.md](CASE_STUDY.md) | 케이스 스터디: 문제 정의, 콘셉트, 주요 기능, 사실 검증, 문제 해결 |
 | [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md) | v3 리디자인 기획, 우선순위, 진행 상태 |
-| [CASE_STUDY.md](CASE_STUDY.md) | v2(wear-in) 케이스 스터디 — v3 기준 재작성 예정 |
-| [docs/IMAGE_ASSET_PLAN.md](docs/IMAGE_ASSET_PLAN.md) | v2 generated/placeholder 이미지 운용 (현재 미사용, 정리 예정) |
-| `docs/legacy/` | 초기 정적 사이트 기획/리뷰 기록 |
+| `docs/legacy/` | v1 정적 사이트와 v2 wear-in 시기의 기획·리뷰·이미지 운용 기록 |
