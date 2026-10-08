@@ -5,7 +5,6 @@ export default defineConfig({
   base: process.env.VITE_BASE_PATH ?? '/levis/',
   build: {
     emptyOutDir: false,
-    chunkSizeWarningLimit: 900,
   },
   plugins: [react()],
 });

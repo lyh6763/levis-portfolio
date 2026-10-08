@@ -1,5 +1,5 @@
 /* ============================================================
-   Levi's Heritage — Design Tokens (wear-in)
+   WARP & WEFT — Design Tokens (wear-in 토큰 계승 + editorial)
    Figma Variables 1:1 매핑. slash(/) → dash(-) 네이밍.
    원시(primitive) → 시맨틱(semantic) alias 구조.
    ============================================================ */
@@ -61,24 +61,38 @@
   --color-interactive-hover:   var(--color-selvedge-600);
   --color-focus-ring:          var(--color-selvedge-400);
 
+  /* ---------- Color · Editorial (롱폼 지면) ---------- */
+  --color-paper:        #f6f1e7; /* 본문 지면 — ecru-50보다 밝게, 장문 가독성 */
+  --color-paper-deep:   var(--color-ecru-100);
+  --color-rule:         #d9cfbb; /* 괘선 */
+  --color-ink-muted:    #5a6270;
+
   /* ---------- Typography · Family ---------- */
-  --font-family-display: "Oswald", "Arial Narrow", sans-serif;
-  --font-family-body:    "IBM Plex Sans", system-ui, sans-serif;
+  --font-family-display: "Fraunces", "Noto Serif KR", Georgia, serif;
+  --font-family-serif:   "Noto Serif KR", "Fraunces", Georgia, serif; /* 한글 본문 */
+  --font-family-body:    "IBM Plex Sans KR", system-ui, sans-serif;   /* UI */
   --font-family-mono:    "IBM Plex Mono", monospace;
 
   /* ---------- Typography · Role sizes ---------- */
-  --type-display-hero: clamp(48px, 8vw, 88px);
-  --type-display-xl:   64px;
+  --type-display-cover: clamp(56px, 12vw, 168px);
+  --type-display-hero: clamp(48px, 9vw, 120px);
+  --type-display-xl:   clamp(40px, 6vw, 72px);
   --type-display-l:    48px;
-  --type-heading-m:    32px;
+  --type-heading-m:    clamp(26px, 3vw, 34px);
   --type-heading-s:    24px;
   --type-title-nav:    20px;
+  --type-body-serif:   clamp(17px, 1.2vw + 10px, 19px);
   --type-body-l:       18px;
   --type-body-m:       16px;
   --type-body-s:       14px;
   --type-caption:      12px;
   --type-eyebrow:      11px;
   --type-mono-hud:     12px;
+
+  /* ---------- Measure (행 길이) ---------- */
+  --measure-text: 640px;
+  --measure-wide: 1040px;
+  --masthead-h: 56px;
 
   /* ---------- Typography · Primitives ---------- */
   --weight-regular: 400;
