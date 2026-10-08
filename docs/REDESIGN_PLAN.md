@@ -27,7 +27,7 @@ wear-in 스크롤 경험(v2)을 롱폼 에디토리얼(v3)로 전면 개편하�
 
 ### P0 — 완료 (editorial-redesign 브랜치)
 
-- 라우팅(React Router, GitHub Pages `404.html` 폴백 유지), 마스트헤드, 목차 다이얼로그, 읽기 진행 바
+- 라우팅(React Router), 마스트헤드, 목차 다이얼로그, 읽기 진행 바. 배포 후 딥 링크는 404.html 폴백 대신 라우트별 정적 HTML로 바꿈(아래 "배포")
 - 각주 시스템: 본문 `[^sourceId]` 마커 → 번호 버튼 + 팝오버(모바일은 하단 시트), 챕터 끝 Notes, `/sources`
 - 9개 챕터 원고 초안과 챕터별 시각화
 
@@ -54,6 +54,12 @@ wear-in 스크롤 경험(v2)을 롱폼 에디토리얼(v3)로 전면 개편하�
 - OG 이미지를 표지 기준 PNG(1200x630)로 재생성 (`npm run assets:og`)
 - v2 이미지 파이프라인 제거(`src/data/assets.ts`, generated/placeholder 이미지, 관련 스크립트·npm 스크립트·`.env.*`), v2 문서는 `docs/legacy/`로 이동
 - CASE_STUDY.md를 v3 기준으로 재작성
+
+### 배포 (완료)
+
+- GitHub Pages를 브랜치 루트 서빙(legacy)에서 GitHub Actions 배포로 전환. 이전에는 빌드 전 소스 index.html이 서빙되어 빈 화면이었다
+- Vite `base`를 `/levis-portfolio/`로, canonical·OG를 `VITE_SITE_URL` 절대 주소로
+- `scripts/prerenderRoutes.ts`: 라우트 16개의 `<path>/index.html`(라우트별 head), `404.html`(noindex), `sitemap.xml` 생성. 딥 링크가 404 대신 200으로 응답. 앱은 끝 `/`를 정리
 
 ### 남은 일
 

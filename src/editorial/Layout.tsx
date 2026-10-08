@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation, useMatch } from 'react-router';
+import { Link, Navigate, Outlet, useLocation, useMatch } from 'react-router';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { chapterBySlug, chapters } from '../data/chapters';
@@ -35,6 +35,7 @@ function Site() {
       </a>
       <Masthead onOpenToc={() => setTocOpen(true)} />
       <TocDialog open={tocOpen} onClose={closeToc} />
+      <TrailingSlash />
       <ScrollManager />
       <main id="main-content" tabIndex={-1}>
         <Outlet />
@@ -210,6 +211,18 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
       </div>
     </dialog>
   );
+}
+
+/**
+ * GitHub Pages는 미리 생성한 `<path>/index.html`을 끝에 /가 붙은 주소로 서빙한다.
+ * 앱 안의 링크·비교는 / 없는 주소를 쓰므로 들어오자마자 같은 형태로 맞춘다.
+ */
+function TrailingSlash() {
+  const { pathname, search, hash } = useLocation();
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    return <Navigate replace to={{ pathname: pathname.replace(/\/+$/, ''), search, hash }} />;
+  }
+  return null;
 }
 
 /** 라우트가 바뀌면 맨 위(또는 해시 대상)로 이동하고, 본문에 포커스를 옮기고, 스크롤 트리거를 다시 잰다. */

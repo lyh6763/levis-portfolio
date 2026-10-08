@@ -1,6 +1,18 @@
 import { rm } from 'node:fs/promises';
 
-const targets = ['dist/assets', 'dist/images', 'dist/index.html', 'dist/404.html'];
+// vite.config의 emptyOutDir: false 대신 빌드 산출물만 골라 지운다 (prerenderRoutes가 쓰는 라우트 폴더 포함).
+const targets = [
+  'dist/assets',
+  'dist/images',
+  'dist/index.html',
+  'dist/404.html',
+  'dist/sitemap.xml',
+  'dist/chapters',
+  'dist/shop',
+  'dist/sources',
+  'dist/colophon',
+  'dist/inside-out',
+];
 const transientErrors = new Set(['EBUSY', 'ENOTEMPTY', 'EPERM']);
 const maxAttempts = 8;
 

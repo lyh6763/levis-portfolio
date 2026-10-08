@@ -62,7 +62,9 @@ npm run assets:og
 
 배포 주소: https://lyh6763.github.io/levis-portfolio/
 
-`main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능). 빌드 후 `scripts/copy-404.mjs`가 `dist/index.html`을 `dist/404.html`로 복사해 `/chapters/...` 같은 딥 링크를 지원합니다.
+`main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능).
+
+빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG가 들어갑니다. 본문은 클라이언트에서 렌더링합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapters.ts`와 `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
 
 경로 설정은 두 곳입니다.
 
