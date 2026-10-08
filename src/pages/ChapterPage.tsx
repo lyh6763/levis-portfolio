@@ -5,6 +5,8 @@ import { Block, Chapter, chapterBySlug, chapters } from '../data/chapters';
 import { collectNotes, NotesContext, RichText, SourceCitation } from '../editorial/Footnote';
 import { Reveal } from '../editorial/Reveal';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { useInsideOut } from '../insideOut/InsideOutContext';
+import { LooseThread } from '../insideOut/LooseThread';
 import { vizRegistry } from '../viz/registry';
 import { NotFoundPage } from './NotFoundPage';
 
@@ -99,6 +101,20 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
   );
 }
 
+function TurnButton({ text }: { text: string }) {
+  const { flip } = useInsideOut();
+  return (
+    <div className="turn">
+      <button type="button" className="turn__button" onClick={() => flip()}>
+        <span className="turn__icon" aria-hidden="true">
+          ↺
+        </span>
+        {text}
+      </button>
+    </div>
+  );
+}
+
 function BlockView({ block, isFirst }: { block: Block; isFirst: boolean }) {
   switch (block.type) {
     case 'p':
@@ -135,6 +151,10 @@ function BlockView({ block, isFirst }: { block: Block; isFirst: boolean }) {
           </p>
         </aside>
       );
+    case 'thread':
+      return <LooseThread id={block.id} />;
+    case 'turn':
+      return <TurnButton text={block.text} />;
     case 'viz': {
       const Viz = vizRegistry[block.id];
       return (

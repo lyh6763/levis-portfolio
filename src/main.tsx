@@ -7,6 +7,7 @@ import './styles/reset.css';
 import './styles/tokens.css';
 import './styles/editorial.css';
 import './styles/viz.css';
+import './styles/inside-out.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

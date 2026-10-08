@@ -20,6 +20,7 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 | `/chapters/:slug` | 01 Gold & Canvas … 09 Worn |
 | `/sources` | 각주가 가리키는 출처 |
 | `/colophon` | 작업 소개, 비공식 고지 |
+| `/inside-out` | 숨은 층: 빈티지 501 연대 감정 도구 (풀린 실밥 5개, 09장 끝, 푸터 버튼으로 진입) |
 
 ## Architecture
 

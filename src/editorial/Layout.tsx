@@ -5,16 +5,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { chapterBySlug, chapters } from '../data/chapters';
 import { getLenis, scrollToImmediate, useSmoothScroll } from '../hooks/useSmoothScroll';
 import { SITE_NAME } from '../hooks/useDocumentTitle';
+import { InsideOutProvider, useInsideOut } from '../insideOut/InsideOutContext';
+import { Toast } from '../insideOut/Toast';
 
 const MASTHEAD_OFFSET = -88;
 
 export function Layout() {
+  return (
+    <InsideOutProvider>
+      <Site />
+    </InsideOutProvider>
+  );
+}
+
+function Site() {
   useSmoothScroll();
   const [tocOpen, setTocOpen] = useState(false);
   const closeToc = useCallback(() => setTocOpen(false), []);
+  const { isInside } = useInsideOut();
 
   return (
-    <div className="site">
+    <div className={`site${isInside ? ' site--inside' : ''}`}>
       <a className="skip-link" href="#main-content">
         본문 바로가기
       </a>
@@ -25,6 +36,7 @@ export function Layout() {
         <Outlet />
       </main>
       <SiteFooter />
+      <Toast />
     </div>
   );
 }
@@ -32,6 +44,7 @@ export function Layout() {
 function Masthead({ onOpenToc }: { onOpenToc: () => void }) {
   const match = useMatch('/chapters/:slug');
   const chapter = match ? chapterBySlug.get(match.params.slug ?? '') : undefined;
+  const { isInside } = useInsideOut();
 
   return (
     <header className="masthead">
@@ -44,6 +57,10 @@ function Masthead({ onOpenToc }: { onOpenToc: () => void }) {
           {chapter ? (
             <>
               <span className="masthead__num">{chapter.number}</span> {chapter.title}
+            </>
+          ) : isInside ? (
+            <>
+              <span className="masthead__num">↺</span> Inside out
             </>
           ) : null}
         </span>
@@ -210,6 +227,7 @@ function ScrollManager() {
 }
 
 function SiteFooter() {
+  const { isInside, flip } = useInsideOut();
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
@@ -220,6 +238,9 @@ function SiteFooter() {
         <nav className="site-footer__links" aria-label="부가 링크">
           <Link to="/sources">Sources</Link>
           <Link to="/colophon">Colophon</Link>
+          <button type="button" className="site-footer__turn" onClick={() => flip()}>
+            {isInside ? 'Face' : 'Inside out'} <span aria-hidden="true">↺</span>
+          </button>
         </nav>
       </div>
     </footer>

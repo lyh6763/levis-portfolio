@@ -22,6 +22,12 @@ export function ColophonPage() {
           모든 사실 서술에는 각주로 출처를 달고, 널리 퍼졌지만 근거가 약한 일화는 그렇다고 밝힙니다. 사진 대신
           타이포그래피와 직접 그린 도식으로 이야기를 전합니다.
         </p>
+        <h2>Inside out</h2>
+        <p>
+          데님의 앞면은 푸르고 안쪽은 하얗습니다. 이 사이트에도 안쪽이 있습니다. 챕터 곳곳에 숨은 풀린 실밥 다섯
+          개를 찾거나, 에필로그 끝이나 페이지 맨 아래의 Inside out 버튼으로 뒤집어 볼 수 있습니다. 안쪽에서는
+          빈티지 501의 연대를 가늠해 보는 감정 도구를 만날 수 있습니다.
+        </p>
         <h2>Typography</h2>
         <p>제목은 Fraunces, 한글 본문은 Noto Serif KR, 인터페이스는 IBM Plex Sans KR, 데이터와 캡션은 IBM Plex Mono.</p>
         <h2>Built with</h2>

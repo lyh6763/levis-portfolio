@@ -16,7 +16,11 @@ export type Block =
   | { type: 'quote'; text: string }
   | { type: 'stat'; value: string; label: string }
   | { type: 'aside'; title: string; text: string }
-  | { type: 'viz'; id: VizId; caption: string };
+  | { type: 'viz'; id: VizId; caption: string }
+  /** Inside Out으로 이어지는 숨은 '풀린 실밥'. id는 수집 단위. */
+  | { type: 'thread'; id: string }
+  /** 사이트를 뒤집어 Inside Out으로 가는 명시적 진입점. */
+  | { type: 'turn'; text: string };
 
 export type Chapter = {
   slug: string;
@@ -61,6 +65,7 @@ export const chapters: Chapter[] = [
         type: 'p',
         text: '사업은 매형 데이비드 스턴과 함께 커졌고, 회사는 곧 "Levi Strauss & Co."라는 이름으로 자리 잡았다. 샌프란시스코 부두 근처의 창고는 서부 개척지로 향하는 물건들의 관문이 되었다.[^downey2016]',
       },
+      { type: 'thread', id: 'gold' },
       {
         type: 'aside',
         title: '기록이 사라진 회사',
@@ -130,6 +135,7 @@ export const chapters: Chapter[] = [
         type: 'p',
         text: '1937년, 뒷주머니 리벳이 원단 안쪽으로 숨었다. 겉으로 드러난 리벳이 학교 의자와 가구, 말안장을 긁는다는 불만이 이어졌기 때문이다. 리벳은 사라지지 않았다. 원단 아래에서 같은 일을 계속했을 뿐이다.[^lsco-501][^downey2016]',
       },
+      { type: 'thread', id: 'rivet' },
       {
         type: 'p',
         text: '앞섶 아래의 가랑이 리벳은 1941년에 없어졌다. 회사 경영진 한 사람이 모닥불 앞에 쪼그려 앉았다가 달궈진 리벳 때문에 곤욕을 치른 뒤였다는 일화가 전한다. 이듬해에는 허리 뒤를 조이던 신치(cinch)도 사라지고, 벨트가 완전히 자리를 넘겨받았다.[^lsco-501][^sullivan2006]',
@@ -159,6 +165,7 @@ export const chapters: Chapter[] = [
         text: '제2차 세계대전 동안 미국 정부는 금속과 실, 원단 같은 물자 사용을 엄격하게 제한했다. 501도 예외가 아니었다. 시계 주머니의 리벳과 허리 뒤 신치가 사라졌고, 뒷주머니의 아큐에이트 스티치는 실 대신 페인트로 그려졌다.[^lsco-501][^sullivan2006]',
       },
       { type: 'viz', id: 'warpaint', caption: '1942–1946: 꿰매는 대신 그린 아큐에이트' },
+      { type: 'thread', id: 'paint' },
       {
         type: 'p',
         text: '전쟁은 청바지를 바다 건너로도 실어 날랐다. 비번인 미군 병사들이 입던 청바지는 유럽과 아시아의 사람들에게 미국 그 자체를 떠올리게 하는 옷으로 기억되었다.[^sullivan2006]',
@@ -233,6 +240,7 @@ export const chapters: Chapter[] = [
         type: 'p',
         text: '오랫동안 리바이스에 데님을 공급한 콘 밀스(Cone Mills)는 셀비지 가장자리에 붉은 실을 넣었다. 바짓단을 걷었을 때 바깥 솔기를 따라 보이는 붉은 선이 바로 그것이다.[^sullivan2006]',
       },
+      { type: 'thread', id: 'selvedge' },
       {
         type: 'p',
         text: '1980년대에 들어 빠르고 폭이 넓은 직기가 셔틀 직기를 대신했다. 넓은 원단은 가장자리를 잘라 내야 했고, 셀비지는 대량 생산 청바지에서 자취를 감췄다.[^sullivan2006]',
@@ -291,6 +299,7 @@ export const chapters: Chapter[] = [
         type: 'p',
         text: '어떤 디테일은 지금도 그대로이고, 어떤 것은 시대에 따라 모양을 바꿨다. 그리고 그 변화의 흔적은 바지를 뒤집었을 때 가장 잘 보인다.',
       },
+      { type: 'thread', id: 'anatomy' },
     ],
   },
   {
@@ -320,6 +329,7 @@ export const chapters: Chapter[] = [
         type: 'p',
         text: '그리고 혹시 옷장 깊은 곳에 오래된 청바지 한 벌이 있다면, 한번 뒤집어 보길 권한다.',
       },
+      { type: 'turn', text: '이 사이트도 뒤집어 보기' },
     ],
   },
 ];
