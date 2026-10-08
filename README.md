@@ -25,15 +25,31 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 
 ## Architecture
 
-- `src/data/chapters.ts`: 챕터 메타데이터와 본문 블록(문단, 소제목, 인용, 수치, 박스, 시각화). 본문의 `[^sourceId]`가 각주가 된다
+- `src/data/chapterMeta.ts`: 챕터 메타데이터(제목, 소개, 읽는 시간)와 본문 블록 타입
+- `src/content/chapters/<slug>.ts`: 챕터별 본문 블록(문단, 소제목, 인용, 수치, 박스, 시각화). 본문의 `[^sourceId]`가 각주가 된다
+- `src/data/chapters.ts`: 메타데이터 재수출과 챕터 본문 지연 로더(`loadChapterBlocks`)
 - `src/data/sources.ts`: 출처 목록
-- `src/editorial/`: 레이아웃, 마스트헤드, 목차 다이얼로그, 읽기 진행 바, 각주
-- `src/pages/`: 라우트별 페이지
-- `src/viz/`: 챕터별 SVG 시각화와 레지스트리. `JeanBack`은 연도별 501 뒷면 도식으로 03장과 상점이 함께 쓴다
+- `src/editorial/`: 레이아웃, 마스트헤드, 목차 다이얼로그, 읽기 진행 바, 각주, 링크 미리 불러오기, 청크 로딩 오류 경계
+- `src/pages/`: 라우트별 페이지. 표지 외에는 `loaders.ts`를 거쳐 지연 로딩
+- `src/viz/`: 챕터별 SVG 시각화와 지연 로딩 레지스트리. `JeanBack`은 연도별 501 뒷면 도식으로 03장과 상점이 함께 쓴다
 - `src/insideOut/`, `src/data/insideOut.ts`: 숨은 층(실밥 수집, 뒤집기 전환, 감정 단서와 추정 로직)
 - `src/shop/`, `src/data/shop.ts`: Heritage Line(상품 카드, 사이즈 추천기, 장바구니)
-- `src/hooks/`: Lenis 스무스 스크롤, 스크롤 스크럽, reveal, 문서 제목
+- `src/hooks/`, `src/lib/scrollTrigger.ts`: Lenis 스무스 스크롤, GSAP 스크롤 스크럽(지연 로딩), reveal, 문서 제목
 - `src/styles/`: 토큰, 에디토리얼 레이아웃, 시각화 스타일
+
+## Code Splitting
+
+| 청크 | gzip | 언제 받나 |
+| --- | --- | --- |
+| `vendor` (React, React Router, Lenis) | 약 79 KB | 처음. 앱 코드가 바뀌어도 해시가 유지돼 캐시가 산다 |
+| `index` (레이아웃, 표지, 메타데이터) | 약 12 KB | 처음 |
+| 페이지 (`ChapterPage`, `InsideOutPage` 등) | 1–5 KB | 해당 라우트에 들어갈 때 |
+| 챕터 본문 (`content/chapters/*`) | 0.4–1.5 KB | 그 챕터에 들어갈 때 |
+| 시각화 (`viz/*`) | 0.8–1.7 KB | 그 시각화가 있는 챕터에서 |
+| `gsap` | 약 45 KB | 스크롤 스크럽 시각화가 처음 필요할 때 |
+
+- 링크에 포인터를 올리거나 포커스하면 그 챕터의 페이지·본문·시각화를 미리 받고, 챕터를 다 그린 뒤 한가할 때 다음 챕터를 미리 받는다(데이터 절약 모드에서는 받지 않음).
+- 빌드 때 라우트별 HTML에 그 라우트가 쓸 청크를 `modulepreload`로 적어, 딥 링크로 바로 들어와도 차례로 기다리지 않는다.
 
 ## Accessibility
 
@@ -64,7 +80,7 @@ npm run assets:og
 
 `main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능).
 
-빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG가 들어갑니다. 본문은 클라이언트에서 렌더링합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapters.ts`와 `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
+빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG와 미리 받을 청크(`modulepreload`)가 들어갑니다. 본문은 클라이언트에서 렌더링합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapterMeta.ts`, `src/content/chapters/buildIndex.ts`, `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
 
 경로 설정은 두 곳입니다.
 

@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, Navigate, Outlet, useLocation, useMatch } from 'react-router';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { chapterBySlug, chapters } from '../data/chapters';
-import { getLenis, scrollToImmediate, useSmoothScroll } from '../hooks/useSmoothScroll';
+import { getLenis, refreshScrollPositions, scrollToImmediate, useSmoothScroll } from '../hooks/useSmoothScroll';
 import { SITE_NAME } from '../hooks/useDocumentTitle';
 import { InsideOutProvider, useInsideOut } from '../insideOut/InsideOutContext';
 import { Toast } from '../insideOut/Toast';
 import { CartProvider } from '../shop/CartContext';
 import { CartDrawer } from '../shop/CartDrawer';
+import { LoadErrorBoundary } from './LoadErrorBoundary';
+import { prefetchHandlers } from './prefetch';
 
 const MASTHEAD_OFFSET = -88;
 
@@ -27,6 +28,7 @@ function Site() {
   const [tocOpen, setTocOpen] = useState(false);
   const closeToc = useCallback(() => setTocOpen(false), []);
   const { isInside } = useInsideOut();
+  const { pathname } = useLocation();
 
   return (
     <div className={`site${isInside ? ' site--inside' : ''}`}>
@@ -38,11 +40,25 @@ function Site() {
       <TrailingSlash />
       <ScrollManager />
       <main id="main-content" tabIndex={-1}>
-        <Outlet />
+        <LoadErrorBoundary resetKey={pathname}>
+          <Suspense fallback={<PageLoading />}>
+            <Outlet />
+          </Suspense>
+        </LoadErrorBoundary>
       </main>
       <SiteFooter />
       <Toast />
       <CartDrawer />
+    </div>
+  );
+}
+
+/** 지연 로딩 페이지를 받는 동안의 자리. 높이를 잡아 두어 푸터가 위로 튀지 않게 한다. */
+export function PageLoading() {
+  return (
+    <div className="page-loading" role="status" aria-live="polite">
+      <span className="page-loading__thread" aria-hidden="true" />
+      <span className="visually-hidden">불러오는 중</span>
     </div>
   );
 }
@@ -195,6 +211,7 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
                 to={`/chapters/${chapter.slug}`}
                 className="toc__item"
                 aria-current={pathname === `/chapters/${chapter.slug}` ? 'page' : undefined}
+                {...prefetchHandlers(chapter.slug)}
               >
                 <span className="toc__num">{chapter.number}</span>
                 <span className="toc__title">{chapter.title}</span>
@@ -231,20 +248,41 @@ function ScrollManager() {
   const isFirst = useRef(true);
 
   useEffect(() => {
-    const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
-    if (target) {
-      scrollToImmediate(target, MASTHEAD_OFFSET);
-    } else {
-      scrollToImmediate(0);
-    }
-
     if (!isFirst.current) {
       document.getElementById('main-content')?.focus({ preventScroll: true });
     }
     isFirst.current = false;
 
-    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => cancelAnimationFrame(frame);
+    const id = hash ? decodeURIComponent(hash.slice(1)) : '';
+    if (!id) {
+      scrollToImmediate(0);
+      refreshScrollPositions();
+      return;
+    }
+
+    // 페이지가 지연 로딩되면 해시 대상이 아직 없을 수 있다. 나타날 때까지(최대 3초) 기다렸다가 이동한다.
+    const scrollToTarget = () => {
+      const target = document.getElementById(id);
+      if (target) {
+        scrollToImmediate(target, MASTHEAD_OFFSET);
+      }
+      return Boolean(target);
+    };
+    if (scrollToTarget()) {
+      return;
+    }
+    scrollToImmediate(0);
+    const observer = new MutationObserver(() => {
+      if (scrollToTarget()) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.getElementById('main-content') ?? document.body, { childList: true, subtree: true });
+    const timeout = window.setTimeout(() => observer.disconnect(), 3000);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timeout);
+    };
   }, [pathname, hash]);
 
   return null;

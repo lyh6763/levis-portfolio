@@ -1,5 +1,7 @@
 import { RefObject, useLayoutEffect } from 'react';
-import gsap from 'gsap';
+
+import { gsap } from '../lib/scrollTrigger';
+import { refreshScrollPositions } from './useSmoothScroll';
 
 type ScrubOptions = {
   start?: string;
@@ -40,6 +42,8 @@ export function useScrollScrub<T extends HTMLElement>(
       });
       build(tl, el);
     }, el);
+    // 시각화는 지연 로딩되어 늦게 끼어들므로, 들어온 뒤 페이지 전체의 트리거 위치를 다시 잰다.
+    refreshScrollPositions();
 
     return () => ctx.revert();
     // build/onProgress는 마운트 시점의 정의로 고정한다.

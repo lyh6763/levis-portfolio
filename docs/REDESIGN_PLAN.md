@@ -61,11 +61,20 @@ wear-in 스크롤 경험(v2)을 롱폼 에디토리얼(v3)로 전면 개편하�
 - Vite `base`를 `/levis-portfolio/`로, canonical·OG를 `VITE_SITE_URL` 절대 주소로
 - `scripts/prerenderRoutes.ts`: 라우트 16개의 `<path>/index.html`(라우트별 head), `404.html`(noindex), `sitemap.xml` 생성. 딥 링크가 404 대신 200으로 응답. 앱은 끝 `/`를 정리
 
+### 코드 스플리팅 (완료)
+
+- 첫 화면 JS gzip 약 160 kB → 약 91 kB (`vendor` 79 + `index` 12)
+- 챕터 본문을 `src/content/chapters/<slug>.ts`로 분리하고 메타데이터만 첫 번들에 남김
+- 표지 외 페이지와 시각화 9종을 지연 로딩. GSAP(45 kB)는 스크롤 스크럽 시각화와 함께 받음. Lenis는 자체 rAF(autoRaf)로 돌고 ScrollTrigger는 불러온 뒤에 연결
+- `vendor` 청크 분리로 앱 코드가 바뀌어도 라이브러리 캐시 유지
+- 라우트별 HTML에 modulepreload, 링크 포인터/포커스 시 미리 불러오기, 다음 챕터 유휴 시간 미리 불러오기
+- 청크 로딩 실패 시 오류 경계로 안내, 지연 로딩 페이지의 해시 대상은 나타날 때까지 기다렸다가 이동
+- 라우트 전환 직후 Lenis 내부 값이 이전 페이지 기준으로 남아 해시 이동이 목표를 지나치던 문제를 수정
+
 ### 남은 일
 
 - 단행본(Downey 2016, Sullivan 2006, Balfour-Paul 2011) 원문 대조
 - 실제 특허 도면(US 139,121, 퍼블릭 도메인) 이미지를 2장에 추가 검토
-- 챕터 단위 코드 스플리팅 (현재 단일 번들 JS gzip 약 160 kB)
 - 전체 화면 시각 QA(스크롤 애니메이션), Lighthouse 측정
 - 루트 `images/`의 v1 원본 PNG 29장은 어디서도 쓰이지 않음 (보존 여부 결정 필요)
 

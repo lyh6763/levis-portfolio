@@ -643,6 +643,73 @@ body {
   color: var(--color-ink-muted);
 }
 
+/* ---------- Loading & error (지연 로딩) ---------- */
+.page-loading {
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+}
+
+/* 한 땀씩 박히는 스티치 */
+.page-loading__thread {
+  width: 120px;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--color-topstitch-500) 0 8px, transparent 8px 14px);
+  background-size: 28px 2px;
+  animation: stitch-run 0.9s linear infinite;
+}
+
+@keyframes stitch-run {
+  to {
+    background-position: 28px 0;
+  }
+}
+
+.body--loading {
+  display: grid;
+  gap: 1.1em;
+  min-height: 60vh;
+}
+
+.body__skeleton {
+  display: block;
+  height: 1.1em;
+  max-width: var(--measure-text);
+  background: var(--color-paper-deep);
+  border-radius: var(--radius-sm);
+}
+
+.figure__loading {
+  min-height: 320px;
+  background: var(--color-paper-deep);
+}
+
+.load-error {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-width: var(--measure-text);
+  min-height: 50vh;
+  margin: 0 auto;
+  padding: var(--space-10) var(--grid-mobile-margin);
+  box-sizing: content-box;
+  font-family: var(--font-family-serif);
+  line-height: 1.8;
+}
+
+.load-error__title {
+  font-family: var(--font-family-display);
+  font-size: var(--type-heading-m);
+}
+
+.load-error__retry {
+  padding: 10px 20px;
+  border: 1px solid var(--color-ink-900);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-body);
+  color: var(--color-ink-900);
+}
+
 /* ---------- Footnotes ---------- */
 .fn {
   position: relative;
@@ -1019,6 +1086,10 @@ body {
   }
 
   .toc[open] {
+    animation: none;
+  }
+
+  .page-loading__thread {
     animation: none;
   }
 }

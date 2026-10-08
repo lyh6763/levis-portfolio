@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { Suspense, use, useEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router';
 
-import { Block, Chapter, chapterBySlug, chapters } from '../data/chapters';
+import { Block, Chapter, chapterBySlug, chapters, loadChapterBlocks } from '../data/chapters';
 import { modelByChapter } from '../data/shop';
 import { collectNotes, NotesContext, RichText, SourceCitation } from '../editorial/Footnote';
+import { prefetchChapter, prefetchHandlers } from '../editorial/prefetch';
 import { Reveal } from '../editorial/Reveal';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useInsideOut } from '../insideOut/InsideOutContext';
@@ -25,88 +26,130 @@ export function ChapterPage() {
 }
 
 function ChapterArticle({ chapter }: { chapter: Chapter }) {
-  const notes = useMemo(() => collectNotes(chapter.blocks), [chapter]);
   const index = chapters.indexOf(chapter);
   const prev = chapters[index - 1];
   const next = chapters[index + 1];
+
+  return (
+    <article className="chapter">
+      <header className="opener">
+        <div className="opener__inner">
+          <p className="opener__kicker">
+            Chapter {chapter.number} · {chapter.kicker}
+          </p>
+          <p className="opener__years" aria-hidden="true">
+            {chapter.years}
+          </p>
+          <h1 className="opener__title">{chapter.title}</h1>
+          <p className="opener__dek">{chapter.dek}</p>
+          <p className="opener__meta">
+            <span className="visually-hidden">시기 {chapter.years}, </span>
+            읽는 시간 약 {chapter.readMinutes}분
+          </p>
+        </div>
+      </header>
+
+      {/* 오프너와 챕터 이동은 메타데이터로 바로 그리고, 본문만 챕터 청크를 기다린다. */}
+      <Suspense fallback={<BodyLoading />}>
+        <ChapterBody chapter={chapter} nextSlug={next?.slug} />
+      </Suspense>
+
+      <nav className="chapter-nav" aria-label="챕터 이동">
+        {prev ? (
+          <Link
+            to={`/chapters/${prev.slug}`}
+            className="chapter-nav__link chapter-nav__link--prev"
+            {...prefetchHandlers(prev.slug)}
+          >
+            <span className="chapter-nav__dir">← Previous · {prev.number}</span>
+            <span className="chapter-nav__title">{prev.title}</span>
+          </Link>
+        ) : (
+          <Link to="/" className="chapter-nav__link chapter-nav__link--prev">
+            <span className="chapter-nav__dir">← Cover</span>
+            <span className="chapter-nav__title">Issue 501</span>
+          </Link>
+        )}
+        {next ? (
+          <Link
+            to={`/chapters/${next.slug}`}
+            className="chapter-nav__link chapter-nav__link--next"
+            {...prefetchHandlers(next.slug)}
+          >
+            <span className="chapter-nav__dir">Next · {next.number} →</span>
+            <span className="chapter-nav__title">{next.title}</span>
+          </Link>
+        ) : (
+          <Link to="/sources" className="chapter-nav__link chapter-nav__link--next">
+            <span className="chapter-nav__dir">Sources →</span>
+            <span className="chapter-nav__title">출처와 참고 문헌</span>
+          </Link>
+        )}
+      </nav>
+    </article>
+  );
+}
+
+function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: string }) {
+  const blocks = use(loadChapterBlocks(chapter.slug));
+  const notes = useMemo(() => collectNotes(blocks), [blocks]);
   const model = modelByChapter.get(chapter.slug);
+
+  // 본문을 다 그린 뒤 브라우저가 한가할 때 다음 챕터를 미리 받아 둔다.
+  useEffect(() => {
+    if (!nextSlug) {
+      return;
+    }
+    const idle = window.requestIdleCallback ?? ((callback: () => void) => window.setTimeout(callback, 1500));
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout;
+    const handle = idle(() => prefetchChapter(nextSlug));
+    return () => cancel(handle);
+  }, [nextSlug]);
 
   return (
     <NotesContext.Provider value={notes}>
-      <article className="chapter">
-        <header className="opener">
-          <div className="opener__inner">
-            <p className="opener__kicker">
-              Chapter {chapter.number} · {chapter.kicker}
-            </p>
-            <p className="opener__years" aria-hidden="true">
-              {chapter.years}
-            </p>
-            <h1 className="opener__title">{chapter.title}</h1>
-            <p className="opener__dek">{chapter.dek}</p>
-            <p className="opener__meta">
-              <span className="visually-hidden">시기 {chapter.years}, </span>
-              읽는 시간 약 {chapter.readMinutes}분
-            </p>
-          </div>
-        </header>
+      <div className="body">
+        {blocks.map((block, i) => (
+          <BlockView key={i} block={block} isFirst={i === 0} />
+        ))}
+      </div>
 
-        <div className="body">
-          {chapter.blocks.map((block, i) => (
-            <BlockView key={i} block={block} isFirst={i === 0} />
-          ))}
-        </div>
+      {model && (
+        <aside className="era-pick" aria-label="이 시대의 한 벌">
+          <ModelCard model={model} variant="chapter" kicker="이 시대의 한 벌 · Heritage Line" />
+        </aside>
+      )}
 
-        {model && (
-          <aside className="era-pick" aria-label="이 시대의 한 벌">
-            <ModelCard model={model} variant="chapter" kicker="이 시대의 한 벌 · Heritage Line" />
-          </aside>
-        )}
-
-        {notes.length > 0 && (
-          <section className="endnotes" aria-labelledby="endnotes-title">
-            <h2 id="endnotes-title" className="endnotes__title">
-              Notes
-            </h2>
-            <ol className="endnotes__list">
-              {notes.map((id, i) => (
-                <li key={id}>
-                  <span className="endnotes__num">{i + 1}</span>
-                  <span>
-                    <SourceCitation id={id} />
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
-
-        <nav className="chapter-nav" aria-label="챕터 이동">
-          {prev ? (
-            <Link to={`/chapters/${prev.slug}`} className="chapter-nav__link chapter-nav__link--prev">
-              <span className="chapter-nav__dir">← Previous · {prev.number}</span>
-              <span className="chapter-nav__title">{prev.title}</span>
-            </Link>
-          ) : (
-            <Link to="/" className="chapter-nav__link chapter-nav__link--prev">
-              <span className="chapter-nav__dir">← Cover</span>
-              <span className="chapter-nav__title">Issue 501</span>
-            </Link>
-          )}
-          {next ? (
-            <Link to={`/chapters/${next.slug}`} className="chapter-nav__link chapter-nav__link--next">
-              <span className="chapter-nav__dir">Next · {next.number} →</span>
-              <span className="chapter-nav__title">{next.title}</span>
-            </Link>
-          ) : (
-            <Link to="/sources" className="chapter-nav__link chapter-nav__link--next">
-              <span className="chapter-nav__dir">Sources →</span>
-              <span className="chapter-nav__title">출처와 참고 문헌</span>
-            </Link>
-          )}
-        </nav>
-      </article>
+      {notes.length > 0 && (
+        <section className="endnotes" aria-labelledby="endnotes-title">
+          <h2 id="endnotes-title" className="endnotes__title">
+            Notes
+          </h2>
+          <ol className="endnotes__list">
+            {notes.map((id, i) => (
+              <li key={id}>
+                <span className="endnotes__num">{i + 1}</span>
+                <span>
+                  <SourceCitation id={id} />
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
     </NotesContext.Provider>
+  );
+}
+
+/** 본문 청크를 받는 동안 문단 자리를 잡아 둔다. */
+function BodyLoading() {
+  return (
+    <div className="body body--loading" role="status" aria-live="polite">
+      <span className="visually-hidden">본문을 불러오는 중</span>
+      {[100, 96, 92, 98, 64].map((width, i) => (
+        <span key={i} className="body__skeleton" style={{ width: `${width}%` }} aria-hidden="true" />
+      ))}
+    </div>
   );
 }
 
@@ -168,7 +211,9 @@ function BlockView({ block, isFirst }: { block: Block; isFirst: boolean }) {
       const Viz = vizRegistry[block.id];
       return (
         <figure className="figure">
-          <Viz />
+          <Suspense fallback={<div className="figure__loading" role="status" aria-label="도식을 불러오는 중" />}>
+            <Viz />
+          </Suspense>
           <figcaption className="figure__caption">{block.caption}</figcaption>
         </figure>
       );

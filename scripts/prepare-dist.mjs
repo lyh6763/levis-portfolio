@@ -12,6 +12,7 @@ const targets = [
   'dist/sources',
   'dist/colophon',
   'dist/inside-out',
+  'dist/.vite',
 ];
 const transientErrors = new Set(['EBUSY', 'ENOTEMPTY', 'EPERM']);
 const maxAttempts = 8;

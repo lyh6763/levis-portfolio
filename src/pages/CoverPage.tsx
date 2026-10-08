@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 
 import { chapters, totalReadMinutes } from '../data/chapters';
 import { models } from '../data/shop';
+import { prefetchHandlers } from '../editorial/prefetch';
 import { SITE_NAME, useDocumentTitle } from '../hooks/useDocumentTitle';
 import { CoverDrawing } from '../viz/CoverDrawing';
 import { JeanBack } from '../viz/JeanBack';
@@ -24,7 +25,7 @@ export function CoverPage() {
             Levi&apos;s와 블루진의 150년을 아홉 개의 장으로 읽습니다.
           </p>
           <div className="cover__actions">
-            <Link to={`/chapters/${first.slug}`} className="cover__start">
+            <Link to={`/chapters/${first.slug}`} className="cover__start" {...prefetchHandlers(first.slug)}>
               읽기 시작 <span aria-hidden="true">→</span>
             </Link>
             <span className="cover__meta">
@@ -50,7 +51,7 @@ export function CoverPage() {
           <ol className="contents__list">
             {chapters.map((chapter) => (
               <li key={chapter.slug}>
-                <Link to={`/chapters/${chapter.slug}`} className="contents__item">
+                <Link to={`/chapters/${chapter.slug}`} className="contents__item" {...prefetchHandlers(chapter.slug)}>
                   <span className="contents__num">{chapter.number}</span>
                   <span className="contents__years">{chapter.years}</span>
                   <span className="contents__title">{chapter.title}</span>

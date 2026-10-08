@@ -1,14 +1,24 @@
+import { lazy } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Layout } from './editorial/Layout';
-import { ChapterPage } from './pages/ChapterPage';
-import { ColophonPage } from './pages/ColophonPage';
 import { CoverPage } from './pages/CoverPage';
-import { InsideOutPage } from './pages/InsideOutPage';
+import {
+  loadChapterPage,
+  loadColophonPage,
+  loadInsideOutPage,
+  loadProductPage,
+  loadShopPage,
+  loadSourcesPage,
+} from './pages/loaders';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { ProductPage } from './pages/ProductPage';
-import { ShopPage } from './pages/ShopPage';
-import { SourcesPage } from './pages/SourcesPage';
+
+const ChapterPage = lazy(() => loadChapterPage().then((m) => ({ default: m.ChapterPage })));
+const SourcesPage = lazy(() => loadSourcesPage().then((m) => ({ default: m.SourcesPage })));
+const ColophonPage = lazy(() => loadColophonPage().then((m) => ({ default: m.ColophonPage })));
+const InsideOutPage = lazy(() => loadInsideOutPage().then((m) => ({ default: m.InsideOutPage })));
+const ShopPage = lazy(() => loadShopPage().then((m) => ({ default: m.ShopPage })));
+const ProductPage = lazy(() => loadProductPage().then((m) => ({ default: m.ProductPage })));
 
 export default function App() {
   return (
