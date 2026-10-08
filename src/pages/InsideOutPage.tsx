@@ -14,9 +14,11 @@ import {
   formatYear,
   UNKNOWN,
 } from '../data/insideOut';
+import { modelsForRange } from '../data/shop';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { ClueGlyph } from '../insideOut/ClueGlyph';
 import { useInsideOut } from '../insideOut/InsideOutContext';
+import { ModelCard } from '../shop/ModelCard';
 
 const pct = (year: number) => ((year - DOMAIN[0]) / (DOMAIN[1] - DOMAIN[0])) * 100;
 const firstUnanswered = (answers: Answers) => {
@@ -172,6 +174,7 @@ function Result({ result, headingRef, onRestart, onEdit }: ResultProps) {
     const finding = result.findings.find((candidate) => candidate.clue === clue);
     return finding ? `${finding.clue.name}(${finding.option.label})` : '';
   };
+  const matches = modelsForRange(result.range);
   const skipped = clues.filter((clue) => !result.findings.some((finding) => finding.clue === clue));
 
   const copyLink = async () => {
@@ -248,6 +251,17 @@ function Result({ result, headingRef, onRestart, onEdit }: ResultProps) {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {!result.conflict && narrowed && (
+        <div className="result__models">
+          <p className="result__models-title">
+            {matches.exact ? '이 시대를 다시 지은 한 벌' : '이 시대와 가장 가까운 복각'}
+          </p>
+          {matches.models.map((model) => (
+            <ModelCard key={model.slug} model={model} variant="inline" />
+          ))}
         </div>
       )}
 

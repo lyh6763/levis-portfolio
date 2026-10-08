@@ -2,11 +2,13 @@ import { useMemo } from 'react';
 import { Link, useParams } from 'react-router';
 
 import { Block, Chapter, chapterBySlug, chapters } from '../data/chapters';
+import { modelByChapter } from '../data/shop';
 import { collectNotes, NotesContext, RichText, SourceCitation } from '../editorial/Footnote';
 import { Reveal } from '../editorial/Reveal';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useInsideOut } from '../insideOut/InsideOutContext';
 import { LooseThread } from '../insideOut/LooseThread';
+import { ModelCard } from '../shop/ModelCard';
 import { vizRegistry } from '../viz/registry';
 import { NotFoundPage } from './NotFoundPage';
 
@@ -27,6 +29,7 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
   const index = chapters.indexOf(chapter);
   const prev = chapters[index - 1];
   const next = chapters[index + 1];
+  const model = modelByChapter.get(chapter.slug);
 
   return (
     <NotesContext.Provider value={notes}>
@@ -53,6 +56,12 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
             <BlockView key={i} block={block} isFirst={i === 0} />
           ))}
         </div>
+
+        {model && (
+          <aside className="era-pick" aria-label="이 시대의 한 벌">
+            <ModelCard model={model} variant="chapter" kicker="이 시대의 한 벌 · Heritage Line" />
+          </aside>
+        )}
 
         {notes.length > 0 && (
           <section className="endnotes" aria-labelledby="endnotes-title">

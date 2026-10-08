@@ -8,6 +8,7 @@ import './styles/tokens.css';
 import './styles/editorial.css';
 import './styles/viz.css';
 import './styles/inside-out.css';
+import './styles/shop.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

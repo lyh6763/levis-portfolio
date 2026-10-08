@@ -2,11 +2,12 @@ import { useRef } from 'react';
 
 import { useScrollScrub } from '../hooks/useScrollScrub';
 
+// 라벨은 경로 선과 겹치지 않는 쪽에 둔다 (dx/dy는 점 기준 오프셋).
 const STOPS = [
-  { x: 820, y: 110, place: 'Buttenheim', note: '1829 출생', anchor: 'end' as const, dy: -22 },
-  { x: 560, y: 130, place: 'New York', note: '1847 이주', anchor: 'middle' as const, dy: -24 },
-  { x: 340, y: 300, place: 'Panama', note: '지협 횡단', anchor: 'middle' as const, dy: 36 },
-  { x: 100, y: 140, place: 'San Francisco', note: '1853 도착', anchor: 'start' as const, dy: -24 },
+  { x: 820, y: 110, place: 'Buttenheim', note: '1829 출생', anchor: 'middle' as const, dx: 0, dy: 34 },
+  { x: 560, y: 130, place: 'New York', note: '1847 이주', anchor: 'end' as const, dx: -16, dy: -14 },
+  { x: 340, y: 300, place: 'Panama', note: '지협 횡단', anchor: 'middle' as const, dx: 0, dy: 36 },
+  { x: 100, y: 140, place: 'San Francisco', note: '1853 도착', anchor: 'start' as const, dx: 16, dy: -10 },
 ];
 
 /** 이동 경로 도식. 서쪽이 왼쪽. 스크롤에 따라 선이 그려지고 기착지가 차례로 나타난다. */
@@ -51,10 +52,10 @@ export function RouteViz() {
         {STOPS.map((stop) => (
           <g className="route__stop" key={stop.place}>
             <circle cx={stop.x} cy={stop.y} r="7" />
-            <text x={stop.x} y={stop.y + stop.dy} textAnchor={stop.anchor} className="route__place">
+            <text x={stop.x + stop.dx} y={stop.y + stop.dy} textAnchor={stop.anchor} className="route__place">
               {stop.place}
             </text>
-            <text x={stop.x} y={stop.y + stop.dy + 18} textAnchor={stop.anchor} className="route__note">
+            <text x={stop.x + stop.dx} y={stop.y + stop.dy + 18} textAnchor={stop.anchor} className="route__note">
               {stop.note}
             </text>
           </g>

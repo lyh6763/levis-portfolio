@@ -21,6 +21,7 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 | `/sources` | 각주가 가리키는 출처 |
 | `/colophon` | 작업 소개, 비공식 고지 |
 | `/inside-out` | 숨은 층: 빈티지 501 연대 감정 도구 (풀린 실밥 5개, 09장 끝, 푸터 버튼으로 진입) |
+| `/shop`, `/shop/:slug` | Heritage Line: 시대별 복각 모델 콘셉트 커머스 (사이즈 추천기, 장바구니 데모, 결제 없음) |
 
 ## Architecture
 
@@ -28,7 +29,9 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 - `src/data/sources.ts`: 출처 목록
 - `src/editorial/`: 레이아웃, 마스트헤드, 목차 다이얼로그, 읽기 진행 바, 각주
 - `src/pages/`: 라우트별 페이지
-- `src/viz/`: 챕터별 SVG 시각화와 레지스트리
+- `src/viz/`: 챕터별 SVG 시각화와 레지스트리. `JeanBack`은 연도별 501 뒷면 도식으로 03장과 상점이 함께 쓴다
+- `src/insideOut/`, `src/data/insideOut.ts`: 숨은 층(실밥 수집, 뒤집기 전환, 감정 단서와 추정 로직)
+- `src/shop/`, `src/data/shop.ts`: Heritage Line(상품 카드, 사이즈 추천기, 장바구니)
 - `src/hooks/`: Lenis 스무스 스크롤, 스크롤 스크럽, reveal, 문서 제목
 - `src/styles/`: 토큰, 에디토리얼 레이아웃, 시각화 스타일
 
@@ -65,5 +68,5 @@ VITE_BASE_PATH=/ npm run build
 | --- | --- |
 | [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md) | v3 리디자인 기획, 우선순위, 진행 상태 |
 | [CASE_STUDY.md](CASE_STUDY.md) | v2(wear-in) 케이스 스터디 — v3 기준 재작성 예정 |
-| [docs/IMAGE_ASSET_PLAN.md](docs/IMAGE_ASSET_PLAN.md) | generated/placeholder 이미지 운용 (P2 커머스에서 재사용 예정) |
+| [docs/IMAGE_ASSET_PLAN.md](docs/IMAGE_ASSET_PLAN.md) | v2 generated/placeholder 이미지 운용 (현재 미사용, 정리 예정) |
 | `docs/legacy/` | 초기 정적 사이트 기획/리뷰 기록 |

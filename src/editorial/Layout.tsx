@@ -7,13 +7,17 @@ import { getLenis, scrollToImmediate, useSmoothScroll } from '../hooks/useSmooth
 import { SITE_NAME } from '../hooks/useDocumentTitle';
 import { InsideOutProvider, useInsideOut } from '../insideOut/InsideOutContext';
 import { Toast } from '../insideOut/Toast';
+import { CartProvider } from '../shop/CartContext';
+import { CartDrawer } from '../shop/CartDrawer';
 
 const MASTHEAD_OFFSET = -88;
 
 export function Layout() {
   return (
     <InsideOutProvider>
-      <Site />
+      <CartProvider>
+        <Site />
+      </CartProvider>
     </InsideOutProvider>
   );
 }
@@ -37,6 +41,7 @@ function Site() {
       </main>
       <SiteFooter />
       <Toast />
+      <CartDrawer />
     </div>
   );
 }
@@ -45,6 +50,7 @@ function Masthead({ onOpenToc }: { onOpenToc: () => void }) {
   const match = useMatch('/chapters/:slug');
   const chapter = match ? chapterBySlug.get(match.params.slug ?? '') : undefined;
   const { isInside } = useInsideOut();
+  const isShop = useLocation().pathname.startsWith('/shop');
 
   return (
     <header className="masthead">
@@ -61,6 +67,10 @@ function Masthead({ onOpenToc }: { onOpenToc: () => void }) {
           ) : isInside ? (
             <>
               <span className="masthead__num">↺</span> Inside out
+            </>
+          ) : isShop ? (
+            <>
+              <span className="masthead__num">◆</span> Heritage Line
             </>
           ) : null}
         </span>
@@ -193,6 +203,7 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
           ))}
         </ol>
         <div className="toc__foot">
+          <Link to="/shop">Heritage Line</Link>
           <Link to="/sources">Sources</Link>
           <Link to="/colophon">Colophon</Link>
         </div>
@@ -236,6 +247,7 @@ function SiteFooter() {
           Levi Strauss &amp; Co.와 관계없는 비공식 콘셉트 작업입니다. 상표는 각 소유자에게 있습니다.
         </p>
         <nav className="site-footer__links" aria-label="부가 링크">
+          <Link to="/shop">Heritage Line</Link>
           <Link to="/sources">Sources</Link>
           <Link to="/colophon">Colophon</Link>
           <button type="button" className="site-footer__turn" onClick={() => flip()}>

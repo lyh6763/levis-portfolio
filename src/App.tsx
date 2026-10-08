@@ -6,6 +6,8 @@ import { ColophonPage } from './pages/ColophonPage';
 import { CoverPage } from './pages/CoverPage';
 import { InsideOutPage } from './pages/InsideOutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { ProductPage } from './pages/ProductPage';
+import { ShopPage } from './pages/ShopPage';
 import { SourcesPage } from './pages/SourcesPage';
 
 export default function App() {
@@ -17,6 +19,8 @@ export default function App() {
         <Route path="sources" element={<SourcesPage />} />
         <Route path="colophon" element={<ColophonPage />} />
         <Route path="inside-out" element={<InsideOutPage />} />
+        <Route path="shop" element={<ShopPage />} />
+        <Route path="shop/:slug" element={<ProductPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

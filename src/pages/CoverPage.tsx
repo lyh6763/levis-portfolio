@@ -1,8 +1,10 @@
 import { Link } from 'react-router';
 
 import { chapters, totalReadMinutes } from '../data/chapters';
+import { models } from '../data/shop';
 import { SITE_NAME, useDocumentTitle } from '../hooks/useDocumentTitle';
 import { CoverDrawing } from '../viz/CoverDrawing';
+import { JeanBack } from '../viz/JeanBack';
 
 export function CoverPage() {
   useDocumentTitle(null);
@@ -58,6 +60,28 @@ export function CoverPage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="cover-shop" aria-labelledby="cover-shop-title">
+        <div className="cover-shop__inner">
+          <div className="cover-shop__text">
+            <p className="cover-shop__kicker">Heritage Line · Concept</p>
+            <h2 className="cover-shop__title" id="cover-shop-title">
+              읽은 시대를 입다.
+            </h2>
+            <p className="cover-shop__dek">
+              {models.map((model) => model.year).join(' · ')}. 책 속 세 시대의 501을 그 해의 디테일로 다시 짓는다면.
+            </p>
+            <Link to="/shop" className="cover-shop__link">
+              Heritage Line 보기 <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="cover-shop__art" aria-hidden="true">
+            {models.map((model) => (
+              <JeanBack key={model.slug} year={model.year} />
+            ))}
+          </div>
         </div>
       </section>
     </>
