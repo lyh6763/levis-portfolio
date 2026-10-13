@@ -2,13 +2,12 @@ import { sources } from '../data/sources';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export function SourcesPage() {
-  useDocumentTitle('Sources');
+  useDocumentTitle('출처');
 
   return (
     <article className="page">
       <header className="page__head">
-        <p className="page__kicker">Back matter</p>
-        <h1 className="page__title">Sources</h1>
+        <h1 className="page__title">출처</h1>
         <p className="page__dek">
           본문의 각주가 가리키는 자료입니다. 온라인 자료는 2026년 10월에 본문 서술과 대조했습니다. 단행본은 아직
           원문과 대조하지 못해 보조 근거로만 달았고, 따로 표시해 두었습니다.

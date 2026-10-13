@@ -92,10 +92,10 @@ export function InsideOutProvider({ children }: { children: ReactNode }) {
         next.size >= THREAD_GOAL
           ? {
               id: Date.now(),
-              text: `풀린 실밥 ${next.size}개를 모두 찾았습니다. 이 옷의 안쪽을 볼 차례예요.`,
+              text: `풀린 실밥 ${next.size}개를 모두 찾았습니다.`,
               action: { label: '뒤집어 보기', onClick: () => flip(INSIDE_PATH) },
             }
-          : { id: Date.now(), text: `풀린 실밥 ${next.size} / ${THREAD_GOAL}. 바지 안쪽에 무언가 있습니다.` },
+          : { id: Date.now(), text: `풀린 실밥 ${next.size} / ${THREAD_GOAL}` },
       );
     },
     [threads, flip],
@@ -129,10 +129,10 @@ function FlipOverlay({ direction }: { direction: 'in' | 'out' }) {
     <div className={`flip flip--${direction}`} aria-hidden="true">
       <div className="flip__sheet">
         <div className="flip__face flip__face--front">
-          <span>Face</span>
+          <span>겉면</span>
         </div>
         <div className="flip__face flip__face--back">
-          <span>Inside out</span>
+          <span>안쪽</span>
         </div>
       </div>
     </div>

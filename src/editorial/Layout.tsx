@@ -75,7 +75,6 @@ function Masthead({ onOpenToc }: { onOpenToc: () => void }) {
         <Link to="/" className="masthead__brand">
           {SITE_NAME}
         </Link>
-        <span className="masthead__issue">Issue 501</span>
         <span className="masthead__current" aria-live="polite">
           {chapter ? (
             <>
@@ -192,7 +191,7 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
     >
       <div className="toc__inner">
         <div className="toc__head">
-          <span className="toc__label">Contents</span>
+          <span className="toc__label">목차</span>
           <button type="button" className="toc__close" onClick={onClose}>
             닫기
           </button>
@@ -201,8 +200,8 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
           <li>
             <Link to="/" className="toc__item">
               <span className="toc__num">00</span>
-              <span className="toc__title">Cover</span>
-              <span className="toc__years">Issue 501</span>
+              <span className="toc__title">표지</span>
+              <span className="toc__years" />
             </Link>
           </li>
           {chapters.map((chapter) => (
@@ -222,8 +221,8 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
         </ol>
         <div className="toc__foot">
           <Link to="/shop">Heritage Line</Link>
-          <Link to="/sources">Sources</Link>
-          <Link to="/colophon">Colophon</Link>
+          <Link to="/sources">출처</Link>
+          <Link to="/colophon">사이트 소개</Link>
         </div>
       </div>
     </dialog>
@@ -299,10 +298,10 @@ function SiteFooter() {
         </p>
         <nav className="site-footer__links" aria-label="부가 링크">
           <Link to="/shop">Heritage Line</Link>
-          <Link to="/sources">Sources</Link>
-          <Link to="/colophon">Colophon</Link>
+          <Link to="/sources">출처</Link>
+          <Link to="/colophon">사이트 소개</Link>
           <button type="button" className="site-footer__turn" onClick={() => flip()}>
-            {isInside ? 'Face' : 'Inside out'} <span aria-hidden="true">↺</span>
+            {isInside ? '겉면으로' : 'Inside out'} <span aria-hidden="true">↺</span>
           </button>
         </nav>
       </div>

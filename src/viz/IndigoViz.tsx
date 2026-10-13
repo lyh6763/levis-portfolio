@@ -48,13 +48,13 @@ export function IndigoViz() {
             )}
           </g>
         </svg>
-        <p className="indigo__label">Cross-section</p>
+        <p className="indigo__label">실 단면</p>
       </div>
 
       <div className="indigo__panel indigo__panel--data">
         <p className="indigo__dips">
           <span className="indigo__big">{dips}</span>
-          <span className="indigo__unit">/ {MAX_DIPS} dips</span>
+          <span className="indigo__unit">/ {MAX_DIPS}회 담금</span>
         </p>
         <p className="indigo__hint">담글 때마다 초록에서 파랑으로 산화하며 색이 깊어집니다.</p>
 

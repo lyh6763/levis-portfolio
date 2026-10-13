@@ -51,7 +51,7 @@
   gap: var(--space-2);
   padding: 6px 14px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   color: var(--color-ink-900);
@@ -79,16 +79,6 @@
   margin: 0 auto;
   padding: var(--space-9) var(--grid-desktop-margin) var(--space-7);
   box-sizing: content-box;
-}
-
-.shop__kicker,
-.pdp__kicker,
-.cover-shop__kicker {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-accent-selvedge);
 }
 
 .shop__title {
@@ -219,15 +209,6 @@
   margin-top: var(--space-2);
   font-family: var(--font-family-mono);
   font-size: var(--type-body-s);
-}
-
-.model-card__more {
-  display: inline-block;
-  transition: transform var(--motion-dur-micro);
-}
-
-.model-card:hover .model-card__more {
-  transform: translateX(4px);
 }
 
 /* 챕터 끝과 감정 결과에서는 가로 배치 */
@@ -464,14 +445,8 @@
 .pdp__features li {
   padding: 4px 10px;
   border: 1px solid var(--color-rule);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-tab);
   font-size: var(--type-caption);
-}
-
-.pdp__section .pdp__hint {
-  font-family: var(--font-family-body);
-  font-size: var(--type-caption);
-  color: var(--color-ink-muted);
 }
 
 .pdp__others {
@@ -594,7 +569,7 @@
   justify-self: start;
   padding: 10px 18px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-size: var(--type-body-s);
   font-weight: 600;
   color: var(--color-ink-900);
@@ -656,7 +631,7 @@
 .cart__close {
   padding: 6px 14px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   color: var(--color-ink-900);
@@ -894,7 +869,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .model-card,
-  .model-card__more,
   .advisor__bar {
     transition: none;
   }

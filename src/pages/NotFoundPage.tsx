@@ -8,8 +8,8 @@ export function NotFoundPage() {
   return (
     <article className="page page--center">
       <p className="page__kicker">404</p>
-      <h1 className="page__title">Unravelled.</h1>
-      <p className="page__dek">실이 풀린 자리입니다. 찾으시는 페이지가 없어요.</p>
+      <h1 className="page__title">페이지를 찾을 수 없습니다</h1>
+      <p className="page__dek">주소가 바뀌었거나 없는 페이지입니다.</p>
       <Link to="/" className="cover__start">
         표지로 돌아가기
       </Link>

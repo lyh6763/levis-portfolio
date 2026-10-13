@@ -22,9 +22,7 @@ export function ModelCard({ model, variant = 'grid', kicker }: ModelCardProps) {
         <p className="model-card__year">{model.year}</p>
         <h3 className="model-card__name">{model.name}</h3>
         <p className="model-card__tagline">{model.tagline}</p>
-        <p className="model-card__price">
-          {formatPrice(model.price)} <span className="model-card__more" aria-hidden="true">→</span>
-        </p>
+        <p className="model-card__price">{formatPrice(model.price)}</p>
       </div>
     </Link>
   );

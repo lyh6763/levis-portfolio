@@ -15,7 +15,7 @@ export function CoverPage() {
     <>
       <section className="cover" aria-labelledby="cover-title">
         <div className="cover__inner">
-          <p className="cover__issue">Issue 501 · An unofficial long read</p>
+          <p className="cover__issue">Levi&apos;s 비공식 연대기</p>
           <h1 className="cover__title" id="cover-title">
             {SITE_NAME}
           </h1>
@@ -26,7 +26,7 @@ export function CoverPage() {
           </p>
           <div className="cover__actions">
             <Link to={`/chapters/${first.slug}`} className="cover__start" {...prefetchHandlers(first.slug)}>
-              읽기 시작 <span aria-hidden="true">→</span>
+              읽기 시작
             </Link>
             <span className="cover__meta">
               {chapters.length}개 챕터 · 약 {totalReadMinutes}분
@@ -40,12 +40,13 @@ export function CoverPage() {
         <div className="contents__inner">
           <div className="contents__intro">
             <h2 className="contents__label" id="contents-title">
-              Contents
+              목차
             </h2>
             <p className="contents__letter">
-              날실은 푸르고 씨실은 희다. 데님은 겉으로 보이는 색과 안에 숨은 색이 함께 짜인 옷이다. 이 기록도
-              그렇게 읽히길 바란다. 겉으로는 한 브랜드의 연대기지만, 안쪽에는 노동과 이주, 전쟁과 반항, 그리고
-              오래 입는 일에 대한 이야기가 함께 짜여 있다.
+              01–04장은 1847년부터 1971년까지의 사람과 사건을 따라가고, 05·06장은 염료와 직기, 07장은 청바지가
+              세계로 퍼진 경로, 08장은 501 한 벌의 부품을 다룬다. 09장은 한 벌이 생애 동안 쓰는 물에 관한 짧은
+              글이다. 사실 서술에는 각주로 출처를 달았고, 자료마다 연도가 엇갈리는 곳은 &lsquo;무렵&rsquo;이라고
+              적었다.
             </p>
           </div>
           <ol className="contents__list">
@@ -56,7 +57,7 @@ export function CoverPage() {
                   <span className="contents__years">{chapter.years}</span>
                   <span className="contents__title">{chapter.title}</span>
                   <span className="contents__dek">{chapter.dek}</span>
-                  <span className="contents__time">{chapter.readMinutes} min</span>
+                  <span className="contents__time">{chapter.readMinutes}분</span>
                 </Link>
               </li>
             ))}
@@ -67,15 +68,15 @@ export function CoverPage() {
       <section className="cover-shop" aria-labelledby="cover-shop-title">
         <div className="cover-shop__inner">
           <div className="cover-shop__text">
-            <p className="cover-shop__kicker">Heritage Line · Concept</p>
             <h2 className="cover-shop__title" id="cover-shop-title">
-              읽은 시대를 입다.
+              Heritage Line
             </h2>
             <p className="cover-shop__dek">
-              {models.map((model) => model.year).join(' · ')}. 책 속 세 시대의 501을 그 해의 디테일로 다시 짓는다면.
+              본문에 나온 세 시대({models.map((model) => model.year).join(', ')})의 501을 그해 디테일대로 복각한다고
+              가정한 콘셉트 상점입니다. 실제로 판매하지 않습니다.
             </p>
             <Link to="/shop" className="cover-shop__link">
-              Heritage Line 보기 <span aria-hidden="true">→</span>
+              상점 둘러보기
             </Link>
           </div>
           <div className="cover-shop__art" aria-hidden="true">

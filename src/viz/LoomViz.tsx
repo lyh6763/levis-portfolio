@@ -35,10 +35,10 @@ export function LoomViz() {
     <div className={`viz loom${isBack ? ' is-back' : ''}`}>
       <div className="loom__toggle" role="group" aria-label="원단 면 선택">
         <button type="button" aria-pressed={!isBack} onClick={() => setSide('face')}>
-          앞면 · Face
+          앞면
         </button>
         <button type="button" aria-pressed={isBack} onClick={() => setSide('back')}>
-          뒷면 · Back
+          뒷면
         </button>
       </div>
 
@@ -57,23 +57,23 @@ export function LoomViz() {
 
       <div className="loom__legend" aria-hidden="true">
         <span>
-          <i className="loom__key loom__key--warp" /> 날실 Warp (인디고)
+          <i className="loom__key loom__key--warp" /> 날실 (인디고)
         </span>
         <span>
-          <i className="loom__key loom__key--weft" /> 씨실 Weft (흰색)
+          <i className="loom__key loom__key--weft" /> 씨실 (흰색)
         </span>
       </div>
 
       <svg className="loom__widths" viewBox="0 0 420 132" role="img" aria-label="셔틀 직기 원단 폭 약 76cm, 현대 직기 원단 폭 약 150cm 이상 비교">
         <text className="loom__wlabel" x="0" y="14">
-          Shuttle loom · ≈ 30in (76cm)
+          셔틀 직기 · 약 76cm (30인치)
         </text>
         <rect className="loom__bolt" x="0" y="22" width="190" height="28" />
         <rect className="loom__selvedge" x="0" y="22" width="4" height="28" />
         <rect className="loom__selvedge" x="186" y="22" width="4" height="28" />
 
         <text className="loom__wlabel" x="0" y="84">
-          Projectile loom · ≈ 60in+ (150cm+)
+          현대 직기 · 약 150cm 이상 (60인치+)
         </text>
         <rect className="loom__bolt" x="0" y="92" width="380" height="28" />
         <path className="loom__fray" d="M0,92 l-4,4 l4,4 l-4,4 l4,4 l-4,4 l4,4 l-4,4" />

@@ -153,7 +153,7 @@
   padding: 8px 14px;
   background: var(--color-ecru-50);
   color: var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -287,14 +287,6 @@
   margin: 0 auto;
   padding: var(--space-9) var(--grid-mobile-margin) var(--space-10);
   box-sizing: content-box;
-}
-
-.inside__kicker {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-accent-selvedge);
 }
 
 .inside__title {
@@ -496,14 +488,6 @@
   animation: clue-in 0.4s var(--motion-ease-ui);
 }
 
-.result__kicker {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
-}
-
 .result__title {
   margin: var(--space-2) 0 var(--space-4);
   font-family: var(--font-family-display);
@@ -568,7 +552,7 @@
   background: var(--color-accent-selvedge);
   color: var(--color-ecru-50);
   font-size: 11px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-tab);
 }
 
 .finding__links {
@@ -609,7 +593,7 @@
 .result__skipped button {
   padding: 6px 12px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-size: var(--type-caption);
   color: var(--color-ink-900);
 }
@@ -629,7 +613,7 @@
 .result__primary,
 .result__secondary {
   padding: 12px 22px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: var(--type-body-s);
 }

@@ -56,20 +56,20 @@ export function routeMetas(): RouteMeta[] {
     }),
     {
       path: 'sources',
-      title: 'Sources',
+      title: '출처',
       description: 'WARP & WEFT 본문 각주가 가리키는 자료와, 자료마다 본문과 대조했는지를 정리한 출처 목록.',
       preload: ['src/pages/SourcesPage.tsx'],
     },
     {
       path: 'colophon',
-      title: 'Colophon',
+      title: '사이트 소개',
       description: 'WARP & WEFT가 무엇이고 어떻게 만들어졌는지. 편집 원칙, 타이포그래피, 사용한 기술.',
       preload: ['src/pages/ColophonPage.tsx'],
     },
     {
       path: 'shop',
       title: 'Heritage Line',
-      description: '책 속 세 시대의 501을 그 해의 디테일로 다시 짓는다면. 1890 XX, 1944 Wartime, 1966 Big E (콘셉트 데모).',
+      description: '본문에 나온 세 시대의 501을 그해 디테일대로 복각한다고 가정한 콘셉트 상점. 1890 XX, 1944 Wartime, 1966 Big E (판매하지 않음).',
       preload: ['src/pages/ShopPage.tsx'],
     },
     ...models.map((model) => ({

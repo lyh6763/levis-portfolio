@@ -635,12 +635,12 @@
   display: inline-flex;
   padding: 3px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
 }
 
 .loom__toggle button {
   padding: 8px 18px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-tab);
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   letter-spacing: 0.06em;

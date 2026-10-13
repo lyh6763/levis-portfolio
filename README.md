@@ -1,6 +1,6 @@
 # WARP & WEFT | Levi's와 블루진의 150년
 
-Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토리얼 포트폴리오입니다. 사진 대신 타이포그래피와 직접 그린 SVG 도식으로 이야기를 전하고, 모든 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
+Levi's와 블루진의 역사를 각주 달린 아홉 개의 짧은 장으로 읽는 포트폴리오입니다. 사진 대신 타이포그래피와 SVG 도식으로 이야기를 전하고, 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
 
 > 기획 배경과 구현 과정은 [CASE_STUDY.md](CASE_STUDY.md), 우선순위와 진행 상태는 [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md)에 있습니다.
 
@@ -10,7 +10,7 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 - React Router (챕터별 라우트)
 - GSAP ScrollTrigger + Lenis
 - CSS Custom Properties 기반 디자인 토큰
-- GitHub Pages 배포 기준 Vite `base` + `404.html` fallback
+- GitHub Pages(Actions) 배포, 빌드 때 라우트별 HTML 미리 생성
 
 ## Structure
 
@@ -55,7 +55,7 @@ Levi's와 블루진의 역사를 아홉 개의 장으로 읽는 롱폼 에디토
 
 - `prefers-reduced-motion`이면 Lenis와 스크롤 스크럽을 끄고 시각화를 최종 상태로 렌더링합니다.
 - skip link, `main` landmark, 라우트 전환 시 본문 포커스 이동, `focus-visible`.
-- 목차는 네이티브 `<dialog>`(포커스 트랩, Escape), 각주는 `aria-expanded` 버튼 + 팝오버, 챕터 끝 Notes 목록 제공.
+- 목차는 네이티브 `<dialog>`(포커스 트랩, Escape), 각주는 `aria-expanded` 버튼 + 팝오버, 챕터 끝에 주 목록 제공.
 - 슬라이더 시각화는 네이티브 range input과 `aria-live` 요약을 함께 제공합니다.
 
 ## Scripts

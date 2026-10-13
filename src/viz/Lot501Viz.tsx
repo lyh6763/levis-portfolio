@@ -35,19 +35,19 @@ export function Lot501Viz() {
           </p>
           <dl className="lot__specs">
             <div>
-              <dt>Red Tab</dt>
+              <dt>레드탭</dt>
               <dd>{f.redTab ? <span className="lot__tabtext">{f.redTab}</span> : '—'}</dd>
             </div>
             <div>
-              <dt>Back rivets</dt>
+              <dt>뒷주머니 리벳</dt>
               <dd>{RIVET_LABEL[f.rivets]}</dd>
             </div>
             <div>
-              <dt>Arcuate</dt>
+              <dt>아큐에이트</dt>
               <dd>{f.paintedArcuate ? '페인트' : '스티치'}</dd>
             </div>
             <div>
-              <dt>Patch</dt>
+              <dt>패치</dt>
               <dd>{f.paperPatch ? '종이' : '가죽'}</dd>
             </div>
           </dl>

@@ -34,12 +34,13 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
     <article className="chapter">
       <header className="opener">
         <div className="opener__inner">
-          <p className="opener__kicker">
-            Chapter {chapter.number} · {chapter.kicker}
-          </p>
-          <p className="opener__years" aria-hidden="true">
-            {chapter.years}
-          </p>
+          <p className="opener__kicker">제{Number(chapter.number)}장</p>
+          {/* 배경의 큰 연도는 숫자 구간일 때만 깐다 ('염료', '현재' 같은 말은 기울인 한글로 키우면 어색하다). */}
+          {/^[\d–]+$/.test(chapter.years) && (
+            <p className="opener__years" aria-hidden="true">
+              {chapter.years}
+            </p>
+          )}
           <h1 className="opener__title">{chapter.title}</h1>
           <p className="opener__dek">{chapter.dek}</p>
           <p className="opener__meta">
@@ -61,13 +62,13 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
             className="chapter-nav__link chapter-nav__link--prev"
             {...prefetchHandlers(prev.slug)}
           >
-            <span className="chapter-nav__dir">← Previous · {prev.number}</span>
+            <span className="chapter-nav__dir">← 이전 · {prev.number}</span>
             <span className="chapter-nav__title">{prev.title}</span>
           </Link>
         ) : (
           <Link to="/" className="chapter-nav__link chapter-nav__link--prev">
-            <span className="chapter-nav__dir">← Cover</span>
-            <span className="chapter-nav__title">Issue 501</span>
+            <span className="chapter-nav__dir">← 처음으로</span>
+            <span className="chapter-nav__title">표지와 목차</span>
           </Link>
         )}
         {next ? (
@@ -76,12 +77,12 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
             className="chapter-nav__link chapter-nav__link--next"
             {...prefetchHandlers(next.slug)}
           >
-            <span className="chapter-nav__dir">Next · {next.number} →</span>
+            <span className="chapter-nav__dir">다음 · {next.number} →</span>
             <span className="chapter-nav__title">{next.title}</span>
           </Link>
         ) : (
           <Link to="/sources" className="chapter-nav__link chapter-nav__link--next">
-            <span className="chapter-nav__dir">Sources →</span>
+            <span className="chapter-nav__dir">다음 →</span>
             <span className="chapter-nav__title">출처와 참고 문헌</span>
           </Link>
         )}
@@ -110,20 +111,20 @@ function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: strin
     <NotesContext.Provider value={notes}>
       <div className="body">
         {blocks.map((block, i) => (
-          <BlockView key={i} block={block} isFirst={i === 0} />
+          <BlockView key={i} block={block} />
         ))}
       </div>
 
       {model && (
         <aside className="era-pick" aria-label="이 시대의 한 벌">
-          <ModelCard model={model} variant="chapter" kicker="이 시대의 한 벌 · Heritage Line" />
+          <ModelCard model={model} variant="chapter" kicker="이 시대를 복각한 콘셉트 상품" />
         </aside>
       )}
 
       {notes.length > 0 && (
         <section className="endnotes" aria-labelledby="endnotes-title">
           <h2 id="endnotes-title" className="endnotes__title">
-            Notes
+            주
           </h2>
           <ol className="endnotes__list">
             {notes.map((id, i) => (
@@ -167,11 +168,11 @@ function TurnButton({ text }: { text: string }) {
   );
 }
 
-function BlockView({ block, isFirst }: { block: Block; isFirst: boolean }) {
+function BlockView({ block }: { block: Block }) {
   switch (block.type) {
     case 'p':
       return (
-        <p className={`body__p${isFirst ? ' body__p--lead' : ''}`}>
+        <p className="body__p">
           <RichText text={block.text} />
         </p>
       );

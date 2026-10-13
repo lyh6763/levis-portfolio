@@ -4,10 +4,10 @@ import { useScrollScrub } from '../hooks/useScrollScrub';
 
 // 라벨은 경로 선과 겹치지 않는 쪽에 둔다 (dx/dy는 점 기준 오프셋).
 const STOPS = [
-  { x: 820, y: 110, place: 'Buttenheim', note: '1829 출생', anchor: 'middle' as const, dx: 0, dy: 34 },
-  { x: 560, y: 130, place: 'New York', note: '1847 이주', anchor: 'end' as const, dx: -16, dy: -14 },
-  { x: 340, y: 300, place: 'Panama', note: '지협 횡단', anchor: 'middle' as const, dx: 0, dy: 36 },
-  { x: 100, y: 140, place: 'San Francisco', note: '1853 도착', anchor: 'start' as const, dx: 16, dy: -10 },
+  { x: 820, y: 110, place: '부텐하임', note: '1829 출생', anchor: 'middle' as const, dx: 0, dy: 34 },
+  { x: 560, y: 130, place: '뉴욕', note: '1847 이주', anchor: 'end' as const, dx: -16, dy: -14 },
+  { x: 340, y: 300, place: '파나마', note: '지협 횡단', anchor: 'middle' as const, dx: 0, dy: 36 },
+  { x: 100, y: 140, place: '샌프란시스코', note: '1853 도착', anchor: 'start' as const, dx: 16, dy: -10 },
 ];
 
 /** 이동 경로 도식. 서쪽이 왼쪽. 스크롤에 따라 선이 그려지고 기착지가 차례로 나타난다. */
@@ -40,10 +40,10 @@ export function RouteViz() {
           ))}
         </g>
         <text className="route__sea" x="700" y="240">
-          ATLANTIC
+          대서양
         </text>
         <text className="route__sea" x="120" y="320">
-          PACIFIC
+          태평양
         </text>
         <path
           className="route__path"

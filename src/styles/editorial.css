@@ -1,6 +1,6 @@
 /* ============================================================
    WARP & WEFT — Editorial layout
-   지면(paper) 위의 롱폼. 챕터 오프너만 인디고 풀블리드.
+   밝은 지면 위의 본문. 표지와 챕터 첫 화면만 인디고 바탕을 화면 폭 가득 깐다.
    ============================================================ */
 
 html {
@@ -91,7 +91,7 @@ body {
 
 .masthead__inner {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
   height: var(--masthead-h);
@@ -106,17 +106,12 @@ body {
   font-variation-settings: 'opsz' 72;
 }
 
-.masthead__issue,
 .masthead__current,
 .masthead__toc {
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.masthead__issue {
-  color: var(--color-ink-muted);
 }
 
 .masthead__current {
@@ -133,7 +128,7 @@ body {
 .masthead__toc {
   padding: 6px 14px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   color: var(--color-ink-900);
   transition:
     background var(--motion-dur-micro),
@@ -216,7 +211,7 @@ body {
 .toc__close {
   padding: 6px 14px;
   border: 1px solid currentColor;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
 }
 
 .toc__item {
@@ -335,7 +330,7 @@ body {
   background: var(--color-accent-selvedge);
   color: var(--color-ecru-50);
   font-weight: 600;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   transition: background var(--motion-dur-micro);
 }
 
@@ -532,16 +527,6 @@ body {
   word-break: keep-all;
 }
 
-.body__p--lead::first-letter {
-  float: left;
-  margin: 0.08em 0.12em 0 0;
-  font-family: var(--font-family-display);
-  font-size: 4.2em;
-  font-weight: 700;
-  line-height: 0.8;
-  color: var(--color-indigo-900);
-}
-
 .body__h {
   margin-top: var(--space-8);
   margin-bottom: var(--space-5);
@@ -707,7 +692,7 @@ body {
 .load-error__retry {
   padding: 10px 20px;
   border: 1px solid var(--color-ink-900);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
   font-family: var(--font-family-body);
   color: var(--color-ink-900);
 }
@@ -945,7 +930,7 @@ body {
   justify-self: start;
   padding: 1px 8px;
   border: 1px dashed var(--color-ink-muted);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-tab);
   font-family: var(--font-family-mono);
   font-size: 11px;
   color: var(--color-ink-muted);
@@ -1026,12 +1011,7 @@ body {
 
 @media (max-width: 768px) {
   .masthead__inner {
-    grid-template-columns: auto 1fr auto;
     padding: 0 var(--grid-mobile-margin);
-  }
-
-  .masthead__issue {
-    display: none;
   }
 
   .cover,

@@ -49,11 +49,10 @@ function Product({ model }: { model: Model }) {
       <div className="pdp">
         <div className="pdp__art">
           <JeanBack year={model.year} label={`${model.name} 뒷면 도식: ${describeFeatures(model.year).join(', ')}`} />
-          <p className="pdp__art-caption">Back view · {model.year} 디테일 기준 도식</p>
+          <p className="pdp__art-caption">{model.year}년 디테일로 그린 뒷면 도식</p>
         </div>
 
         <div className="pdp__buy">
-          <p className="pdp__kicker">Heritage Line · Lot 501</p>
           <h1 className="pdp__name">{model.name}</h1>
           <p className="pdp__price">
             {formatPrice(model.price)} <span className="pdp__price-note">콘셉트 데모의 가상 가격</span>
@@ -137,7 +136,7 @@ function Product({ model }: { model: Model }) {
           ))}
           {chapter && (
             <Link to={`/chapters/${chapter.slug}`} className="pdp__chapter-link">
-              Chapter {chapter.number} · {chapter.title} 읽기 →
+              {chapter.number} {chapter.title} 읽기
             </Link>
           )}
         </section>
@@ -168,9 +167,6 @@ function Product({ model }: { model: Model }) {
               <li key={feature}>{feature}</li>
             ))}
           </ul>
-          <p className="pdp__hint">
-            빈티지 한 벌의 나이가 궁금하다면, 이 디테일들이 단서가 됩니다. 사이트 맨 아래의 Inside out을 눌러 보세요.
-          </p>
         </section>
       </div>
 

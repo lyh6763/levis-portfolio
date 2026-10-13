@@ -68,16 +68,16 @@ export function AnatomyViz() {
           </g>
 
           <g className="anatomy__labels" aria-hidden="true">
-            <text x="300" y="40">Waistband + belt loops · 1922</text>
-            <text x="540" y="60">Arcuate · 1873</text>
-            <text x="556" y="116">Two Horse patch · 1886</text>
-            <text x="556" y="196">Back pocket</text>
+            <text x="300" y="40">허리띠·벨트 고리 · 1922</text>
+            <text x="540" y="60">아큐에이트 · 1873</text>
+            <text x="556" y="116">가죽 패치 · 1886</text>
+            <text x="556" y="196">뒷주머니</text>
             <text className="is-red" x="556" y="258">
-              Red Tab · 1936
+              레드탭 · 1936
             </text>
-            <text x="520" y="342">Copper rivet · 1873</text>
-            <text x="150" y="338">Second pocket · 1901</text>
-            <text x="320" y="456">XX denim · 1873</text>
+            <text x="520" y="342">구리 리벳 · 1873</text>
+            <text x="150" y="338">두 번째 뒷주머니 · 1901</text>
+            <text x="320" y="456">XX 데님 · 1873</text>
           </g>
 
           <g id="anBody">

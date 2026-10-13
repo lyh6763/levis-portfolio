@@ -62,7 +62,6 @@ export function InsideOutPage() {
   return (
     <article className="inside">
       <header className="inside__head">
-        <p className="inside__kicker">Inside out · 빈티지 501 감정</p>
         <h1 className="inside__title">이 청바지는 몇 년생일까?</h1>
         <p className="inside__dek">
           수집가들은 청바지를 손에 넣으면 먼저 뒤집어 봅니다. 여덟 가지 단서를 차례로 확인하면, 아래 연표 위에서
@@ -76,7 +75,7 @@ export function InsideOutPage() {
         <section className="clue" aria-labelledby="clue-title">
           <div className="clue__top">
             <p className="clue__count">
-              Clue {step + 1} / {clues.length}
+              단서 {step + 1} / {clues.length}
             </p>
             {step > 0 && (
               <button type="button" className="clue__back" onClick={() => setStep(step - 1)}>
@@ -189,7 +188,6 @@ function Result({ result, headingRef, onRestart, onEdit }: ResultProps) {
 
   return (
     <section className="result" aria-labelledby="result-title">
-      <p className="result__kicker">Estimate</p>
       <h2 className="result__title" id="result-title" ref={headingRef} tabIndex={-1}>
         {result.conflict ? '맞지 않는 단서' : narrowed ? `${formatYear(from)} – ${formatYear(to)}` : '단서가 더 필요해요'}
       </h2>
