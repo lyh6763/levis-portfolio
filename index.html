@@ -31,10 +31,22 @@
     <meta name="twitter:image" content="%VITE_SITE_URL%images/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      웹폰트는 화면 표시를 막지 않게 불러온다(preload 후 stylesheet로 전환). 그전까지는 기본 서체로 그린다.
+      인터페이스 한글은 기기 기본 서체를 쓰고, 한글 본문 서체는 400 한 굵기만 받는다.
+    -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Noto+Serif+KR:wght@400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Noto+Serif+KR:wght@400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      />
+    </noscript>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%2312213D'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23F3EAD7'%3EW%3C/text%3E%3Crect x='0' y='58' width='64' height='6' fill='%23A8112E'/%3E%3C/svg%3E" />
   </head>
   <body>

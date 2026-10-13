@@ -29,7 +29,10 @@ export function ColophonPage() {
           빈티지 501의 연대를 가늠해 보는 감정 도구를 만날 수 있습니다.
         </p>
         <h2>Typography</h2>
-        <p>제목은 Fraunces, 한글 본문은 Noto Serif KR, 인터페이스는 IBM Plex Sans KR, 데이터와 캡션은 IBM Plex Mono.</p>
+        <p>
+          제목은 Fraunces, 한글 본문은 Noto Serif KR, 데이터와 캡션은 IBM Plex Mono. 인터페이스는 내려받지 않고 기기의
+          기본 고딕을 씁니다.
+        </p>
         <h2>Built with</h2>
         <p>React, TypeScript, Vite, React Router, GSAP ScrollTrigger, Lenis. 모든 도식은 SVG로 직접 그렸습니다.</p>
       </div>

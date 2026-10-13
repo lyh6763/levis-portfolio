@@ -4,6 +4,33 @@
    원시(primitive) → 시맨틱(semantic) alias 구조.
    ============================================================ */
 
+/*
+  Fraunces가 늦게 도착할 때 쓰는 대체 서체. Georgia를 Fraunces 폭에 맞게 줄여(size-adjust)
+  웹폰트가 바뀌어 들어올 때 제목 줄바꿈이 달라지며 아래 본문이 밀리는 레이아웃 이동(CLS)을 줄인다.
+  비율은 사이트 제목들을 두 서체로 렌더링해 잰 폭의 비(Fraunces / Georgia)다.
+*/
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia Bold"), local("Georgia-Bold");
+  font-weight: 600 900;
+  size-adjust: 83%;
+}
+
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  font-weight: 300 500;
+  size-adjust: 80%;
+}
+
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia Italic"), local("Georgia-Italic");
+  font-style: italic;
+  font-weight: 300 500;
+  size-adjust: 78%;
+}
+
 :root {
   /* ---------- Color · Primitive: Indigo ramp (데님 보디 · fade-scale 원천) ---------- */
   --color-indigo-950: #0d1830;
@@ -68,9 +95,11 @@
   --color-ink-muted:    #5a6270;
 
   /* ---------- Typography · Family ---------- */
-  --font-family-display: "Fraunces", "Noto Serif KR", Georgia, serif;
-  --font-family-serif:   "Noto Serif KR", "Fraunces", Georgia, serif; /* 한글 본문 */
-  --font-family-body:    "IBM Plex Sans KR", system-ui, sans-serif;   /* UI */
+  --font-family-display: "Fraunces", "Fraunces Fallback", "Noto Serif KR", Georgia, serif;
+  /* 한글 본문. 웹폰트가 오기 전에는 기기의 한글 명조로 그린다. */
+  --font-family-serif:   "Noto Serif KR", "Fraunces", "AppleMyungjo", "Batang", Georgia, serif;
+  /* UI. 내려받지 않고 기기 기본 고딕을 쓴다 (웹폰트 용량 절감). */
+  --font-family-body:    system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   --font-family-mono:    "IBM Plex Mono", monospace;
 
   /* ---------- Typography · Role sizes ---------- */
