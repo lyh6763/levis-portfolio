@@ -1,10 +1,11 @@
-import { Suspense, use, useEffect, useMemo } from 'react';
+import { Suspense, use, useEffect, useMemo, useRef } from 'react';
 import { Link, useParams } from 'react-router';
 
 import { Block, Chapter, chapterBySlug, chapters, loadChapterBlocks } from '../data/chapters';
 import { modelByChapter } from '../data/shop';
 import { collectNotes, NotesContext, RichText, SourceCitation } from '../editorial/Footnote';
 import { prefetchChapter, prefetchHandlers } from '../editorial/prefetch';
+import { preloadSerifFontFor } from '../editorial/preloadFonts';
 import { Reveal } from '../editorial/Reveal';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useInsideOut } from '../insideOut/InsideOutContext';
@@ -95,6 +96,10 @@ function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: strin
   const blocks = use(loadChapterBlocks(chapter.slug));
   const notes = useMemo(() => collectNotes(blocks), [blocks]);
   const model = modelByChapter.get(chapter.slug);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  // 화면 밖 본문 블록의 한글 웹폰트 조각을 미리 받아, 스크롤 중에 글자가 바뀌지 않게 한다.
+  useEffect(() => preloadSerifFontFor(bodyRef.current, '.body__p, .pull, .note-box'), [blocks]);
 
   // 본문을 다 그린 뒤 브라우저가 한가할 때 다음 챕터를 미리 받아 둔다.
   useEffect(() => {
@@ -109,7 +114,7 @@ function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: strin
 
   return (
     <NotesContext.Provider value={notes}>
-      <div className="body">
+      <div className="body" ref={bodyRef}>
         {blocks.map((block, i) => (
           <BlockView key={i} block={block} />
         ))}

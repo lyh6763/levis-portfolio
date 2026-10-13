@@ -1,8 +1,10 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 
 import { chapters, totalReadMinutes } from '../data/chapters';
 import { models } from '../data/shop';
 import { prefetchHandlers } from '../editorial/prefetch';
+import { preloadSerifFontFor } from '../editorial/preloadFonts';
 import { SITE_NAME, useDocumentTitle } from '../hooks/useDocumentTitle';
 import { CoverDrawing } from '../viz/CoverDrawing';
 import { JeanBack } from '../viz/JeanBack';
@@ -10,6 +12,10 @@ import { JeanBack } from '../viz/JeanBack';
 export function CoverPage() {
   useDocumentTitle(null);
   const first = chapters[0];
+  const contentsRef = useRef<HTMLElement>(null);
+
+  // 목차 항목은 화면 밖이면 그리기를 미루므로(content-visibility), 소개 글의 한글 웹폰트 조각을 미리 받아 둔다.
+  useEffect(() => preloadSerifFontFor(contentsRef.current, '.contents__dek'), []);
 
   return (
     <>
@@ -36,7 +42,7 @@ export function CoverPage() {
         <CoverDrawing />
       </section>
 
-      <section className="contents" aria-labelledby="contents-title">
+      <section className="contents" aria-labelledby="contents-title" ref={contentsRef}>
         <div className="contents__inner">
           <div className="contents__intro">
             <h2 className="contents__label" id="contents-title">
