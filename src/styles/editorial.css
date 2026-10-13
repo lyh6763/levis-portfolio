@@ -532,12 +532,12 @@ body {
   시스템 서체 로딩이라, 첫 화면에 보이는 것만 계산하게 한다.
   - 크기는 실제 렌더링 높이의 중앙값(모바일·데스크톱 사이). auto라 한 번 그린 뒤에는 실제 높이를 기억한다.
   - content-visibility는 블록 밖 그리기를 자른다. 포커스 링(2px + 3px)이 잘리지 않게 여유를 두고,
-    각주 팝오버는 최상위 레이어로 띄운다. 그래서 popover를 지원하는 브라우저에서만 켠다.
+    각주 팝오버는 최상위 레이어로 띄운다. 그래서 popover와 overflow-clip-margin을 둘 다 지원할 때만 켠다.
   - 블록 밖으로 그리는 것(큰 수치의 글자, 호버 때 떠오르는 상품 카드)은 넣지 않는다.
   - 본문 앞 두 블록은 첫 화면에 걸리는 가장 큰 요소(LCP)라 바로 그린다. 미루면 보이는지 판정이 한 프레임 늦다.
   - 블록이 그려지며 높이가 바뀌면 스크롤 트리거를 다시 잰다(src/lib/scrollTrigger.ts).
 */
-@supports selector(:popover-open) {
+@supports selector(:popover-open) and (overflow-clip-margin: 8px) {
   .body > :is(.body__p, .pull, .note-box):nth-child(n + 3),
   .endnotes,
   .contents__item {
