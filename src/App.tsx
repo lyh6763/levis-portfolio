@@ -1,7 +1,8 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Layout } from './editorial/Layout';
+import { applyWebFontsAfterPaint } from './editorial/webFonts';
 import { CoverPage } from './pages/CoverPage';
 import {
   loadChapterPage,
@@ -21,6 +22,8 @@ const ShopPage = lazy(() => loadShopPage().then((m) => ({ default: m.ShopPage })
 const ProductPage = lazy(() => loadProductPage().then((m) => ({ default: m.ProductPage })));
 
 export default function App() {
+  useEffect(applyWebFontsAfterPaint, []);
+
   return (
     <Routes>
       <Route element={<Layout />}>

@@ -32,14 +32,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!--
-      웹폰트는 화면 표시를 막지 않게 불러온다(preload 후 stylesheet로 전환). 그전까지는 기본 서체로 그린다.
+      웹폰트 CSS는 여기서 미리 받아 두기만 하고, 앱이 첫 화면을 그린 뒤 stylesheet로 바꾼다(src/editorial/webFonts.ts).
+      받자마자 적용하면 JS보다 먼저 도착한 경우 첫 화면이 웹폰트를 기다리느라 늦게 그려졌다.
       인터페이스 한글은 기기 기본 서체를 쓰고, 한글 본문 서체는 400 한 굵기만 받는다.
     -->
     <link
+      id="webfonts"
       rel="preload"
       as="style"
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Noto+Serif+KR:wght@400&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
