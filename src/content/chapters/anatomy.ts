@@ -9,7 +9,7 @@ export const blocks: Block[] = [
   { type: 'viz', id: 'anatomy', caption: '스크롤하면 501이 부품별로 분해됩니다' },
   {
     type: 'p',
-    text: '어떤 디테일은 지금도 그대로이고, 어떤 것은 시대에 따라 모양을 바꿨다.',
+    text: '구리 리벳과 아큐에이트는 1873년부터 있었고, 레드탭은 1936년에 더해졌다.',
   },
   { type: 'thread', id: 'anatomy' },
 ];

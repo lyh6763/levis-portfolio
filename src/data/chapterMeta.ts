@@ -13,7 +13,8 @@ export type VizId =
 export type Block =
   | { type: 'p'; text: string }
   | { type: 'h'; text: string }
-  | { type: 'quote'; text: string }
+  /** 1차 자료에서 옮긴 인용. cite는 누가 언제 쓴 글인지(번역이면 그렇다고 적는다). */
+  | { type: 'quote'; text: string; cite: string }
   | { type: 'stat'; value: string; label: string }
   | { type: 'aside'; title: string; text: string }
   | { type: 'viz'; id: VizId; caption: string }
@@ -42,7 +43,7 @@ export const chapters: Chapter[] = [
     number: '01',
     years: '1847–1853',
     title: 'Gold & Canvas',
-    dek: '바이에른의 작은 마을에서 샌프란시스코의 부두까지. 청바지 이야기는 바지가 아니라 한 상인의 이주에서 시작된다.',
+    dek: '1847년 바이에른을 떠난 뢰브 슈트라우스가 1853년 샌프란시스코에 가족 사업의 서부 지점을 열기까지.',
     readMinutes: 3,
   },
   {
@@ -50,7 +51,7 @@ export const chapters: Chapter[] = [
     number: '02',
     years: '1870–1873',
     title: 'The Patent',
-    dek: '네바다의 한 재단사가 작업 바지 주머니 모서리에 리벳을 박았다. 그리고 그에게는 특허를 낼 68달러가 없었다.',
+    dek: '네바다의 재단사 제이콥 데이비스가 작업 바지 주머니 모서리에 리벳을 박고, 원단 도매상 리바이 스트라우스와 함께 특허를 받기까지.',
     readMinutes: 3,
   },
   {
@@ -58,7 +59,7 @@ export const chapters: Chapter[] = [
     number: '03',
     years: '1890–1971',
     title: 'Lot 501',
-    dek: '특허가 만료되고 경쟁자가 몰려들었다. 그 사이 한 벌의 바지는 80년 동안 조금씩, 그러나 쉬지 않고 모습을 바꿨다.',
+    dek: '1890년 501이라는 번호가 붙은 뒤 1971년까지, 한 벌의 뒷면이 바뀌어 온 순서.',
     readMinutes: 2,
   },
   {
@@ -66,7 +67,7 @@ export const chapters: Chapter[] = [
     number: '04',
     years: '1941–1959',
     title: 'War & Rebellion',
-    dek: '실 한 가닥까지 아껴야 했던 전쟁, 그리고 그 옷을 반항의 상징으로 바꿔 놓은 전후의 십대들.',
+    dek: '전시 물자 통제로 바뀐 1940년대의 501과, 1950년대 영화와 학교 금지령 속의 청바지.',
     readMinutes: 2,
   },
   {
@@ -74,7 +75,7 @@ export const chapters: Chapter[] = [
     number: '05',
     years: '염료',
     title: 'Indigo',
-    dek: '청바지가 닳을수록 아름다워지는 이유는, 인디고가 실의 속까지 스며들지 않기 때문이다.',
+    dek: '인디고는 실의 바깥층에만 물든다. 입을수록 흰 심이 드러나 색이 옅어지는 이유다.',
     readMinutes: 2,
   },
   {
@@ -82,7 +83,7 @@ export const chapters: Chapter[] = [
     number: '06',
     years: '직조',
     title: 'The Loom',
-    dek: '좁은 직기 위를 북이 오가며 원단의 가장자리를 스스로 닫았다. 그 끝선이 셀비지다.',
+    dek: '셔틀 직기에서는 씨실이 원단 끝에서 되돌아와 가장자리가 풀리지 않는다. 그 끝선이 셀비지다.',
     readMinutes: 2,
   },
   {
@@ -90,7 +91,7 @@ export const chapters: Chapter[] = [
     number: '07',
     years: '1930–1980년대',
     title: 'The Spread',
-    dek: '서부의 작업복은 휴가객의 짐에, 병사의 배낭에, 밀수꾼의 가방에 실려 세계로 퍼졌다.',
+    dek: '서부 관광 목장의 휴가객과 해외에 주둔한 미군을 따라 청바지가 미국 밖으로 퍼진 과정.',
     readMinutes: 2,
   },
   {
@@ -98,7 +99,7 @@ export const chapters: Chapter[] = [
     number: '08',
     years: '1873–현재',
     title: 'Anatomy of a 501',
-    dek: '150년 동안 덧붙고, 숨고, 사라진 디테일들. 한 벌을 분해하면 그대로 연표가 된다.',
+    dek: '501 한 벌의 부품을 처음 등장한 해와 함께 펼친 분해도.',
     readMinutes: 1,
   },
   {
@@ -106,8 +107,8 @@ export const chapters: Chapter[] = [
     number: '09',
     years: '현재',
     title: 'Worn',
-    dek: '가장 오래 입은 청바지가 가장 지속 가능한 청바지다.',
-    readMinutes: 2,
+    dek: '2015년 전 과정 평가로 본 501 한 벌의 물 사용량.',
+    readMinutes: 1,
   },
 ];
 

@@ -191,6 +191,7 @@ function BlockView({ block }: { block: Block }) {
       return (
         <Reveal as="blockquote" className="pull">
           <p>{block.text}</p>
+          <footer className="pull__cite">{block.cite}</footer>
         </Reveal>
       );
     case 'stat':
