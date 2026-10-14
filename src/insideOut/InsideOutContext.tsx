@@ -52,10 +52,13 @@ export function InsideOutProvider({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   const isInside = pathname.startsWith(INSIDE_PATH);
 
-  const [threads, setThreads] = useState<Set<string>>(readThreads);
+  const [threads, setThreads] = useState<Set<string>>(() => new Set());
   const [toast, setToast] = useState<Toast | null>(null);
   const [flipping, setFlipping] = useState<'in' | 'out' | null>(null);
   const timers = useRef<number[]>([]);
+
+  // 빌드 때 미리 그린 HTML(빈 상태)과 첫 렌더를 맞추기 위해, 저장된 실밥은 화면에 붙은 뒤 읽는다.
+  useEffect(() => setThreads(readThreads()), []);
 
   useEffect(() => () => timers.current.forEach((timer) => window.clearTimeout(timer)), []);
 

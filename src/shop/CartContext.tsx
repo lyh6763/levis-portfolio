@@ -47,16 +47,27 @@ function readCart(): CartItem[] {
 
 /** 콘셉트 데모용 장바구니. 이 브라우저에만 저장되고 결제 단계는 없다. */
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(readCart);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // 빌드 때 미리 그린 HTML(빈 장바구니)과 첫 렌더를 맞추기 위해, 저장된 장바구니는 화면에 붙은 뒤 읽는다.
   useEffect(() => {
+    setItems(readCart());
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    // 읽기 전에 쓰면 저장된 장바구니를 빈 값으로 덮는다.
+    if (!loaded) {
+      return;
+    }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
       // 저장소를 쓸 수 없으면 이번 방문 동안만 유지한다.
     }
-  }, [items]);
+  }, [items, loaded]);
 
   const add = useCallback((item: Omit<CartItem, 'qty'>) => {
     setItems((previous) => {

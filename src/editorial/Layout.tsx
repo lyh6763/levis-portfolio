@@ -1,5 +1,5 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { Link, Navigate, Outlet, useLocation, useMatch } from 'react-router';
+import { Link, Outlet, useLocation, useMatch, useNavigate } from 'react-router';
 
 import { chapterBySlug, chapters } from '../data/chapters';
 import { getLenis, refreshScrollPositions, scrollToImmediate, useSmoothScroll } from '../hooks/useSmoothScroll';
@@ -137,6 +137,8 @@ function ReadingProgress() {
 function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { pathname } = useLocation();
+  // 끝의 /는 TrailingSlash가 곧 지우지만, 미리 그린 HTML과 첫 렌더가 같도록 비교할 때도 떼어 낸다.
+  const current = pathname.replace(/\/+$/, '');
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -209,7 +211,7 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
               <Link
                 to={`/chapters/${chapter.slug}`}
                 className="toc__item"
-                aria-current={pathname === `/chapters/${chapter.slug}` ? 'page' : undefined}
+                aria-current={current === `/chapters/${chapter.slug}` ? 'page' : undefined}
                 {...prefetchHandlers(chapter.slug)}
               >
                 <span className="toc__num">{chapter.number}</span>
@@ -232,12 +234,16 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
 /**
  * GitHub Pages는 미리 생성한 `<path>/index.html`을 끝에 /가 붙은 주소로 서빙한다.
  * 앱 안의 링크·비교는 / 없는 주소를 쓰므로 들어오자마자 같은 형태로 맞춘다.
+ * 미리 그린 HTML에 붙는(hydrate) 첫 렌더는 그대로 두고, 화면에 붙은 뒤에 주소만 바꾼다.
  */
 function TrailingSlash() {
   const { pathname, search, hash } = useLocation();
-  if (pathname.length > 1 && pathname.endsWith('/')) {
-    return <Navigate replace to={{ pathname: pathname.replace(/\/+$/, ''), search, hash }} />;
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (pathname.length > 1 && pathname.endsWith('/')) {
+      navigate({ pathname: pathname.replace(/\/+$/, ''), search, hash }, { replace: true });
+    }
+  }, [pathname, search, hash, navigate]);
   return null;
 }
 

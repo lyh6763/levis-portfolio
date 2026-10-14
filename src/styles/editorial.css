@@ -66,17 +66,18 @@ body {
 }
 
 /* ---------- Reveal ---------- */
+/* 미리 그린 HTML은 스크립트 없이도 읽혀야 하므로, 스크립트가 돌 때만 숨겼다가 나타나게 한다. */
 .reveal {
-  opacity: 0;
-  transform: translateY(16px);
   transition:
     opacity var(--motion-dur-base) var(--motion-ease-ui),
     transform var(--motion-dur-base) var(--motion-ease-ui);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+@media (scripting: enabled) {
+  .reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
 }
 
 /* ---------- Masthead ---------- */
@@ -1120,7 +1121,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .reveal:not(.is-visible) {
     opacity: 1;
     transform: none;
     transition: none;

@@ -24,7 +24,8 @@ const LEGEND = [
   { swatch: 'tab', text: '레드탭 · 1936' },
 ];
 
-const isNarrow = () => window.matchMedia('(max-width: 900px)').matches;
+// 스크럽 구간만 고르는 값이라 마크업에는 영향이 없다. 빌드 때 미리 그릴 때(window 없음)는 넓은 화면으로 본다.
+const isNarrow = () => typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches;
 
 /** 501 분해도. 스티키 무대 위에서 스크롤 진행에 따라 부품이 흩어지고 연도 라벨이 붙는다. */
 export function AnatomyViz() {

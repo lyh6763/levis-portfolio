@@ -10,7 +10,7 @@ Levi's와 블루진의 역사를 각주 달린 아홉 개의 짧은 장으로 �
 - React Router (챕터별 라우트)
 - GSAP ScrollTrigger + Lenis
 - CSS Custom Properties 기반 디자인 토큰
-- GitHub Pages(Actions) 배포, 빌드 때 라우트별 HTML 미리 생성
+- GitHub Pages(Actions) 배포, 빌드 때 라우트별 HTML과 본문 미리 그리기(React `prerender`) + 브라우저에서 hydrate
 
 ## Structure
 
@@ -80,7 +80,7 @@ npm run assets:og
 
 `main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능).
 
-빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG와 미리 받을 청크(`modulepreload`)가 들어갑니다. 본문은 클라이언트에서 렌더링합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapterMeta.ts`, `src/content/chapters/buildIndex.ts`, `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
+빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG와 미리 받을 청크(`modulepreload`)가 들어갑니다. 본문도 빌드 때 React로 미리 그려 넣습니다([src/entry-server.tsx](src/entry-server.tsx), `react-dom/static`의 `prerender`가 지연 로딩과 챕터 본문까지 기다림). JS를 받기 전에 글이 보이고, 브라우저에서는 [src/main.tsx](src/main.tsx)가 그 HTML에 hydrate합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapterMeta.ts`, `src/content/chapters/buildIndex.ts`, `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
 
 경로 설정은 두 곳입니다.
 

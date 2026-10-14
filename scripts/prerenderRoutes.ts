@@ -1,6 +1,6 @@
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import type { Plugin } from 'vite';
+import { createServer, type Plugin } from 'vite';
 
 import { chapters, type VizId } from '../src/data/chapterMeta';
 import { models } from '../src/data/shop';
@@ -8,9 +8,11 @@ import { blocksBySlug } from '../src/content/chapters/buildIndex';
 
 /**
  * 빌드 후 라우트마다 `<path>/index.html`을 써서 GitHub Pages가 딥 링크에 200을 돌려주게 한다.
- * 본문은 클라이언트에서 렌더링하고, <head>의 제목·설명·canonical·OG만 라우트별로 바꾼다.
- * 그 라우트가 지연 로딩할 청크(페이지, 챕터 본문, 시각화, GSAP)는 modulepreload로 미리 알려
- * 딥 링크로 바로 들어왔을 때의 로딩 폭포를 없앤다. 함께 404.html(noindex)과 sitemap.xml도 만든다.
+ * - <head>의 제목·설명·canonical·OG를 라우트별로 바꾼다.
+ * - 본문도 미리 그려 `<div id="root">`에 넣는다(src/entry-server.tsx). JS를 받기 전에 글이 보이고,
+ *   브라우저에서는 main.tsx가 이 HTML에 hydrate한다.
+ * - 그 라우트가 지연 로딩할 청크(페이지, 챕터 본문, 시각화, GSAP)는 modulepreload로 미리 알린다.
+ * 함께 404.html(noindex, 본문은 브라우저에서 그림)과 sitemap.xml도 만든다.
  */
 
 const SITE_NAME = 'WARP & WEFT';
@@ -138,6 +140,44 @@ function withHead(html: string, { title, description, url }: { title: string; de
   return out;
 }
 
+/**
+ * 미리 그린 본문을 빈 `<div id="root"></div>`에 넣고, 어느 경로를 그렸는지 data-prerendered로 남긴다
+ * (main.tsx는 지금 주소와 같을 때만 hydrate한다). 본문의 `$`가 치환 패턴으로 읽히지 않게 함수로 넘긴다.
+ */
+function withApp(html: string, appHtml: string, url: string) {
+  const pattern = /<div id="root"><\/div>/;
+  if (!pattern.test(html)) {
+    throw new Error('[prerender-routes] index.html에서 <div id="root"></div>를 찾지 못했습니다.');
+  }
+  return html.replace(pattern, () => `<div id="root" data-prerendered="${escapeHtml(url)}">${appHtml}</div>`);
+}
+
+type Renderer = { render: (url: string) => Promise<string>; close: () => Promise<void> };
+
+/**
+ * 라우트를 HTML로 그리는 렌더러. 빌드한 앱과 같은 소스를 Vite의 SSR 변환으로 불러온다.
+ * vite.config(이 플러그인 포함)는 읽지 않는다.
+ */
+async function createRenderer(root: string, base: string): Promise<Renderer> {
+  const server = await createServer({
+    root,
+    base,
+    configFile: false,
+    logLevel: 'error',
+    appType: 'custom',
+    server: { middlewareMode: true, hmr: false, ws: false },
+    // gsap/ScrollTrigger는 package type 없이 ESM으로 쓰여 Node가 그대로 읽지 못한다. Vite가 변환하게 한다.
+    ssr: { noExternal: ['gsap'] },
+  });
+  try {
+    const module = (await server.ssrLoadModule('/src/entry-server.tsx')) as Pick<Renderer, 'render'>;
+    return { render: module.render, close: () => server.close() };
+  } catch (error) {
+    await server.close();
+    throw error;
+  }
+}
+
 function withPreloads(html: string, files: string[], base: string) {
   if (files.length === 0) {
     return html;
@@ -147,6 +187,7 @@ function withPreloads(html: string, files: string[], base: string) {
 }
 
 export function prerenderRoutes(): Plugin {
+  let root = '';
   let outDir = '';
   let siteUrl = '';
   let base = '/';
@@ -155,6 +196,7 @@ export function prerenderRoutes(): Plugin {
     name: 'prerender-routes',
     apply: 'build',
     configResolved(config) {
+      root = config.root;
       outDir = resolve(config.root, config.build.outDir);
       base = config.base;
       siteUrl = String(config.env.VITE_SITE_URL ?? '');
@@ -170,18 +212,26 @@ export function prerenderRoutes(): Plugin {
       await rm(manifestDir, { recursive: true, force: true });
       const routes = routeMetas();
       let preloadCount = 0;
+      const renderer = await createRenderer(root, base);
 
-      for (const route of routes) {
-        const dir = join(outDir, route.path);
-        await mkdir(dir, { recursive: true });
-        const files = chunkFiles(manifest, route.preload, (file) => template.includes(file));
-        preloadCount += files.length;
-        const html = withHead(template, {
-          title: `${route.title} | ${SITE_NAME}`,
-          description: route.description,
-          url: `${siteUrl}${route.path}/`,
-        });
-        await writeFile(join(dir, 'index.html'), withPreloads(html, files, base));
+      try {
+        for (const route of routes) {
+          const dir = join(outDir, route.path);
+          await mkdir(dir, { recursive: true });
+          const files = chunkFiles(manifest, route.preload, (file) => template.includes(file));
+          preloadCount += files.length;
+          const html = withHead(template, {
+            title: `${route.title} | ${SITE_NAME}`,
+            description: route.description,
+            url: `${siteUrl}${route.path}/`,
+          });
+          const url = `${base}${route.path}`;
+          await writeFile(join(dir, 'index.html'), withApp(withPreloads(html, files, base), await renderer.render(url), url));
+        }
+        // 표지는 Vite가 쓴 index.html 자리다. 위의 라우트들이 빈 템플릿을 다 쓴 뒤에 본문을 채운다.
+        await writeFile(join(outDir, 'index.html'), withApp(template, await renderer.render(base), base));
+      } finally {
+        await renderer.close();
       }
 
       // 목록에 없는 주소: 앱이 NotFound를 그린다. 검색 엔진에는 색인하지 말라고 알린다.
@@ -204,7 +254,7 @@ export function prerenderRoutes(): Plugin {
       await writeFile(join(outDir, 'sitemap.xml'), sitemap);
 
       this.info?.(
-        `prerendered ${routes.length} routes (${preloadCount} modulepreloads) + 404.html + sitemap.xml (${urls.length} urls)`,
+        `prerendered cover + ${routes.length} routes with content (${preloadCount} modulepreloads) + 404.html + sitemap.xml (${urls.length} urls)`,
       );
     },
   };
