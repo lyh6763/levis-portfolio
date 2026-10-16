@@ -2,6 +2,8 @@
 
 Levi's와 블루진의 역사를 각주 달린 아홉 개의 짧은 장으로 읽는 포트폴리오입니다. 사진 대신 타이포그래피와 SVG 도식으로 이야기를 전하고, 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
 
+AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI 결과물을 점검한 방식은 [CASE_STUDY.md](CASE_STUDY.md)의 "만든 방식"에 있습니다.
+
 > 기획 배경과 구현 과정은 [CASE_STUDY.md](CASE_STUDY.md), 우선순위와 진행 상태는 [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md)에 있습니다.
 
 ## Tech Stack

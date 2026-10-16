@@ -25,6 +25,12 @@ export function ColophonPage() {
           제목은 Fraunces, 한글 본문은 Noto Serif KR, 데이터와 캡션은 IBM Plex Mono. 인터페이스는 내려받지 않고 기기의
           기본 고딕을 씁니다.
         </p>
+        <h2>만든 방식</h2>
+        <p>
+          AI 코딩 도구 Claude Code와 함께 만들었습니다. 코드와 원고 초안, 공개 자료 대조는 AI가 했고, 사이트의 방향과
+          구조는 직접 정했습니다. 화면과 문구를 검토해 어색한 디자인과 꾸며낸 인용을 고치게 했고, 사실 대조 결과를
+          확인해 원고에 반영했습니다.
+        </p>
         <h2>사용한 기술</h2>
         <p>React, TypeScript, Vite, React Router, GSAP ScrollTrigger, Lenis. 도식은 이미지 파일 없이 SVG 코드로 그렸습니다.</p>
       </div>
