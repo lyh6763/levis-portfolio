@@ -134,7 +134,6 @@
   box-shadow: 0 12px 32px rgb(13 24 48 / 0.3);
   font-size: var(--type-body-s);
   line-height: 1.55;
-  word-break: keep-all;
   pointer-events: auto;
   animation: toast-in 0.35s var(--motion-ease-ui);
 }
@@ -296,7 +295,6 @@
   font-weight: 700;
   line-height: 1.05;
   color: var(--color-indigo-900);
-  word-break: keep-all;
 }
 
 .inside__dek {
@@ -305,7 +303,6 @@
   font-size: var(--type-body-m);
   line-height: 1.9;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 /* 연표 미터 */
@@ -436,7 +433,6 @@
   font-size: var(--type-heading-m);
   font-weight: 600;
   line-height: 1.25;
-  word-break: keep-all;
 }
 
 .clue__title:focus {
@@ -449,7 +445,6 @@
   font-size: var(--type-body-s);
   line-height: 1.8;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .clue__options {
@@ -507,7 +502,6 @@
   font-family: var(--font-family-serif);
   font-size: var(--type-body-l);
   line-height: 1.8;
-  word-break: keep-all;
 }
 
 .result__findings {
@@ -642,7 +636,6 @@
   font-size: var(--type-caption);
   line-height: 1.7;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .result__disclaimer a {

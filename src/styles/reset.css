@@ -17,6 +17,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 한글은 음절이 아니라 어절 단위로 줄을 바꾼다. 한 줄보다 긴 단어만 예외적으로 나눈다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 img,
@@ -33,16 +36,6 @@ button,
 textarea,
 select {
   font: inherit;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
 }
 
 a {

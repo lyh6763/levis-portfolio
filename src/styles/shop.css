@@ -29,6 +29,7 @@
 .shop-bar__crumbs {
   display: flex;
   gap: var(--space-2);
+  min-width: 0;
   white-space: nowrap;
 }
 
@@ -36,7 +37,11 @@
   color: var(--color-accent-selvedge);
 }
 
+/* 좁은 화면에서는 현재 위치 이름을 말줄임으로 줄여 장바구니 버튼을 화면 안에 둔다. */
 .shop-bar__crumbs [aria-current='page'] {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--color-ink-muted);
 }
 
@@ -55,6 +60,7 @@
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   color: var(--color-ink-900);
+  white-space: nowrap;
 }
 
 .shop-bar__cart:hover {
@@ -96,7 +102,6 @@
   font-size: var(--type-body-l);
   line-height: 1.8;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .shop__grid {
@@ -135,7 +140,6 @@
   font-family: var(--font-family-serif);
   font-size: var(--type-body-m);
   line-height: 1.9;
-  word-break: keep-all;
 }
 
 .shop__guide-body a {
@@ -202,7 +206,6 @@
   font-size: var(--type-body-s);
   line-height: 1.7;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .model-card__price {
@@ -296,7 +299,6 @@
   font-family: var(--font-family-serif);
   font-size: var(--type-body-m);
   line-height: 1.8;
-  word-break: keep-all;
 }
 
 .pdp__sizes {
@@ -407,7 +409,6 @@
   font-family: var(--font-family-serif);
   font-size: var(--type-body-s);
   line-height: 1.85;
-  word-break: keep-all;
 }
 
 .pdp__chapter-link {
@@ -475,7 +476,6 @@
   font-size: var(--type-body-s);
   line-height: 1.7;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .advisor__note {
@@ -748,7 +748,6 @@
   font-size: var(--type-caption);
   line-height: 1.6;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 /* ---------- Cover band & Inside Out result ---------- */
@@ -780,7 +779,6 @@
   font-size: var(--type-body-m);
   line-height: 1.8;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .cover-shop__link {

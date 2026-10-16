@@ -525,7 +525,6 @@ body {
   font-family: var(--font-family-serif);
   font-size: var(--type-body-serif);
   line-height: 1.95;
-  word-break: keep-all;
 }
 
 /*
@@ -574,7 +573,6 @@ body {
   font-size: var(--type-heading-m);
   font-weight: 600;
   line-height: 1.25;
-  word-break: keep-all;
 }
 
 .body__h::before {
@@ -601,7 +599,6 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: var(--color-indigo-900);
-  word-break: keep-all;
 }
 
 .pull__cite {
@@ -609,7 +606,6 @@ body {
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .stat {
@@ -632,7 +628,6 @@ body {
   font-family: var(--font-family-mono);
   font-size: var(--type-body-s);
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .note-box {
@@ -657,7 +652,6 @@ body {
   font-family: var(--font-family-serif);
   font-size: var(--type-body-m);
   line-height: 1.85;
-  word-break: keep-all;
 }
 
 /* 시각화는 본문 폭을 벗어나 넓게 */
@@ -794,7 +788,6 @@ body {
   border-radius: var(--radius-sm);
   box-shadow: 0 12px 32px rgb(13 24 48 / 0.25);
   transform: translateX(-50%);
-  word-break: keep-all;
 }
 
 /* 최상위 레이어로 뜰 때(Footnote.tsx). 브라우저 기본 popover 위치를 지우고, 좌표는 스크립트가 버튼 기준으로 넣는다. */
@@ -929,7 +922,6 @@ body {
   font-size: var(--type-body-l);
   line-height: 1.8;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .page__head {
@@ -950,7 +942,6 @@ body {
   font-family: var(--font-family-serif);
   font-size: var(--type-body-m);
   line-height: 1.9;
-  word-break: keep-all;
 }
 
 .sources__item {
@@ -1036,11 +1027,17 @@ body {
 
 .site-footer__links {
   display: flex;
-  gap: var(--space-5);
+  /* 좁은 화면에서 링크가 글자 단위로 꺾이지 않도록, 링크는 한 줄로 두고 묶음째 다음 줄로 넘긴다. */
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.site-footer__links > * {
+  white-space: nowrap;
 }
 
 .site-footer__links a:hover {

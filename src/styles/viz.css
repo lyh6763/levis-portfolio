@@ -226,7 +226,6 @@
   font-size: var(--type-body-s);
   line-height: 1.6;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .patent__callout strong {
@@ -596,7 +595,6 @@
   font-size: var(--type-body-s);
   line-height: 1.6;
   color: var(--color-ink-muted);
-  word-break: keep-all;
 }
 
 .indigo__swatch {
