@@ -56,9 +56,10 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 ## Accessibility
 
 - `prefers-reduced-motion`이면 Lenis와 스크롤 스크럽을 끄고 시각화를 최종 상태로 렌더링합니다.
-- skip link, `main` landmark, 라우트 전환 시 본문 포커스 이동, `focus-visible`.
+- skip link, `main` landmark, `focus-visible`. 라우트가 바뀌면 본문(`main`)으로 포커스를 옮깁니다. 다만 목차 대화상자에서 챕터를 고르면 대화상자가 닫히면서 포커스가 "목차" 버튼으로 돌아갑니다.
 - 목차는 네이티브 `<dialog>`(포커스 트랩, Escape), 각주는 `aria-expanded` 버튼 + 팝오버, 챕터 끝에 주 목록 제공.
 - 슬라이더 시각화는 네이티브 range input과 `aria-live` 요약을 함께 제공합니다.
+- 한국형 웹 콘텐츠 접근성 지침 2.2(KWCAG 2.2) 33개 검사항목 점검 결과와 고친 내용: [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md)
 
 ## Scripts
 
@@ -101,4 +102,5 @@ VITE_BASE_PATH=/ VITE_SITE_URL=https://example.com/ npm run build
 | --- | --- |
 | [CASE_STUDY.md](CASE_STUDY.md) | 케이스 스터디: 문제 정의, 콘셉트, 주요 기능, 사실 검증, 문제 해결 |
 | [docs/REDESIGN_PLAN.md](docs/REDESIGN_PLAN.md) | v3 리디자인 기획, 우선순위, 진행 상태 |
+| [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md) | KWCAG 2.2 접근성 점검: 33개 검사항목 결과, 근거, 수정 기록 |
 | `docs/legacy/` | v1 정적 사이트와 v2 wear-in 시기의 기획·리뷰·이미지 운용 기록 |
