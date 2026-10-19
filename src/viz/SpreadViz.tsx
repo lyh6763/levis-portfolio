@@ -35,7 +35,7 @@ export function SpreadViz() {
 
   useScrollScrub(ref, (tl) => {
     tl.from('.spread__bar', { scaleX: 0, transformOrigin: 'left center', stagger: 0.12, duration: 0.5 }, 0);
-    tl.from('.spread__mark', { opacity: 0, y: 6, stagger: 0.1, duration: 0.15 }, 0.15);
+    tl.from('.spread__mark', { y: 6, stagger: 0.1, duration: 0.15 }, 0.15);
   });
 
   const height = TOP + ROWS.length * ROW_H + 10;

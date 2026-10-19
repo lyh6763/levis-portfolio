@@ -28,7 +28,7 @@ export function WaterViz() {
     ref,
     (tl) => {
       tl.from('.water__seg', { scaleX: 0, transformOrigin: 'left center', stagger: 0.18, duration: 0.3 }, 0.3);
-      tl.from('.water__row', { opacity: 0, stagger: 0.18, duration: 0.2 }, 0.35);
+      tl.from('.water__row', { y: 6, stagger: 0.18, duration: 0.2 }, 0.35);
     },
     { onProgress },
   );

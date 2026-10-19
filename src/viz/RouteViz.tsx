@@ -10,7 +10,7 @@ const STOPS = [
   { x: 100, y: 140, place: '샌프란시스코', note: '1853 도착', anchor: 'start' as const, dx: 16, dy: -10 },
 ];
 
-/** 이동 경로 도식. 서쪽이 왼쪽. 스크롤에 따라 선이 그려지고 기착지가 차례로 나타난다. */
+/** 이동 경로 도식. 서쪽이 왼쪽. 스크롤에 따라 선이 그려지고 기착지 라벨이 차례로 내려앉는다. */
 export function RouteViz() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -23,9 +23,8 @@ export function RouteViz() {
     path.style.strokeDasharray = `${length}`;
     tl.fromTo(path, { strokeDashoffset: length }, { strokeDashoffset: 0, duration: 1 }, 0);
     el.querySelectorAll('.route__stop').forEach((stop, i) => {
-      tl.from(stop, { opacity: 0, y: 8, duration: 0.12 }, i * 0.29);
+      tl.from(stop, { y: 8, duration: 0.12 }, i * 0.29);
     });
-    tl.from('.route__legend', { opacity: 0, duration: 0.2 }, 0.2);
   });
 
   return (

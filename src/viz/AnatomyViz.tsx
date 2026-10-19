@@ -48,8 +48,10 @@ export function AnatomyViz() {
       PARTS.forEach((part) => {
         tl.to(`#${part.id}`, { x: part.dx, y: part.dy, ease: 'power1.out', duration: 0.6 }, 0.12);
       });
-      tl.from('.anatomy__labels', { opacity: 0, duration: 0.2 }, 0.7);
-      tl.to({}, { duration: 0.1 });
+      // 라벨은 흩어진 부품 위치를 가리키므로 분해가 끝날 즈음 붙인다. 서서히 드러내면 멈춘 자리에서
+      // 흐린 채로 남으므로 steps(1)로 0 또는 1만 갖게 하고, 뒤 여백으로 전체 길이(1)를 유지한다.
+      tl.from('.anatomy__labels', { opacity: 0, duration: 0.01, ease: 'steps(1)' }, 0.8);
+      tl.to({}, { duration: 0.19 });
     },
     // 데스크톱은 스티키 무대 전체 구간을, 좁은 화면(스티키 없음)은 화면을 지나가는 구간을 쓴다.
     isNarrow() ? { start: 'top 70%', end: 'bottom 70%' } : { start: 'top top', end: 'bottom bottom' },
@@ -66,19 +68,6 @@ export function AnatomyViz() {
             {[120, 240, 360].map((gy) => (
               <line key={gy} x1="0" y1={gy} x2="680" y2={gy} />
             ))}
-          </g>
-
-          <g className="anatomy__labels" aria-hidden="true">
-            <text x="300" y="40">허리띠·벨트 고리 · 1922</text>
-            <text x="540" y="60">아큐에이트 · 1873</text>
-            <text x="556" y="116">가죽 패치 · 1886</text>
-            <text x="556" y="196">뒷주머니</text>
-            <text className="is-red" x="556" y="258">
-              레드탭 · 1936
-            </text>
-            <text x="520" y="342">구리 리벳 · 1873</text>
-            <text x="150" y="338">두 번째 뒷주머니 · 1901</text>
-            <text x="320" y="456">XX 데님 · 1873</text>
           </g>
 
           <g id="anBody">
@@ -121,6 +110,20 @@ export function AnatomyViz() {
             ].map(([cx, cy]) => (
               <circle key={`${cx}-${cy}`} className="anatomy__rivet" cx={cx} cy={cy} r="3.4" />
             ))}
+          </g>
+
+          {/* 라벨은 분해가 끝난 부품 위치(PARTS 이동량 반영) 옆 빈자리에 둔다. 부품보다 뒤에 그려 가려지지 않게 한다. */}
+          <g className="anatomy__labels" aria-hidden="true">
+            <text x="308" y="36" textAnchor="end">허리띠·벨트 고리 · 1922</text>
+            <text x="496" y="40">아큐에이트 · 1873</text>
+            <text x="556" y="117" textAnchor="end">가죽 패치 · 1886</text>
+            <text x="556" y="206" textAnchor="end">뒷주머니</text>
+            <text className="is-red" x="588" y="259" textAnchor="end">
+              레드탭 · 1936
+            </text>
+            <text x="560" y="384" textAnchor="middle">구리 리벳 · 1873</text>
+            <text x="204" y="392" textAnchor="middle">두 번째 뒷주머니 · 1901</text>
+            <text x="292" y="262" textAnchor="end">XX 데님 · 1873</text>
           </g>
         </svg>
 

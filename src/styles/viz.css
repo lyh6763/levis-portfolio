@@ -99,7 +99,8 @@
 .route__sea {
   font-size: 12px;
   letter-spacing: 0.4em;
-  fill: var(--color-indigo-300) !important;
+  /* 지명이라 정보다 — indigo-300은 바탕과 2.35:1이라 4.5:1을 넘는 500을 쓴다(5.29:1) */
+  fill: var(--color-indigo-500) !important;
 }
 
 .route__path {

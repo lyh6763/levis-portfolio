@@ -13,6 +13,8 @@ type ScrubOptions = {
 /**
  * 시각화 공용 스크럽. `build`가 타임라인에 from/to 트윈을 쌓는다.
  * reduced-motion이면 타임라인을 만들지 않으므로, 마크업 자체가 최종 상태여야 한다.
+ * 글자가 든 요소는 opacity로 서서히 드러내지 않는다. 진행이 스크롤 위치에 묶여 있어,
+ * 멈춘 자리에서 흐린 글자가 그대로 남고 명도 대비가 무너진다(KWCAG 5.4.3). 움직임(x·y·회전)만 쓴다.
  */
 export function useScrollScrub<T extends HTMLElement>(
   ref: RefObject<T | null>,

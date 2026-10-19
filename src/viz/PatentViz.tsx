@@ -15,8 +15,8 @@ export function PatentViz() {
   useScrollScrub(ref, (tl) => {
     tl.from('.patent__stress', { opacity: 0, scale: 0.6, transformOrigin: 'center', duration: 0.25 }, 0)
       .from('.patent__rivet', { scale: 0, transformOrigin: 'center', stagger: 0.05, duration: 0.2 }, 0.25)
-      .from('.patent__stamp', { opacity: 0, rotate: -8, transformOrigin: 'center', duration: 0.2 }, 0.6);
-    tl.from('.patent__callout', { opacity: 0, x: 16, stagger: 0.25, duration: 0.2 }, 0.05);
+      .from('.patent__stamp', { scale: 1.12, rotate: -8, transformOrigin: 'center', duration: 0.2 }, 0.6);
+    tl.from('.patent__callout', { x: 16, stagger: 0.25, duration: 0.2 }, 0.05);
   });
 
   return (
