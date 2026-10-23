@@ -28,7 +28,7 @@ jobs:
 
       - run: npm ci
 
-      # 타입 검사 → vite build → dist/404.html 복사(SPA 딥 링크 폴백)까지 포함
+      # 타입 검사 → 단위 테스트(각주·데이터 검사 포함) → vite build → 라우트별 HTML·404.html·sitemap.xml 생성까지 포함
       - run: npm run build
 
       - uses: actions/configure-pages@v5

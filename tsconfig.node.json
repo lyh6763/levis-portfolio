@@ -10,5 +10,5 @@
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts", "scripts/prerenderRoutes.ts"]
+  "include": ["vite.config.ts", "vitest.config.ts", "scripts/prerenderRoutes.ts"]
 }

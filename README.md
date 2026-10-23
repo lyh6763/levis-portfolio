@@ -67,9 +67,12 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 npm install
 npm run dev
 npm run typecheck
+npm test
 npm run build
 npm run preview
 ```
+
+`npm test`(Vitest)는 감정 도구의 구간 계산, 사이즈 추천, 복각 모델 추천을 검사하고, 본문의 모든 `[^sourceId]`가 출처 목록에 있는지와 각주로 바뀌지 않는 위치·형식의 마커가 없는지 확인합니다. `npm run build`에도 포함돼 있어 검사가 실패하면 배포되지 않습니다.
 
 공유 미리보기 이미지(`public/images/og-image.png`)는 표지 디자인을 옮겨 생성합니다. Python 3와 Pillow가 필요하고, Windows 기본 폰트(Georgia, Malgun Gothic, Consolas)를 씁니다.
 
