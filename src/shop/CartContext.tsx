@@ -4,6 +4,11 @@ import { modelBySlug } from '../data/shop';
 
 const STORAGE_KEY = 'warp-weft:cart';
 
+/** 한 상품·사이즈 조합에 담을 수 있는 최대 수량. 서랍의 + 버튼도 이 값에서 멈춘다. */
+export const MAX_QTY = 9;
+
+const clampQty = (qty: number) => Math.max(1, Math.min(MAX_QTY, qty));
+
 export type CartItem = {
   slug: string;
   waist: number;
@@ -39,7 +44,9 @@ function readCart(): CartItem[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     const parsed = raw ? (JSON.parse(raw) as CartItem[]) : [];
     // 저장된 값이 바뀐 상품 목록과 어긋나면 버린다.
-    return parsed.filter((item) => modelBySlug.has(item.slug) && item.qty > 0);
+    return parsed
+      .filter((item) => modelBySlug.has(item.slug) && item.qty > 0)
+      .map((item) => ({ ...item, qty: clampQty(item.qty) }));
   } catch {
     return [];
   }
@@ -74,14 +81,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const key = itemKey(item);
       const existing = previous.find((candidate) => itemKey(candidate) === key);
       return existing
-        ? previous.map((candidate) => (candidate === existing ? { ...candidate, qty: candidate.qty + 1 } : candidate))
+        ? previous.map((candidate) => (candidate === existing ? { ...candidate, qty: clampQty(candidate.qty + 1) } : candidate))
         : [...previous, { ...item, qty: 1 }];
     });
   }, []);
 
   const setQty = useCallback((key: string, qty: number) => {
     setItems((previous) =>
-      previous.map((item) => (itemKey(item) === key ? { ...item, qty: Math.max(1, Math.min(9, qty)) } : item)),
+      previous.map((item) => (itemKey(item) === key ? { ...item, qty: clampQty(qty) } : item)),
     );
   }, []);
 

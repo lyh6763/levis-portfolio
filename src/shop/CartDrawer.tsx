@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router';
 import { formatPrice, modelBySlug } from '../data/shop';
 import { getLenis } from '../hooks/useSmoothScroll';
 import { JeanBack } from '../viz/JeanBack';
-import { itemKey, useCart } from './CartContext';
+import { itemKey, MAX_QTY, useCart } from './CartContext';
 
 /** 오른쪽에서 열리는 장바구니. 목차 다이얼로그와 같은 방식으로 열림 상태를 단일 출처로 둔다. */
 export function CartDrawer() {
@@ -108,7 +108,7 @@ export function CartDrawer() {
                         <button
                           type="button"
                           onClick={() => setQty(key, item.qty + 1)}
-                          disabled={item.qty >= 9}
+                          disabled={item.qty >= MAX_QTY}
                           aria-label="수량 늘리기"
                         >
                           +
