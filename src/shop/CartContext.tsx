@@ -1,20 +1,9 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { modelBySlug } from '../data/shop';
+import { addItem, CartItem, itemKey, parseCart, setItemQty } from './cart';
 
 const STORAGE_KEY = 'warp-weft:cart';
-
-/** 한 상품·사이즈 조합에 담을 수 있는 최대 수량. 서랍의 + 버튼도 이 값에서 멈춘다. */
-export const MAX_QTY = 9;
-
-const clampQty = (qty: number) => Math.max(1, Math.min(MAX_QTY, qty));
-
-export type CartItem = {
-  slug: string;
-  waist: number;
-  inseam: number;
-  qty: number;
-};
 
 type CartValue = {
   items: CartItem[];
@@ -26,8 +15,6 @@ type CartValue = {
   open: boolean;
   setOpen: (open: boolean) => void;
 };
-
-export const itemKey = (item: Pick<CartItem, 'slug' | 'waist' | 'inseam'>) => `${item.slug}:${item.waist}:${item.inseam}`;
 
 const CartContext = createContext<CartValue | null>(null);
 
@@ -41,12 +28,7 @@ export function useCart() {
 
 function readCart(): CartItem[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const parsed = raw ? (JSON.parse(raw) as CartItem[]) : [];
-    // 저장된 값이 바뀐 상품 목록과 어긋나면 버린다.
-    return parsed
-      .filter((item) => modelBySlug.has(item.slug) && item.qty > 0)
-      .map((item) => ({ ...item, qty: clampQty(item.qty) }));
+    return parseCart(localStorage.getItem(STORAGE_KEY));
   } catch {
     return [];
   }
@@ -77,19 +59,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, loaded]);
 
   const add = useCallback((item: Omit<CartItem, 'qty'>) => {
-    setItems((previous) => {
-      const key = itemKey(item);
-      const existing = previous.find((candidate) => itemKey(candidate) === key);
-      return existing
-        ? previous.map((candidate) => (candidate === existing ? { ...candidate, qty: clampQty(candidate.qty + 1) } : candidate))
-        : [...previous, { ...item, qty: 1 }];
-    });
+    setItems((previous) => addItem(previous, item));
   }, []);
 
   const setQty = useCallback((key: string, qty: number) => {
-    setItems((previous) =>
-      previous.map((item) => (itemKey(item) === key ? { ...item, qty: clampQty(qty) } : item)),
-    );
+    setItems((previous) => setItemQty(previous, key, qty));
   }, []);
 
   const remove = useCallback((key: string) => {
