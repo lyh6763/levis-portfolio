@@ -9,7 +9,7 @@ import { useCart } from './CartContext';
 
 /** 오른쪽에서 열리는 장바구니. 목차 다이얼로그와 같은 방식으로 열림 상태를 단일 출처로 둔다. */
 export function CartDrawer() {
-  const { items, subtotal, setQty, remove, open, setOpen } = useCart();
+  const { items, subtotal, setQty, remove, open, setOpen, storageUnavailable } = useCart();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { pathname } = useLocation();
 
@@ -69,6 +69,12 @@ export function CartDrawer() {
             닫기
           </button>
         </div>
+
+        {storageUnavailable && (
+          <p className="cart__storage-notice" role="status">
+            이 브라우저에서 장바구니를 저장할 수 없습니다. 현재 방문 동안만 유지되며, 새로고침하면 선택이 사라질 수 있습니다.
+          </p>
+        )}
 
         {items.length === 0 ? (
           <div className="cart__empty">
@@ -136,7 +142,8 @@ export function CartDrawer() {
                 결제하기
               </button>
               <p className="cart__note" id="cart-note">
-                콘셉트 데모라 결제 단계는 만들지 않았습니다. 장바구니는 이 브라우저에만 저장됩니다.
+                콘셉트 데모라 결제 단계는 만들지 않았습니다.{' '}
+                {storageUnavailable ? '장바구니는 현재 방문 동안만 유지됩니다.' : '장바구니는 이 브라우저에만 저장됩니다.'}
               </p>
             </div>
           </>

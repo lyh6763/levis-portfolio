@@ -14,6 +14,7 @@ type CartValue = {
   remove: (key: string) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
+  storageUnavailable: boolean;
 };
 
 const CartContext = createContext<CartValue | null>(null);
@@ -39,6 +40,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
+  const [storageUnavailable, setStorageUnavailable] = useState(false);
 
   // 빌드 때 미리 그린 HTML(빈 장바구니)과 첫 렌더를 맞추기 위해, 저장된 장바구니는 화면에 붙은 뒤 읽는다.
   useEffect(() => {
@@ -53,8 +55,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      setStorageUnavailable(false);
     } catch {
       // 저장소를 쓸 수 없으면 이번 방문 동안만 유지한다.
+      setStorageUnavailable(true);
     }
   }, [items, loaded]);
 
@@ -73,8 +77,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => {
     const count = items.reduce((sum, item) => sum + item.qty, 0);
     const subtotal = items.reduce((sum, item) => sum + (modelBySlug.get(item.slug)?.price ?? 0) * item.qty, 0);
-    return { items, count, subtotal, add, setQty, remove, open, setOpen };
-  }, [items, add, setQty, remove, open]);
+    return { items, count, subtotal, add, setQty, remove, open, setOpen, storageUnavailable };
+  }, [items, add, setQty, remove, open, storageUnavailable]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

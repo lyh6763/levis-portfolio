@@ -118,6 +118,10 @@ function FootnoteRef({ id }: { id: string }) {
     }
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        if (popRef.current?.contains(document.activeElement)) {
+          event.preventDefault();
+          buttonRef.current?.focus({ preventScroll: true });
+        }
         setOpen(false);
       }
     };

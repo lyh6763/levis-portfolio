@@ -637,6 +637,14 @@
   color: var(--color-ink-900);
 }
 
+.cart__storage-notice {
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid currentColor;
+  font-size: var(--type-caption);
+  line-height: 1.6;
+}
+
 .cart__empty {
   display: grid;
   gap: var(--space-4);

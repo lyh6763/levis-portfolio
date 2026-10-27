@@ -258,7 +258,12 @@ function ScrollManager() {
     }
     isFirst.current = false;
 
-    const id = hash ? decodeURIComponent(hash.slice(1)) : '';
+    let id = '';
+    try {
+      id = hash ? decodeURIComponent(hash.slice(1)) : '';
+    } catch {
+      // 손상된 해시는 버리고 본문을 정상 표시한다.
+    }
     if (!id) {
       scrollToImmediate(0);
       refreshScrollPositions();
