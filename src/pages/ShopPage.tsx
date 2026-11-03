@@ -23,7 +23,7 @@ export function ShopPage() {
       <ul className="shop__grid">
         {models.map((model) => (
           <li key={model.slug}>
-            <ModelCard model={model} />
+            <ModelCard model={model} headingLevel={2} />
           </li>
         ))}
       </ul>
