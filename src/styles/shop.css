@@ -148,36 +148,48 @@
 }
 
 /* ---------- Model card ---------- */
+/* 상점(grid)은 상자 없는 도판: 도식 판 + 괘선 아래 캡션 + 이름. 본문 도판(.figure__caption)과 같은 말투 */
 .model-card {
   display: grid;
+  align-content: start;
   height: 100%;
-  border: 1px solid var(--color-rule);
-  background: var(--color-paper);
-  transition:
-    border-color var(--motion-dur-micro),
-    transform var(--motion-dur-base) var(--motion-ease-ui);
-}
-
-.model-card:hover {
-  border-color: var(--color-ink-900);
-  transform: translateY(-3px);
 }
 
 .model-card__art {
   padding: var(--space-5) var(--space-6);
   background: var(--color-blueprint-bg);
-  border-bottom: 1px solid var(--color-blueprint-line);
+  border: 1px solid var(--color-blueprint-line);
+  transition: border-color var(--motion-dur-micro);
+}
+
+.model-card--grid:hover .model-card__art {
+  border-color: var(--color-ink-900);
+}
+
+.model-card--grid:hover .model-card__name {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 .model-card__art .jean-back {
   max-height: 280px;
 }
 
+.model-card__plate {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-rule);
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
+  color: var(--color-ink-muted);
+}
+
 .model-card__text {
   display: grid;
   align-content: start;
   gap: var(--space-2);
-  padding: var(--space-5);
+  padding-top: var(--space-4);
 }
 
 .model-card__kicker {
@@ -212,17 +224,30 @@
   font-size: var(--type-body-s);
 }
 
-/* 챕터 끝과 감정 결과에서는 가로 배치 */
+/* 챕터 끝과 감정 결과에서는 본문 사이에 끼는 가로 카드라 상자로 둔다 */
 .model-card--chapter,
 .model-card--inline {
   grid-template-columns: 160px 1fr;
+  border: 1px solid var(--color-rule);
+  background: var(--color-paper);
+  transition: border-color var(--motion-dur-micro);
+}
+
+.model-card--chapter:hover,
+.model-card--inline:hover {
+  border-color: var(--color-ink-900);
 }
 
 .model-card--chapter .model-card__art,
 .model-card--inline .model-card__art {
-  border-bottom: 0;
+  border: 0;
   border-right: 1px solid var(--color-blueprint-line);
   padding: var(--space-4);
+}
+
+.model-card--chapter .model-card__text,
+.model-card--inline .model-card__text {
+  padding: var(--space-5);
 }
 
 .model-card--inline {
@@ -301,45 +326,103 @@
   line-height: 1.8;
 }
 
-.pdp__sizes {
-  margin-bottom: var(--space-5);
+/* 치수표: 허리·기장 두 장을 나란히. 줄마다 [라디오 · 태그 · 세탁 후], 괘선으로 나눈다 */
+.pdp__charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--space-5);
+}
+
+.pdp__chart {
+  min-width: 0;
   border: 0;
 }
 
-.pdp__sizes legend {
+.pdp__chart legend {
   margin-bottom: var(--space-2);
   font-family: var(--font-family-body);
   font-size: var(--type-body-s);
+  font-weight: 600;
+  color: var(--color-ink-900);
+}
+
+.pdp__chart-head,
+.pdp__chart-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.pdp__chart-head {
+  padding: 0 var(--space-2) var(--space-1);
+  border-bottom: 1px solid var(--color-ink-900);
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
-.pdp__size-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
-  gap: var(--space-2);
+/* 머리줄에는 라디오 칸이 없으므로 첫 글자 칸을 둘째 열에 맞춘다 */
+.pdp__chart-head span:first-child {
+  grid-column: 2;
 }
 
-.pdp__size {
-  height: 44px;
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-sm);
-  background: var(--color-paper);
+.pdp__chart-row {
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  border-bottom: 1px solid var(--color-rule);
   font-family: var(--font-family-mono);
   font-size: var(--type-body-s);
+  font-variant-numeric: tabular-nums;
   color: var(--color-ink-900);
-  transition:
-    border-color var(--motion-dur-micro),
-    background var(--motion-dur-micro);
+  cursor: pointer;
+  transition: background var(--motion-dur-micro);
 }
 
-.pdp__size:hover {
-  border-color: var(--color-ink-900);
+.pdp__chart-row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-indigo-900);
 }
 
-.pdp__size[aria-pressed='true'] {
+.pdp__chart-row:hover {
+  background: var(--color-blueprint-bg);
+}
+
+.pdp__chart-row:has(input:checked) {
   background: var(--color-indigo-900);
-  border-color: var(--color-indigo-900);
   color: var(--color-ecru-50);
+}
+
+.pdp__chart-row:has(input:checked) input {
+  accent-color: var(--color-ecru-50);
+}
+
+/* 포커스는 줄 전체에 한 겹만 (라디오 자체 테두리까지 그리면 두 겹으로 겹친다) */
+.pdp__chart-row:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 1px;
+}
+
+.pdp__chart-row input:focus-visible {
+  outline: none;
+}
+
+.pdp__chart-after {
+  color: var(--color-ink-muted);
+}
+
+.pdp__chart-row:has(input:checked) .pdp__chart-after {
+  color: var(--color-indigo-200);
+}
+
+.pdp__chart-note {
+  margin: var(--space-3) 0 var(--space-5);
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
+  color: var(--color-ink-muted);
 }
 
 .pdp__advisor-toggle {
@@ -838,7 +921,9 @@
 }
 
 @media (max-width: 768px) {
+  /* 좁은 화면에서는 사이트 머리글만 붙어 있고 상점 띠는 본문과 함께 지나간다 (두 겹이면 화면 위 116px을 가린다) */
   .shop-bar {
+    position: static;
     grid-template-columns: 1fr auto;
     padding-left: var(--grid-mobile-margin);
     padding-right: var(--grid-mobile-margin);
@@ -870,6 +955,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .model-card,
+  .model-card__art,
   .advisor__bar {
     transition: none;
   }

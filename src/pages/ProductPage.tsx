@@ -5,7 +5,7 @@ import { chapterBySlug } from '../data/chapters';
 import { formatPrice, INSEAMS, Model, modelBySlug, models, WAISTS } from '../data/shop';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useCart } from '../shop/CartContext';
-import { ModelCard } from '../shop/ModelCard';
+import { ModelCard, plateNumber } from '../shop/ModelCard';
 import { ShopBar } from '../shop/ShopBar';
 import { SizeAdvisor } from '../shop/SizeAdvisor';
 import { describeFeatures, JeanBack } from '../viz/JeanBack';
@@ -23,6 +23,47 @@ export function ProductPage() {
   return <Product key={model.slug} model={model} />;
 }
 
+type SizeChartProps = {
+  legend: string;
+  name: string;
+  sizes: number[];
+  /** 첫 세탁 수축률 */
+  rate: number;
+  value: number | null;
+  onChange: (value: number) => void;
+};
+
+/** 괘선 치수표 한 장. 줄마다 라디오 하나라 방향키로 고를 수 있다. */
+function SizeChart({ legend, name, sizes, rate, value, onChange }: SizeChartProps) {
+  return (
+    <fieldset className="pdp__chart">
+      <legend>{legend}</legend>
+      <div className="pdp__chart-head" aria-hidden="true">
+        <span>태그</span>
+        <span>세탁 후</span>
+      </div>
+      {sizes.map((size) => {
+        const after = (size * (1 - rate)).toFixed(1);
+        return (
+          <label key={size} className="pdp__chart-row">
+            {/* 칸이 격자라 글자를 이어 읽으면 사이가 벌어지므로, 읽을 이름은 한 문장으로 준다 (보이는 숫자를 모두 포함) */}
+            <input
+              type="radio"
+              name={name}
+              value={size}
+              checked={value === size}
+              onChange={() => onChange(size)}
+              aria-label={`태그 ${size}, 세탁 후 약 ${after}인치`}
+            />
+            <span className="pdp__chart-tag">{size}</span>
+            <span className="pdp__chart-after">{after}</span>
+          </label>
+        );
+      })}
+    </fieldset>
+  );
+}
+
 function Product({ model }: { model: Model }) {
   const { add, setOpen } = useCart();
   const [waist, setWaist] = useState<number | null>(null);
@@ -30,6 +71,7 @@ function Product({ model }: { model: Model }) {
   const [advisorOpen, setAdvisorOpen] = useState(false);
   const [missing, setMissing] = useState(false);
   const advisorId = useId();
+  const chartId = useId();
   const chapter = chapterBySlug.get(model.chapter);
   const others = models.filter((candidate) => candidate !== model);
 
@@ -49,7 +91,9 @@ function Product({ model }: { model: Model }) {
       <div className="pdp">
         <div className="pdp__art">
           <JeanBack year={model.year} label={`${model.name} 뒷면 도식: ${describeFeatures(model.year).join(', ')}`} />
-          <p className="pdp__art-caption">{model.year}년 디테일로 그린 뒷면 도식</p>
+          <p className="pdp__art-caption">
+            도판 {plateNumber(model)} · {model.year}년 디테일로 그린 뒷면 도식
+          </p>
         </div>
 
         <div className="pdp__buy">
@@ -59,45 +103,32 @@ function Product({ model }: { model: Model }) {
           </p>
           <p className="pdp__tagline">{model.tagline}</p>
 
-          <fieldset className="pdp__sizes">
-            <legend>허리 (W)</legend>
-            <div className="pdp__size-grid">
-              {WAISTS.map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  className="pdp__size"
-                  aria-pressed={waist === value}
-                  onClick={() => {
-                    setWaist(value);
-                    setMissing(false);
-                  }}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset className="pdp__sizes">
-            <legend>기장 (L)</legend>
-            <div className="pdp__size-grid">
-              {INSEAMS.map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  className="pdp__size"
-                  aria-pressed={inseam === value}
-                  onClick={() => {
-                    setInseam(value);
-                    setMissing(false);
-                  }}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
-          </fieldset>
+          {/* 치수표: 태그 사이즈 옆에 첫 세탁 뒤 치수를 함께 적어, 고르면서 생지 수축을 보게 한다 */}
+          <div className="pdp__charts">
+            <SizeChart
+              legend="허리 (W)"
+              name={`${chartId}-waist`}
+              sizes={WAISTS}
+              rate={model.shrink.waist}
+              value={waist}
+              onChange={(value) => {
+                setWaist(value);
+                setMissing(false);
+              }}
+            />
+            <SizeChart
+              legend="기장 (L)"
+              name={`${chartId}-inseam`}
+              sizes={INSEAMS}
+              rate={model.shrink.inseam}
+              value={inseam}
+              onChange={(value) => {
+                setInseam(value);
+                setMissing(false);
+              }}
+            />
+          </div>
+          <p className="pdp__chart-note">세탁 후 치수는 콘셉트용 수축률로 계산한 근사치(인치)입니다.</p>
 
           <button
             type="button"
