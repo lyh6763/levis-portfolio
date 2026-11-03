@@ -81,9 +81,11 @@
   --font-family-display: "Fraunces", "Fraunces Fallback", "Noto Serif KR", "AppleMyungjo", "Batang", Georgia, serif;
   /* 한글 본문. 웹폰트가 오기 전에는 기기의 한글 명조로 그린다. */
   --font-family-serif:   "Noto Serif KR", "Fraunces", "AppleMyungjo", "Batang", Georgia, serif;
-  /* UI. 내려받지 않고 기기 기본 고딕을 쓴다 (웹폰트 용량 절감). */
+  /* UI. 내려받지 않고 기기 기본 고딕을 쓴다 (웹폰트 용량 절감). 안내문·버튼·라벨은 이 서체로 14px. */
   --font-family-body:    system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
-  /* 그냥 monospace로 두면 한국어 Windows는 굴림체(13.5MB)를 따로 읽는다. 라틴은 Consolas·Menlo, 한글은 UI 고딕으로. */
+  /* 고정폭은 숫자·영문 '기록'에만 쓴다: 장 번호, 연도, 가격, 치수, 각주 번호, 대조 날짜.
+     한글 문장은 고정폭에서 띄어쓰기가 글자 폭만큼 벌어지므로 캡션이라도 기본 고딕으로 쓴다.
+     그냥 monospace로 두면 한국어 Windows는 굴림체(13.5MB)를 따로 읽는다. 라틴은 Consolas·Menlo, 한글은 UI 고딕으로. */
   --font-family-mono:    "IBM Plex Mono", Consolas, Menlo, "Apple SD Gothic Neo", "Malgun Gothic", monospace;
 
   /* ---------- 글자 크기 ---------- */
@@ -95,7 +97,7 @@
   --type-body-l:       18px;
   --type-body-m:       16px;
   --type-body-s:       14px;
-  --type-caption:      12px;
+  --type-caption:      13px; /* 가장 작은 글자. HTML 글자는 이보다 작게 쓰지 않는다 (도식 SVG 안의 주석 글자만 예외) */
 
   /* ---------- 행 길이와 마스트헤드 ---------- */
   --measure-text: 640px;

@@ -21,9 +21,8 @@
   padding: var(--space-3) var(--grid-desktop-margin);
   background: var(--color-paper-deep);
   border-bottom: 1px solid var(--color-rule);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.06em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
 }
 
 .shop-bar__crumbs {
@@ -57,8 +56,8 @@
   padding: 6px 14px;
   border: 1px solid var(--color-ink-900);
   border-radius: var(--radius-sm);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-900);
   white-space: nowrap;
 }
@@ -182,9 +181,8 @@
 }
 
 .model-card__kicker {
-  font-family: var(--font-family-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
   color: var(--color-accent-selvedge);
 }
 
@@ -268,7 +266,7 @@
 
 .pdp__art-caption {
   margin-top: var(--space-4);
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-body);
   font-size: var(--type-caption);
   color: var(--color-ink-muted);
   text-align: center;
@@ -290,7 +288,9 @@
 
 .pdp__price-note {
   margin-left: var(--space-2);
-  font-size: 11px;
+  /* 가격(고정폭) 안에 있지만 안내문이라 기본 고딕 */
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
@@ -308,9 +308,8 @@
 
 .pdp__sizes legend {
   margin-bottom: var(--space-2);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 
@@ -396,11 +395,9 @@
 
 .pdp__section h2 {
   margin-bottom: var(--space-4);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
+  font-weight: 600;
   color: var(--color-accent-selvedge);
 }
 
@@ -431,7 +428,7 @@
 }
 
 .pdp__specs dt {
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-body);
   font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
@@ -512,9 +509,8 @@
 }
 
 .advisor__label {
-  font-family: var(--font-family-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
@@ -547,7 +543,7 @@
   align-items: center;
   gap: var(--space-3);
   font-family: var(--font-family-mono);
-  font-size: 11px;
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
@@ -632,8 +628,8 @@
   padding: 6px 14px;
   border: 1px solid var(--color-ink-900);
   border-radius: var(--radius-sm);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-900);
 }
 
@@ -811,9 +807,8 @@
 }
 
 .result__models-title {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 

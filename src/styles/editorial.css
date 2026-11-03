@@ -107,12 +107,17 @@ body {
   font-variation-settings: 'opsz' 72;
 }
 
-.masthead__current,
-.masthead__toc {
+/* 지금 장 번호·제목은 기록이라 고정폭, 목차 버튼은 UI라 기본 고딕 */
+.masthead__current {
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.masthead__toc {
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
 }
 
 .masthead__current {
@@ -202,10 +207,8 @@ body {
 
 .toc__label,
 .toc__close {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ecru-50);
 }
 
@@ -252,10 +255,8 @@ body {
   gap: var(--space-5);
   margin-top: auto;
   padding-top: var(--space-7);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
 }
 
 /* ---------- Cover ---------- */
@@ -290,10 +291,8 @@ body {
 }
 
 .cover__issue {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-indigo-300);
 }
 
@@ -340,8 +339,8 @@ body {
 }
 
 .cover__meta {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-indigo-300);
 }
 
@@ -402,11 +401,16 @@ body {
   padding-top: 2px;
 }
 
-.contents__years,
-.contents__time {
+.contents__years {
   font-family: var(--font-family-mono);
   font-size: var(--type-caption);
   letter-spacing: 0.06em;
+  color: var(--color-ink-muted);
+}
+
+.contents__time {
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 
@@ -504,8 +508,8 @@ body {
 
 .opener__meta {
   margin-top: var(--space-6);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-indigo-300);
 }
 
@@ -603,8 +607,8 @@ body {
 
 .pull__cite {
   margin-top: var(--space-4);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 
@@ -625,7 +629,7 @@ body {
 }
 
 .stat__label {
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-body);
   font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
@@ -640,11 +644,9 @@ body {
 
 .note-box__title {
   margin-bottom: var(--space-2);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
+  font-weight: 600;
   color: var(--color-accent-selvedge);
 }
 
@@ -666,7 +668,7 @@ body {
   margin: var(--space-4) auto 0;
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-rule);
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-body);
   font-size: var(--type-caption);
   line-height: 1.6;
   color: var(--color-ink-muted);
@@ -837,11 +839,9 @@ body {
 
 .endnotes__title {
   margin-bottom: var(--space-4);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
+  font-weight: 600;
 }
 
 .endnotes__list li {
@@ -883,10 +883,8 @@ body {
 }
 
 .chapter-nav__dir {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 
@@ -913,10 +911,8 @@ body {
 }
 
 .page__kicker {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-accent-selvedge);
 }
 
@@ -940,11 +936,9 @@ body {
 
 .page__body h2 {
   margin: var(--space-7) 0 var(--space-3);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-m);
+  font-weight: 600;
   color: var(--color-accent-selvedge);
 }
 
@@ -968,9 +962,8 @@ body {
 }
 
 .sources__author {
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.06em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-muted);
 }
 
@@ -992,7 +985,7 @@ body {
   border: 1px dashed var(--color-ink-muted);
   border-radius: var(--radius-tab);
   font-family: var(--font-family-mono);
-  font-size: 11px;
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
@@ -1040,10 +1033,8 @@ body {
   /* 좁은 화면에서 링크가 글자 단위로 꺾이지 않도록, 링크는 한 줄로 두고 묶음째 다음 줄로 넘긴다. */
   flex-wrap: wrap;
   gap: var(--space-3) var(--space-5);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
 }
 
 .site-footer__links > * {

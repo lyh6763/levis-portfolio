@@ -30,6 +30,7 @@ export type Block =
 export type Chapter = {
   slug: string;
   number: string;
+  /** 본문이 다루는 시기. 본문에 연도가 없는 장(05 Indigo)은 지어내지 않고 빈 문자열로 둔다. */
   years: string;
   title: string;
   dek: string;
@@ -73,7 +74,7 @@ export const chapters: Chapter[] = [
   {
     slug: 'indigo',
     number: '05',
-    years: '염료',
+    years: '',
     title: 'Indigo',
     dek: '인디고는 실의 바깥층에만 물든다. 입을수록 흰 심이 드러나 색이 옅어지는 이유다.',
     readMinutes: 2,
@@ -81,7 +82,7 @@ export const chapters: Chapter[] = [
   {
     slug: 'the-loom',
     number: '06',
-    years: '직조',
+    years: '1915–1984',
     title: 'The Loom',
     dek: '셔틀 직기에서는 씨실이 원단 끝에서 되돌아와 가장자리가 풀리지 않는다. 그 끝선이 셀비지다.',
     readMinutes: 2,

@@ -36,7 +36,7 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
       <header className="opener">
         <div className="opener__inner">
           <p className="opener__kicker">제{Number(chapter.number)}장</p>
-          {/* 배경의 큰 연도는 숫자 구간일 때만 깐다 ('염료', '현재' 같은 말은 기울인 한글로 키우면 어색하다). */}
+          {/* 배경의 큰 연도는 숫자 구간일 때만 깐다 ('현재' 같은 말은 기울인 한글로 키우면 어색하고, 빈 칸은 깔 것이 없다). */}
           {/^[\d–]+$/.test(chapter.years) && (
             <p className="opener__years" aria-hidden="true">
               {chapter.years}
@@ -45,7 +45,7 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
           <h1 className="opener__title">{chapter.title}</h1>
           <p className="opener__dek">{chapter.dek}</p>
           <p className="opener__meta">
-            <span className="visually-hidden">시기 {chapter.years}, </span>
+            {chapter.years && <span className="visually-hidden">시기 {chapter.years}, </span>}
             읽는 시간 약 {chapter.readMinutes}분
           </p>
         </div>

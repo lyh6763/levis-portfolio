@@ -382,9 +382,7 @@
 }
 
 .lot__specs dt {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--type-caption);
   color: var(--color-ink-muted);
 }
 
@@ -640,9 +638,8 @@
 .loom__toggle button {
   padding: 8px 18px;
   border-radius: var(--radius-tab);
-  font-family: var(--font-family-mono);
-  font-size: var(--type-caption);
-  letter-spacing: 0.06em;
+  font-family: var(--font-family-body);
+  font-size: var(--type-body-s);
   color: var(--color-ink-900);
   transition:
     background var(--motion-dur-micro),
