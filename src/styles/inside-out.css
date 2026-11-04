@@ -296,9 +296,14 @@
   color: var(--color-indigo-900);
 }
 
+/*
+  안내문(쓰는 법, 확인할 자리, 기록의 답)은 기본 고딕으로 쓴다(글자·라벨 정리의 기준).
+  본문 명조는 웹폰트 조각이 늦게 차례로 도착하며 줄바꿈이 바뀌었다 돌아오는데, 소개 문단이 한 줄 줄면
+  아래의 긴 기록 전체가 밀려 결과 링크로 들어올 때 CLS가 0.1 가까이 나왔다.
+*/
 .inside__dek {
   max-width: 36em;
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-body);
   font-size: var(--type-body-m);
   line-height: 1.9;
   color: var(--color-ink-muted);
@@ -473,7 +478,7 @@ button.row__head:hover .row__name {
 }
 
 .row__answer {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-body);
   font-size: var(--type-body-m);
 }
 
@@ -555,7 +560,7 @@ button.row__head:hover .row__name {
 
 .ask__where {
   margin-top: var(--space-2);
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family-body);
   font-size: var(--type-body-s);
   line-height: 1.8;
   color: var(--color-ink-muted);
@@ -822,6 +827,12 @@ button.row__head:hover .row__name {
   .row__name,
   .row__answer {
     font-size: var(--type-body-s);
+  }
+
+  /* 연도는 고정폭 웹폰트라 도착하면 폭이 바뀐다. 따로 한 줄에 두어 답 글자의 줄바꿈을 흔들지 않게 한다 */
+  .row__range {
+    display: block;
+    margin-left: 0;
   }
 
   /* 좁은 화면에서는 질문이 연표 칸까지 덮어 선택지 폭을 확보한다 */
