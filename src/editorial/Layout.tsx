@@ -311,8 +311,9 @@ function SiteFooter() {
           <Link to="/shop">Heritage Line</Link>
           <Link to="/sources">출처</Link>
           <Link to="/colophon">사이트 소개</Link>
+          {/* 다른 링크는 갈 곳의 이름, 이 버튼은 동작이다. 실밥 알림·09장 끝 버튼과 같은 "뒤집어 보기"로 부른다. */}
           <button type="button" className="site-footer__turn" onClick={() => flip()}>
-            {isInside ? '겉면으로' : 'Inside out'} <span aria-hidden="true">↺</span>
+            {isInside ? '겉면으로' : '뒤집어 보기'} <span aria-hidden="true">↺</span>
           </button>
         </nav>
       </div>
