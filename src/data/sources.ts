@@ -9,12 +9,21 @@ export type Source = {
   checked?: string;
 };
 
-/**
+export type SourceGroup = {
+  /** 출처 페이지의 묶음 주소(#sources-<id>). 출처 id와 겹치지 않게 앞에 sources-를 붙여 쓴다. */
+  id: string;
+  title: string;
+  /** 묶음에 무엇이 들었는지 한 줄 */
+  note: string;
+  sources: Source[];
+};
+
+/*
  * 본문 각주가 참조하는 출처. 챕터 텍스트의 `[^id]` 마커가 이 id를 가리킨다.
  * 온라인 자료는 2026년 10월에 본문 서술과 대조했다. 단행본은 원문 대조 전이라 보조 근거로만 쓴다.
+ * 출처 페이지는 아래 네 묶음 그대로 보여 준다.
  */
-export const sources: Source[] = [
-  // ---------- 1차 자료 ----------
+const primary: Source[] = [
   {
     id: 'patent139121',
     author: 'Jacob W. Davis',
@@ -42,8 +51,9 @@ export const sources: Source[] = [
     url: 'https://www.ecfr.gov/current/title-16/chapter-I/subchapter-B/part-423',
     checked: '2026-10',
   },
+];
 
-  // ---------- Levi Strauss & Co. 아카이브·역사 글 ----------
+const company: Source[] = [
   {
     id: 'lsco-since1850',
     author: 'Levi Strauss & Co.',
@@ -197,8 +207,9 @@ export const sources: Source[] = [
     url: 'https://www.levistrauss.com/2015/03/26/3-surprising-insights-about-those-501-jeans/',
     checked: '2026-10',
   },
+];
 
-  // ---------- 2차 자료 ----------
+const secondary: Source[] = [
   {
     id: 'wiki-jeans',
     author: 'Wikipedia',
@@ -217,8 +228,9 @@ export const sources: Source[] = [
     url: 'https://bamfstyle.com/2015/09/30/rebel-without-a-cause-3-windbreaker/',
     checked: '2026-10',
   },
+];
 
-  // ---------- 단행본 (원문 대조 전) ----------
+const books: Source[] = [
   {
     id: 'downey2016',
     author: 'Lynn Downey',
@@ -241,5 +253,19 @@ export const sources: Source[] = [
     year: '2011',
   },
 ];
+
+export const sourceGroups: SourceGroup[] = [
+  { id: 'primary', title: '1차 자료', note: '특허 문서, 당사자의 편지, 법령 원문', sources: primary },
+  {
+    id: 'company',
+    title: 'Levi Strauss & Co. 아카이브',
+    note: '회사 역사가와 아카이브 팀이 levistrauss.com에 공개한 글',
+    sources: company,
+  },
+  { id: 'secondary', title: '2차 자료', note: '백과사전과 영화 의상 분석', sources: secondary },
+  { id: 'books', title: '단행본', note: '원문과 대조하지 못해 보조 근거로만 달았습니다', sources: books },
+];
+
+export const sources: Source[] = sourceGroups.flatMap((group) => group.sources);
 
 export const sourceById = new Map(sources.map((source) => [source.id, source]));

@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { blocksBySlug } from '../content/chapters/buildIndex';
 import { collectNotes } from '../editorial/Footnote';
 import { chapters } from './chapterMeta';
-import { sourceById, sources } from './sources';
+import { citedInChapters, usedInInsideOut } from './citations';
+import { sourceById, sourceGroups, sources } from './sources';
 
 // 각주 마커의 시작. 앱이 각주로 바꾸는 형식(소문자·숫자·하이픈 id)인지는 collectNotes로 따로 센다.
 const MARKER_START = /\[\^/g;
@@ -50,6 +51,12 @@ describe('출처 목록', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('묶음 주소가 출처 id와 겹치지 않는다', () => {
+    for (const group of sourceGroups) {
+      expect(sourceById.has(`sources-${group.id}`), group.id).toBe(false);
+    }
+  });
+
   it.each(sources)('$id: 대조 시점은 YYYY-MM, 주소는 http(s)로 쓴다', (source) => {
     if (source.checked !== undefined) {
       expect(source.checked).toMatch(/^\d{4}-(0[1-9]|1[0-2])$/);
@@ -57,5 +64,26 @@ describe('출처 목록', () => {
     if (source.url !== undefined) {
       expect(source.url).toMatch(/^https?:\/\//);
     }
+  });
+});
+
+describe('출처가 쓰인 곳', () => {
+  it('출처 페이지의 인용 장 목록이 본문 각주와 같다', () => {
+    const fromText: Record<string, string[]> = {};
+    for (const { slug, blocks } of chapterBlocks) {
+      for (const id of new Set(collectNotes(blocks))) {
+        (fromText[id] ??= []).push(slug);
+      }
+    }
+    expect(citedInChapters).toEqual(fromText);
+  });
+
+  it('감정 도구가 근거로 쓰는 출처가 목록에 있다', () => {
+    expect(usedInInsideOut.filter((id) => !sourceById.has(id))).toEqual([]);
+  });
+
+  it.each(sources)('$id: 어딘가에 쓰인다 (장 각주나 감정 도구)', (source) => {
+    const used = (citedInChapters[source.id]?.length ?? 0) > 0 || usedInInsideOut.includes(source.id);
+    expect(used).toBe(true);
   });
 });
