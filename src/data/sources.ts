@@ -15,6 +15,9 @@ export type SourceGroup = {
   title: string;
   /** 묶음에 무엇이 들었는지 한 줄 */
   note: string;
+  /** 묶음 안에서 거의 모든 항목이 같은 저자·게시처면 여기 적고, 항목에서는 다를 때만 보인다 */
+  sharedAuthor?: string;
+  sharedPublisher?: string;
   sources: Source[];
 };
 
@@ -259,7 +262,9 @@ export const sourceGroups: SourceGroup[] = [
   {
     id: 'company',
     title: 'Levi Strauss & Co. 아카이브',
-    note: '회사 역사가와 아카이브 팀이 levistrauss.com에 공개한 글',
+    note: '회사 역사가와 아카이브 팀이 공개한 글',
+    sharedAuthor: 'Levi Strauss & Co.',
+    sharedPublisher: 'levistrauss.com',
     sources: company,
   },
   { id: 'secondary', title: '2차 자료', note: '백과사전과 영화 의상 분석', sources: secondary },

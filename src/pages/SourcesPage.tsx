@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router';
 
 import { chapterBySlug } from '../data/chapterMeta';
 import { citedInChapters, usedInInsideOut } from '../data/citations';
@@ -39,8 +40,26 @@ function SourceUses({ source }: { source: Source }) {
   );
 }
 
+/**
+ * 주소의 #id. 각주의 '출처' 링크는 사이트 안 이동이라 :target이 바뀌지 않으므로 직접 읽어 표시한다.
+ * 빌드 때 미리 그린 HTML에는 해시가 없으므로, hydrate가 어긋나지 않게 그린 뒤에(effect) 읽는다.
+ */
+function useCurrentHash() {
+  const { hash } = useLocation();
+  const [current, setCurrent] = useState('');
+  useEffect(() => {
+    try {
+      setCurrent(decodeURIComponent(hash.slice(1)));
+    } catch {
+      setCurrent('');
+    }
+  }, [hash]);
+  return current;
+}
+
 export function SourcesPage() {
   useDocumentTitle('출처');
+  const current = useCurrentHash();
 
   return (
     <article className="page page--sources">
@@ -72,14 +91,28 @@ export function SourcesPage() {
                 {group.sources.length}개{status ? ` · ${status}` : ''}
               </p>
             </div>
-            <p className="sources__group-note">{group.note}</p>
+            <p className="sources__group-note">
+              {group.note}
+              {group.sharedAuthor && (
+                <>
+                  . 따로 적지 않은 항목의 저자는 {group.sharedAuthor}
+                  {group.sharedPublisher && `, 게시처는 ${group.sharedPublisher}`}입니다.
+                </>
+              )}
+            </p>
             <ol className="sources">
               {group.sources.map((source) => (
-                <li key={source.id} id={source.id} className="sources__item" tabIndex={-1}>
-                  <span className="sources__author">{source.author}</span>
+                <li
+                  key={source.id}
+                  id={source.id}
+                  className={`sources__item${source.id === current ? ' is-current' : ''}`}
+                  tabIndex={-1}
+                >
+                  {/* 묶음 머리에 적은 저자·게시처와 같으면 항목마다 되풀이하지 않는다 */}
+                  {source.author !== group.sharedAuthor && <span className="sources__author">{source.author}</span>}
                   <cite className="sources__title">{source.title}</cite>
                   <span className="sources__pub">
-                    {source.publisher ? `${source.publisher}, ` : ''}
+                    {source.publisher && source.publisher !== group.sharedPublisher ? `${source.publisher}, ` : ''}
                     {source.year}
                   </span>
                   {!status && (
@@ -87,12 +120,14 @@ export function SourcesPage() {
                       {source.checked ? `${formatMonth(source.checked)} 대조` : '원문 대조 전'}
                     </span>
                   )}
-                  <SourceUses source={source} />
-                  {source.url && (
-                    <a className="sources__link" href={source.url} target="_blank" rel="noreferrer">
-                      원문 보기 <span className="visually-hidden">(새 창)</span>
-                    </a>
-                  )}
+                  <div className="sources__foot">
+                    <SourceUses source={source} />
+                    {source.url && (
+                      <a className="sources__link" href={source.url} target="_blank" rel="noreferrer">
+                        원문 보기 <span className="visually-hidden">(새 창)</span>
+                      </a>
+                    )}
+                  </div>
                 </li>
               ))}
             </ol>
