@@ -24,6 +24,28 @@ export function collectNotes(blocks: Block[]): string[] {
   return order;
 }
 
+export type BlockNote = { id: string; first: boolean };
+
+/** 블록마다 붙은 각주(블록 안 등장 순서, 중복 없이). 그 출처가 챕터에서 처음 나오는 블록이면 first. */
+export function notesByBlock(blocks: Block[]): BlockNote[][] {
+  const seen = new Set<string>();
+  return blocks.map((block) => {
+    const notes: BlockNote[] = [];
+    if (block.type !== 'p' && block.type !== 'aside') {
+      return notes;
+    }
+    for (const match of block.text.matchAll(NOTE_PATTERN)) {
+      if (!notes.some((note) => note.id === match[1])) {
+        notes.push({ id: match[1], first: !seen.has(match[1]) });
+      }
+    }
+    for (const note of notes) {
+      seen.add(note.id);
+    }
+    return notes;
+  });
+}
+
 /** `[^id]` 마커를 각주 버튼으로 바꿔 렌더링한다. */
 export function RichText({ text }: { text: string }) {
   const parts = text.split(NOTE_PATTERN);
@@ -50,8 +72,55 @@ export function SourceCitation({ id }: { id: string }): ReactNode {
   );
 }
 
-// editorial.css에서 팝오버가 하단 시트로 바뀌는 기준과 같다.
+/**
+ * 옆주 표기. 여백이 좁아 게시처는 문말 주와 출처 목록에 맡기고, 제목을 출처 목록 링크로 쓴다.
+ * 같은 출처가 다시 나오면 번호가 같으므로 저자와 연도만 쓴다.
+ */
+function SideCitation({ id, first }: BlockNote): ReactNode {
+  const source = sourceById.get(id);
+  if (!source) {
+    return id;
+  }
+  if (!first) {
+    return `${source.author}, ${source.year}.`;
+  }
+  return (
+    <>
+      {source.author},{' '}
+      <Link className="side__link" to={`/sources#${id}`}>
+        <cite>{source.title}</cite>
+      </Link>
+      , {source.year}.
+    </>
+  );
+}
+
+/**
+ * 넓은 화면에서 문단 오른쪽 여백에 두는 각주(옆주). 좁은 화면에서는 CSS가 숨기고 본문의 각주 버튼을 쓴다.
+ * 문단(`p`) 안에도 들어가므로 구문 요소(span, small)로만 짓는다.
+ */
+export function SideNotes({ notes }: { notes: BlockNote[] }) {
+  const order = useContext(NotesContext);
+  return (
+    <span className="side">
+      {notes.map((note) => (
+        <small key={note.id} className="side__note">
+          <span className="side__num">
+            <span className="visually-hidden">각주 </span>
+            {order.indexOf(note.id) + 1}
+          </span>
+          <span>
+            <SideCitation {...note} />
+          </span>
+        </small>
+      ))}
+    </span>
+  );
+}
+
+// editorial.css에서 팝오버가 하단 시트로 바뀌는 기준, 각주가 옆주로 바뀌는 기준과 같다.
 const SHEET_QUERY = '(max-width: 768px)';
+const WIDE_QUERY = '(min-width: 1200px)';
 const EDGE = 12;
 
 function FootnoteRef({ id }: { id: string }) {
@@ -76,11 +145,13 @@ function FootnoteRef({ id }: { id: string }) {
     }
     pop.showPopover();
     const sheet = window.matchMedia(SHEET_QUERY);
+    const wide = window.matchMedia(WIDE_QUERY);
     let frame = 0;
     const place = () => {
       frame = 0;
       const rect = button.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+      // 창을 넓혀 옆주로 바뀌면 버튼이 숨으므로 팝오버도 닫는다.
+      if (wide.matches || rect.bottom < 0 || rect.top > window.innerHeight) {
         setOpen(false);
         return;
       }
@@ -151,6 +222,10 @@ function FootnoteRef({ id }: { id: string }) {
       >
         {number}
       </button>
+      {/* 넓은 화면에서 버튼 대신 보이는 번호. 읽기 프로그램은 옆주에서 번호를 읽는다. */}
+      <span className="fn__mark" aria-hidden="true">
+        {number}
+      </span>
       {open && (
         <span className="fn__pop" id={popId} role="note" popover="manual" ref={popRef}>
           <span className="fn__num">{number}</span>

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { blocksBySlug } from '../content/chapters/buildIndex';
-import { collectNotes } from '../editorial/Footnote';
+import { collectNotes, notesByBlock } from '../editorial/Footnote';
 import { chapters } from './chapterMeta';
 import { citedInChapters, usedInInsideOut } from './citations';
 import { sourceById, sourceGroups, sources } from './sources';
@@ -42,6 +42,16 @@ describe('각주', () => {
         }
       }
     }
+  });
+
+  it.each(chapterBlocks)('$slug: 옆주는 블록마다 그 블록의 각주를, 전체 표기는 출처마다 한 번 쓴다', ({ blocks }) => {
+    const perBlock = notesByBlock(blocks);
+    for (const [i, notes] of perBlock.entries()) {
+      expect(notes.map((note) => note.id)).toEqual(collectNotes([blocks[i]]));
+    }
+    // 전체 표기(first)가 나오는 순서가 각주 번호 순서와 같다.
+    const firsts = perBlock.flatMap((notes) => notes.filter((note) => note.first).map((note) => note.id));
+    expect(firsts).toEqual(collectNotes(blocks));
   });
 });
 

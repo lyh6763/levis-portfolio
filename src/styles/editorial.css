@@ -637,6 +637,10 @@ body {
 .note-box {
   margin-top: var(--space-7);
   margin-bottom: var(--space-7);
+}
+
+/* 상자 모양은 안쪽에 둔다. 넓은 화면에서는 옆주가 상자 밖 오른쪽에 붙는다(아래 옆주). */
+.note-box__main {
   padding: var(--space-5) var(--space-6);
   background: var(--color-paper-deep);
   border-left: 3px solid var(--color-accent-selvedge);
@@ -827,6 +831,98 @@ body {
   color: var(--color-topstitch-500);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* 옆주와 그 번호는 넓은 화면에서만 보인다(아래 옆주). */
+.fn__mark,
+.side {
+  display: none;
+}
+
+/* ---------- Sidenotes (옆주) ---------- */
+/*
+  1200px 이상에서는 본문 폭(640px) 양옆이 비므로 각주를 문단 오른쪽 여백에 둔다. 기준은 Footnote.tsx의 WIDE_QUERY와 같다.
+  - 각주가 거의 문단 끝에 몰려 있어(한 문단에 두 개까지) 참조한 줄이 아니라 문단 첫 줄에 맞춘다.
+    옆주가 문단보다 길면 문단이 늘어난다(그리드 한 줄이라 다음 문단과 겹치지 않는다).
+  - 옆주 칸은 문단 상자 안에 둔다. 본문 블록의 content-visibility가 상자 밖 그리기를 자르기 때문이다.
+  - 본문 글줄의 왼쪽 끝은 각주 없는 문단과 같다. 상자만 오른쪽으로 넓힌다.
+  - 본문의 번호는 누를 필요가 없어 테두리 없는 위첨자로 바꾸고, 읽기 프로그램은 옆주에서 "각주 1"을 읽는다.
+*/
+@media (min-width: 1200px) {
+  .body {
+    /* 1200px에서 200px(오른쪽에 약 40px 남김), 1440px 이상에서 240px */
+    --side-gap: 32px;
+    --side-w: clamp(200px, calc((100vw - var(--measure-text)) / 2 - 80px), 240px);
+  }
+
+  .body > .body__p--noted,
+  .body > .note-box--noted {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--side-gap) var(--side-w);
+    align-items: start;
+    width: calc(var(--measure-text) + var(--side-gap) + var(--side-w));
+    max-width: none;
+    margin-left: calc(50% - var(--measure-text) / 2);
+  }
+
+  .body__p--noted > .body__text,
+  .note-box--noted > .note-box__main {
+    grid-column: 1;
+  }
+
+  .fn__ref {
+    display: none;
+  }
+
+  .fn__mark {
+    display: inline;
+    margin: 0 2px;
+    vertical-align: super;
+    font-family: var(--font-family-mono);
+    font-size: var(--type-caption);
+    line-height: 1;
+    color: var(--color-accent-selvedge);
+  }
+
+  .side {
+    display: grid;
+    grid-column: 3;
+    gap: var(--space-4);
+    /* 첫 옆주의 괘선을 문단 첫 줄 글자 윗선 근처에 맞춘다 */
+    padding-top: 8px;
+  }
+
+  .side__note {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-rule);
+    font-family: var(--font-family-body);
+    font-size: var(--type-caption);
+    line-height: 1.6;
+    color: var(--color-ink-muted);
+  }
+
+  .side__num {
+    font-family: var(--font-family-mono);
+    color: var(--color-accent-selvedge);
+  }
+
+  .side__note cite {
+    font-style: italic;
+  }
+
+  .side__link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--color-rule);
+    text-underline-offset: 3px;
+  }
+
+  .side__link:hover {
+    color: var(--color-ink-900);
+    text-decoration-color: currentColor;
+  }
 }
 
 /* ---------- Endnotes ---------- */

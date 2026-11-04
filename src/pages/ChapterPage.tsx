@@ -3,7 +3,15 @@ import { Link, useParams } from 'react-router';
 
 import { Block, Chapter, chapterBySlug, chapters, loadChapterBlocks } from '../data/chapters';
 import { modelByChapter } from '../data/shop';
-import { collectNotes, NotesContext, RichText, SourceCitation } from '../editorial/Footnote';
+import {
+  BlockNote,
+  collectNotes,
+  notesByBlock,
+  NotesContext,
+  RichText,
+  SideNotes,
+  SourceCitation,
+} from '../editorial/Footnote';
 import { prefetchChapter, prefetchHandlers } from '../editorial/prefetch';
 import { preloadSerifFontFor } from '../editorial/preloadFonts';
 import { Reveal } from '../editorial/Reveal';
@@ -95,11 +103,16 @@ function ChapterArticle({ chapter }: { chapter: Chapter }) {
 function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: string }) {
   const blocks = use(loadChapterBlocks(chapter.slug));
   const notes = useMemo(() => collectNotes(blocks), [blocks]);
+  const blockNotes = useMemo(() => notesByBlock(blocks), [blocks]);
   const model = modelByChapter.get(chapter.slug);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   // 화면 밖 본문 블록의 한글 웹폰트 조각을 미리 받아, 스크롤 중에 글자가 바뀌지 않게 한다.
-  useEffect(() => preloadSerifFontFor(bodyRef.current, '.body__p, .pull, .note-box'), [blocks]);
+  // 옆주(.side)는 본문 서체가 아니라서 뺀다.
+  useEffect(
+    () => preloadSerifFontFor(bodyRef.current, '.body__p:not(.body__p--noted), .body__text, .pull, .note-box__main'),
+    [blocks],
+  );
 
   // 본문을 다 그린 뒤 브라우저가 한가할 때 다음 챕터를 미리 받아 둔다.
   useEffect(() => {
@@ -116,7 +129,7 @@ function ChapterBody({ chapter, nextSlug }: { chapter: Chapter; nextSlug?: strin
     <NotesContext.Provider value={notes}>
       <div className="body" ref={bodyRef}>
         {blocks.map((block, i) => (
-          <BlockView key={i} block={block} />
+          <BlockView key={i} block={block} notes={blockNotes[i]} />
         ))}
       </div>
 
@@ -173,10 +186,18 @@ function TurnButton({ text }: { text: string }) {
   );
 }
 
-function BlockView({ block }: { block: Block }) {
+function BlockView({ block, notes }: { block: Block; notes: BlockNote[] }) {
   switch (block.type) {
     case 'p':
-      return (
+      // 각주가 있는 문단은 넓은 화면에서 본문과 옆주 두 칸으로 나눈다(editorial.css 옆주).
+      return notes.length > 0 ? (
+        <p className="body__p body__p--noted">
+          <span className="body__text">
+            <RichText text={block.text} />
+          </span>
+          <SideNotes notes={notes} />
+        </p>
+      ) : (
         <p className="body__p">
           <RichText text={block.text} />
         </p>
@@ -203,11 +224,14 @@ function BlockView({ block }: { block: Block }) {
       );
     case 'aside':
       return (
-        <aside className="note-box">
-          <h3 className="note-box__title">{block.title}</h3>
-          <p>
-            <RichText text={block.text} />
-          </p>
+        <aside className={notes.length > 0 ? 'note-box note-box--noted' : 'note-box'}>
+          <div className="note-box__main">
+            <h3 className="note-box__title">{block.title}</h3>
+            <p>
+              <RichText text={block.text} />
+            </p>
+          </div>
+          {notes.length > 0 && <SideNotes notes={notes} />}
         </aside>
       );
     case 'thread':
