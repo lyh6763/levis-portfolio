@@ -103,6 +103,10 @@ function ReadingProgress() {
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // CSS가 animation-timeline: scroll()로 막대를 움직이는 브라우저에서는 스크롤 리스너를 달지 않는다(editorial.css).
+    if (window.CSS?.supports?.('animation-timeline: scroll()')) {
+      return;
+    }
     let frame = 0;
     const update = () => {
       frame = 0;
