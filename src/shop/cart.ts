@@ -1,4 +1,4 @@
-import { modelBySlug } from '../data/shop';
+import { INSEAMS, modelBySlug, WAISTS } from '../data/shop';
 
 export type CartItem = {
   slug: string;
@@ -27,14 +27,53 @@ export function setItemQty(items: CartItem[], key: string, qty: number): CartIte
   return items.map((item) => (itemKey(item) === key ? { ...item, qty: clampQty(qty) } : item));
 }
 
-/** 저장된 장바구니를 읽는다. 바뀐 상품 목록과 어긋난 항목은 버리고, 수량은 한도 안으로 맞춘다. */
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null;
+
+/**
+ * 저장된 장바구니를 읽는다. 저장값은 예전 형식이거나 손상됐을 수 있으므로 형변환을 믿지 않고
+ * 항목마다 상품·허용 사이즈·정수 수량을 확인한 뒤 알려진 필드만 새 객체로 담는다.
+ * 숫자가 아닌 사이즈가 서랍에 그대로 그려지면 사이트 전체가 멈추므로 여기서 걸러야 한다.
+ * 잘못된 항목 하나 때문에 정상 항목까지 잃지 않도록 항목별로 버리고, 수량은 한도 안으로 맞춘다.
+ */
 export function parseCart(raw: string | null): CartItem[] {
+  let parsed: unknown;
   try {
-    const parsed = raw ? (JSON.parse(raw) as CartItem[]) : [];
-    return parsed
-      .filter((item) => modelBySlug.has(item.slug) && item.qty > 0)
-      .map((item) => ({ ...item, qty: clampQty(item.qty) }));
+    parsed = raw ? JSON.parse(raw) : [];
   } catch {
     return [];
   }
+  if (!Array.isArray(parsed)) {
+    return [];
+  }
+
+  const items: CartItem[] = [];
+  const seen = new Set<string>();
+  for (const entry of parsed) {
+    if (!isRecord(entry)) {
+      continue;
+    }
+    const { slug, waist, inseam, qty } = entry;
+    const valid =
+      typeof slug === 'string' &&
+      modelBySlug.has(slug) &&
+      typeof waist === 'number' &&
+      WAISTS.includes(waist) &&
+      typeof inseam === 'number' &&
+      INSEAMS.includes(inseam) &&
+      typeof qty === 'number' &&
+      Number.isInteger(qty) &&
+      qty > 0;
+    if (!valid) {
+      continue;
+    }
+    const item = { slug, waist, inseam, qty: clampQty(qty) };
+    // 같은 상품·사이즈가 두 줄이면 서랍의 key가 겹치므로 처음 것만 남긴다.
+    const key = itemKey(item);
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    items.push(item);
+  }
+  return items;
 }

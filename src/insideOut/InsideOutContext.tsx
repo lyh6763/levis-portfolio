@@ -30,10 +30,22 @@ export function useInsideOut() {
   return value;
 }
 
+/**
+ * 저장된 실밥 목록을 읽는다. 배열이 아니면 버리고 문자열이 아닌 항목은 뺀다.
+ * 문자열 하나가 그대로 Set에 들어가면 글자 수만큼 실밥을 찾은 것으로 셈해진다.
+ */
+export function parseThreads(raw: string | null): Set<string> {
+  try {
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []);
+  } catch {
+    return new Set();
+  }
+}
+
 function readThreads(): Set<string> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+    return parseThreads(localStorage.getItem(STORAGE_KEY));
   } catch {
     return new Set();
   }

@@ -37,3 +37,36 @@ describe('장바구니 수량 한도', () => {
     expect(parseCart(null)).toEqual([]);
   });
 });
+
+describe('저장된 장바구니 형식 검사', () => {
+  const ok = { ...jean, qty: 2 };
+
+  it('배열이 아니거나 항목이 객체가 아니면 버린다', () => {
+    expect(parseCart(JSON.stringify({ items: [ok] }))).toEqual([]);
+    expect(parseCart(JSON.stringify('1890-xx'))).toEqual([]);
+    expect(parseCart(JSON.stringify([null, 3, 'x', ok]))).toEqual([ok]);
+  });
+
+  it('숫자가 아닌 사이즈는 버린다(서랍에 객체가 그려지면 사이트 전체가 멈춘다)', () => {
+    expect(parseCart(JSON.stringify([{ ...ok, waist: { cm: 76 } }]))).toEqual([]);
+    expect(parseCart(JSON.stringify([{ ...ok, inseam: '32' }]))).toEqual([]);
+  });
+
+  it('판매하지 않는 사이즈와 정수가 아닌 수량은 버린다', () => {
+    expect(parseCart(JSON.stringify([{ ...ok, waist: 99 }]))).toEqual([]);
+    expect(parseCart(JSON.stringify([{ ...ok, inseam: 31 }]))).toEqual([]);
+    expect(parseCart(JSON.stringify([{ ...ok, qty: 2.5 }]))).toEqual([]);
+    expect(parseCart(JSON.stringify([{ ...ok, qty: '2' }]))).toEqual([]);
+  });
+
+  it('잘못된 항목만 빼고 정상 항목은 남긴다', () => {
+    const other = { ...jean, inseam: 34, qty: 1 };
+    expect(parseCart(JSON.stringify([ok, { ...ok, waist: { cm: 76 } }, other]))).toEqual([ok, other]);
+  });
+
+  it('알려진 필드만 담고, 같은 상품·사이즈가 두 줄이면 처음 것만 남긴다', () => {
+    const items = parseCart(JSON.stringify([{ ...ok, note: '<b>x</b>' }, { ...ok, qty: 5 }]));
+    expect(items).toEqual([ok]);
+    expect(Object.keys(items[0]).sort()).toEqual(['inseam', 'qty', 'slug', 'waist']);
+  });
+});
