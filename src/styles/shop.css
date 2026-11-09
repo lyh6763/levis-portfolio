@@ -436,11 +436,26 @@
   font-weight: 500;
   text-align: left;
   color: var(--color-ink-900);
+  cursor: pointer;
+  /* 기본 삼각형 표시 대신 오른쪽 +/− 기호를 쓴다 */
+  list-style: none;
 }
 
-.pdp__advisor-toggle span {
+.pdp__advisor-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.pdp__advisor-sign {
   font-family: var(--font-family-mono);
   font-size: 18px;
+}
+
+.pdp__advisor-sign::before {
+  content: '+';
+}
+
+.pdp__advisor[open] .pdp__advisor-sign::before {
+  content: '−';
 }
 
 .pdp__add {

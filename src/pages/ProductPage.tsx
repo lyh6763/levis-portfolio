@@ -68,9 +68,7 @@ function Product({ model }: { model: Model }) {
   const { add, setOpen } = useCart();
   const [waist, setWaist] = useState<number | null>(null);
   const [inseam, setInseam] = useState<number | null>(null);
-  const [advisorOpen, setAdvisorOpen] = useState(false);
   const [missing, setMissing] = useState(false);
-  const advisorId = useId();
   const chartId = useId();
   const chapter = chapterBySlug.get(model.chapter);
   const others = models.filter((candidate) => candidate !== model);
@@ -130,16 +128,11 @@ function Product({ model }: { model: Model }) {
           </div>
           <p className="pdp__chart-note">세탁 후 치수는 콘셉트용 수축률로 계산한 근사치(인치)입니다.</p>
 
-          <button
-            type="button"
-            className="pdp__advisor-toggle"
-            aria-expanded={advisorOpen}
-            aria-controls={advisorId}
-            onClick={() => setAdvisorOpen((value) => !value)}
-          >
-            생지 수축 감안해서 사이즈 추천받기 <span aria-hidden="true">{advisorOpen ? '−' : '+'}</span>
-          </button>
-          <div id={advisorId} hidden={!advisorOpen}>
+          {/* 여닫기는 네이티브 details가 맡는다(키보드·펼침 상태 안내 포함). +/− 표시는 CSS가 [open]을 보고 바꾼다. */}
+          <details className="pdp__advisor">
+            <summary className="pdp__advisor-toggle">
+              생지 수축 감안해서 사이즈 추천받기 <span className="pdp__advisor-sign" aria-hidden="true" />
+            </summary>
             <SizeAdvisor
               model={model}
               onApply={(size) => {
@@ -148,7 +141,7 @@ function Product({ model }: { model: Model }) {
                 setMissing(false);
               }}
             />
-          </div>
+          </details>
 
           <button type="button" className="pdp__add" onClick={addToCart}>
             {waist !== null && inseam !== null ? `W${waist} · L${inseam} 장바구니에 담기` : '장바구니에 담기'}
