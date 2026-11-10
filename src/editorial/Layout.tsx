@@ -171,10 +171,10 @@ function TocDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   }, [onClose]);
 
   // 목차에서 링크를 누르면 라우트가 바뀌면서 닫힌다.
+  // onClose는 부모가 useCallback으로 고정해 넘기므로 사실상 pathname 변화에만 반응한다.
   useEffect(() => {
     onClose();
-    // pathname 변화에만 반응한다.
-  }, [pathname]);
+  }, [pathname, onClose]);
 
   return (
     <dialog

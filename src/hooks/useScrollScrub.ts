@@ -48,6 +48,8 @@ export function useScrollScrub<T extends HTMLElement>(
     refreshScrollPositions();
 
     return () => ctx.revert();
-    // build/onProgress는 마운트 시점의 정의로 고정한다.
+    // build/onProgress는 마운트 시점의 정의로 고정한다. 호출부가 인라인 함수로 넘겨 매 렌더 바뀌므로,
+    // 의존성에 넣으면 렌더마다 타임라인을 지우고 다시 만든다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- 위 이유로 build/onProgress를 뺀다.
   }, [ref, start, end]);
 }

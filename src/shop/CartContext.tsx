@@ -44,6 +44,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // 빌드 때 미리 그린 HTML(빈 장바구니)과 첫 렌더를 맞추기 위해, 저장된 장바구니는 화면에 붙은 뒤 읽는다.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate 뒤 브라우저 전용 값 반영
     setItems(readCart());
     setLoaded(true);
   }, []);
@@ -55,6 +56,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      // 저장소에 쓸 수 있는지는 실제로 써 봐야 안다. 외부 시스템(localStorage)의 결과를 상태에 반영한다.
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 위 이유
       setStorageUnavailable(false);
     } catch {
       // 저장소를 쓸 수 없으면 이번 방문 동안만 유지한다.

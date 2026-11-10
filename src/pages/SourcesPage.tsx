@@ -49,6 +49,7 @@ function useCurrentHash() {
   const [current, setCurrent] = useState('');
   useEffect(() => {
     try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate 뒤 브라우저 전용 값 반영(위 주석)
       setCurrent(decodeURIComponent(hash.slice(1)));
     } catch {
       setCurrent('');
