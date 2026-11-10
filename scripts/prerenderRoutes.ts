@@ -240,7 +240,8 @@ export function prerenderRoutes(): Plugin {
         /<\/title>/,
         '</title>\n    <meta name="robots" content="noindex" />',
         '</title>',
-      );
+      ).replace(/\s*<link\s+rel="canonical"[^>]*>/, '')
+        .replace(/\s*<meta\s+property="og:url"[^>]*>/, '');
       await writeFile(join(outDir, '404.html'), notFound);
 
       const urls = [siteUrl, ...routes.filter((route) => !route.hidden).map((route) => `${siteUrl}${route.path}/`)];
