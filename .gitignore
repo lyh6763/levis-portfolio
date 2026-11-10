@@ -4,3 +4,4 @@ dist-*
 .vite
 *.local
 *.log
+.claude/settings.local.json
