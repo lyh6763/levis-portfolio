@@ -98,7 +98,7 @@
 | 7.2.1 | 사용자 요구에 따른 실행 | 통과 | 새 창 열기 없음(`target="_blank"` 0개). 사이즈 추천기의 select는 값을 바꿔도 추천 결과만 바뀌고 이동하지 않음(`SizeAdvisor.tsx:37`, `47`). 대화상자는 버튼을 눌러야 열리고 닫기 버튼·Escape·바깥 클릭으로 닫힘. |
 | 7.2.2 | 찾기 쉬운 도움 정보 | 해당 없음 | 연락처·FAQ 같은 도움 정보 없음. |
 | 7.3.1 | 오류 정정 | 통과 | 사이즈를 고르지 않고 담으면 "허리와 기장을 먼저 골라 주세요."가 `role="alert"`로 나옴(`ProductPage.tsx:122-127`, 확인함). 고르면 메시지가 사라짐. |
-| 7.3.2 | 레이블 제공 | 통과 | select 2개는 `<label htmlFor>`로 연결(`SizeAdvisor.tsx:35-54`). 슬라이더 2개도 label로 연결(`Lot501Viz.tsx:58-60`, `IndigoViz.tsx:66-68`). 사이즈 버튼 묶음은 `fieldset`/`legend`("허리 (W)", "기장 (L)", `ProductPage.tsx:62-100`). |
+| 7.3.2 | 레이블 제공 | 통과 | select 2개는 `<label htmlFor>`로 연결(`src/shop/SizeAdvisor.tsx`의 `waistId`·`inseamId`). 슬라이더 2개도 label로 연결(`Lot501Viz.tsx`, `IndigoViz.tsx`). 사이즈 버튼 묶음은 `fieldset`/`legend`("허리 (W)", "기장 (L)", `ProductPage.tsx`의 `SizeChart`). |
 | 7.3.3 | 접근 가능한 인증 | 해당 없음 | 인증 없음. |
 | 7.3.4 | 반복 입력 정보 | 해당 없음 | 같은 정보를 다시 입력하는 과정 없음. |
 
@@ -107,7 +107,7 @@
 | 번호 | 검사항목 | 결과 | 근거 |
 | --- | --- | --- | --- |
 | 8.1.1 | 마크업 오류 방지 | 통과 | 표준이 드는 네 가지(열고 닫음, 중첩, 속성 중복, id 중복)에 해당하는 오류 0건. 실행 중인 화면에서도 id 중복 0건. html-validate는 1건을 알림: 인디고 도식의 `<label>` 안에 `<output>`이 있어 label이 두 요소와 연결됨(`multiple-labeled-controls`, `IndigoViz.tsx:66-68`). 문법 오류는 아님. → 개선 권장 |
-| 8.2.1 | 웹 애플리케이션 접근성 준수 | 통과 | 기본 `<dialog>` 사용. 각주·사이즈 추천기는 `aria-expanded`·`aria-controls`. 토글은 `aria-pressed`. 실밥 알림·수량·추천 결과·연표 범위는 `aria-live`. 슬라이더는 `aria-valuetext`. axe ARIA 규칙 위반 0건. |
+| 8.2.1 | 웹 애플리케이션 접근성 준수 | 통과 | 기본 `<dialog>` 사용. 각주는 `Footnote.tsx`의 `aria-expanded`·`aria-controls`와 네이티브 popover를 사용. 사이즈 추천기는 2026-11-09부터 `ProductPage.tsx`의 `<details class="pdp__advisor">`·`<summary>`로 펼침 상태를 브라우저가 제공함. 토글은 `aria-pressed`. 실밥 알림·수량·추천 결과·연표 범위는 `aria-live`. 슬라이더는 `aria-valuetext`. axe ARIA 규칙 위반 0건은 원래 점검 당시 결과임. |
 
 ## 수동 점검 메모
 

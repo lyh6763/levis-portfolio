@@ -12,7 +12,7 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 - React Router (챕터별 라우트)
 - GSAP ScrollTrigger + Lenis
 - CSS Custom Properties 기반 디자인 토큰
-- GitHub Pages(Actions) 배포, 빌드 때 라우트별 HTML과 본문 미리 그리기(React `prerender`) + 브라우저에서 hydrate
+- GitHub Pages(Actions) 배포, 빌드 때 라우트별 HTML과 본문 미리 그리기(React `prerenderToNodeStream`) + 브라우저에서 hydrate
 
 ## Structure
 
@@ -31,15 +31,19 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 - `src/content/chapters/<slug>.ts`: 챕터별 본문 블록(문단, 소제목, 인용, 수치, 박스, 시각화). 본문의 `[^sourceId]`가 각주가 된다
 - `src/data/chapters.ts`: 메타데이터 재수출과 챕터 본문 지연 로더(`loadChapterBlocks`)
 - `src/data/sources.ts`: 출처 목록
+- `src/data/citations.ts`: 본문의 출처·각주를 모으고 검증하는 공통 로직
 - `src/editorial/`: 레이아웃, 마스트헤드, 목차 다이얼로그, 읽기 진행 바, 각주, 링크 미리 불러오기, 청크 로딩 오류 경계
+- `src/editorial/ChapterPlate.tsx`: 장 첫 화면의 도판 9개. 넓은 화면의 옆주와 함께 편집 레이아웃을 구성
 - `src/pages/`: 라우트별 페이지. 표지 외에는 `loaders.ts`를 거쳐 지연 로딩
 - `src/viz/`: 챕터별 SVG 시각화와 지연 로딩 레지스트리. `JeanBack`은 연도별 501 뒷면 도식으로 03장과 상점이 함께 쓴다
 - `src/insideOut/`, `src/data/insideOut.ts`: 숨은 층(실밥 수집, 뒤집기 전환, 감정 단서와 추정 로직)
 - `src/shop/`, `src/data/shop.ts`: Heritage Line(상품 카드, 사이즈 추천기, 장바구니)
 - `src/hooks/`, `src/lib/scrollTrigger.ts`: Lenis 스무스 스크롤, GSAP 스크롤 스크럽(지연 로딩), reveal, 문서 제목
-- `src/styles/`: 토큰, 에디토리얼 레이아웃, 시각화 스타일
+- `src/styles/`: `reset.css`·`tokens.css`(기초), `editorial.css`(편집·옆주·읽기 진행 바), `viz.css`(시각화), `inside-out.css`(감정 기록), `shop.css`(상점)
 
 ## Code Splitting
+
+아래 크기는 2026-10-21 당시 빌드의 대략값이며, 현재 빌드 크기는 Vite 출력으로 확인합니다.
 
 | 청크 | gzip | 언제 받나 |
 | --- | --- | --- |
@@ -58,6 +62,7 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 - `prefers-reduced-motion`이면 Lenis와 스크롤 스크럽을 끄고 시각화를 최종 상태로 렌더링합니다.
 - skip link, `main` landmark, `focus-visible`. 라우트가 바뀌면 본문(`main`)으로 포커스를 옮깁니다. 다만 목차 대화상자에서 챕터를 고르면 대화상자가 닫히면서 포커스가 "목차" 버튼으로 돌아갑니다.
 - 목차는 네이티브 `<dialog>`(포커스 트랩, Escape), 각주는 `aria-expanded` 버튼 + 팝오버, 챕터 끝에 주 목록 제공.
+- 사이즈 추천은 `<details>`·`<summary>`가 여닫기와 펼침 상태를 처리합니다. 읽기 진행 막대는 지원 브라우저에서 CSS `animation-timeline: scroll(root block)`, 미지원 환경에서 기존 스크립트를 사용합니다.
 - 슬라이더 시각화는 네이티브 range input과 `aria-live` 요약을 함께 제공합니다.
 - 한국형 웹 콘텐츠 접근성 지침 2.2(KWCAG 2.2) 33개 검사항목 점검 결과와 고친 내용: [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md)
 
@@ -66,13 +71,14 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 ```bash
 npm install
 npm run dev
+npm run lint
 npm run typecheck
 npm test
 npm run build
 npm run preview
 ```
 
-`npm test`(Vitest)는 감정 도구의 구간 계산, 사이즈 추천, 복각 모델 추천을 검사하고, 본문의 모든 `[^sourceId]`가 출처 목록에 있는지와 각주로 바뀌지 않는 위치·형식의 마커가 없는지 확인합니다. `npm run build`에도 포함돼 있어 검사가 실패하면 배포되지 않습니다.
+`npm test`(Vitest, 162개)는 감정 도구의 구간 계산, 사이즈·복각 모델 추천, 저장 데이터 검증, 장별 도판과 출처 정합성을 확인합니다. 본문의 모든 `[^sourceId]`가 출처 목록에 있는지와 각주로 바뀌지 않는 위치·형식의 마커도 검사합니다. `npm run build`에도 포함돼 있어 검사가 실패하면 배포되지 않습니다. `npm run lint`는 ESLint·Stylelint를 실행하며 경고도 실패로 처리합니다. 별도 포매터는 도입하지 않았습니다.
 
 공유 미리보기 이미지(`public/images/og-image.png`)는 표지 디자인을 옮겨 생성합니다. Python 3와 Pillow가 필요하고, Windows 기본 폰트(Georgia, Malgun Gothic, Consolas)를 씁니다.
 
@@ -84,9 +90,9 @@ npm run assets:og
 
 배포 주소: https://lyh6763.github.io/levis-portfolio/
 
-`main`에 푸시하면 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)이 빌드해 GitHub Pages에 배포합니다(Actions 탭에서 수동 실행도 가능).
+이 브랜치의 [.github/workflows/deploy.yml](.github/workflows/deploy.yml)은 lint → 타입 검사·테스트·프로덕션 빌드 후 main에서만 GitHub Pages에 배포하도록 구성했습니다. PR에서는 같은 검사와 빌드만 수행합니다(Actions 탭에서 main 수동 실행도 가능). 원격 반영은 별도 배포 요청 뒤에 진행합니다.
 
-빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG와 미리 받을 청크(`modulepreload`)가 들어갑니다. 본문도 빌드 때 React로 미리 그려 넣습니다([src/entry-server.tsx](src/entry-server.tsx), `react-dom/static`의 `prerender`가 지연 로딩과 챕터 본문까지 기다림). JS를 받기 전에 글이 보이고, 브라우저에서는 [src/main.tsx](src/main.tsx)가 그 HTML에 hydrate합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapterMeta.ts`, `src/content/chapters/buildIndex.ts`, `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
+빌드 마지막에 [scripts/prerenderRoutes.ts](scripts/prerenderRoutes.ts)(Vite 플러그인)가 라우트마다 `<path>/index.html`을 씁니다. 그래서 `/chapters/lot-501/` 같은 딥 링크도 200으로 응답하고, 각 파일의 `<head>`에는 그 페이지의 제목·설명·canonical·OG와 미리 받을 청크(`modulepreload`)가 들어갑니다. 본문도 빌드 때 React로 미리 그려 넣습니다([src/entry-server.tsx](src/entry-server.tsx), `react-dom/static`의 `prerenderToNodeStream`가 지연 로딩과 챕터 본문까지 기다림). JS를 받기 전에 글이 보이고, 브라우저에서는 [src/main.tsx](src/main.tsx)가 그 HTML에 hydrate합니다. 함께 `404.html`(noindex)과 `sitemap.xml`을 만들며, 라우트 목록은 `src/data/chapterMeta.ts`, `src/content/chapters/buildIndex.ts`, `src/data/shop.ts`에서 읽습니다. GitHub Pages는 이 파일들을 끝에 `/`가 붙은 주소로 서빙하고, 앱은 들어오면서 `/` 없는 주소로 정리합니다.
 
 경로 설정은 두 곳입니다.
 
