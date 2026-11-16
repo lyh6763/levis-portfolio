@@ -15,8 +15,7 @@ export function ShopPage() {
       <header className="shop__hero">
         <h1 className="shop__title">Heritage Line</h1>
         <p className="shop__dek">
-          본문에 나온 세 시대의 501을 그해 디테일대로 복각한다고 가정한 콘셉트 상점입니다. 뒷주머니가 하나인 1890년형,
-          신치와 가랑이 리벳을 뺀 1944년 전시 규격, 빅 E 레드탭이 달린 1966년형을 골랐습니다.
+          본문에 나온 세 시대의 501을 그해 디테일대로 복각한다고 가정한 콘셉트 상점입니다.
         </p>
       </header>
 
