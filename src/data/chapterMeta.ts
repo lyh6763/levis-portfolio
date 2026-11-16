@@ -76,7 +76,7 @@ export const chapters: Chapter[] = [
     number: '05',
     years: '',
     title: 'Indigo',
-    dek: '인디고는 실의 바깥층에만 물든다. 입을수록 흰 심이 드러나 색이 옅어지는 이유다.',
+    dek: '인디고는 실의 바깥층만 물들인다. 입을수록 흰 심이 드러나 색이 옅어진다.',
     readMinutes: 2,
   },
   {
@@ -100,7 +100,7 @@ export const chapters: Chapter[] = [
     number: '08',
     years: '1873–현재',
     title: 'Anatomy of a 501',
-    dek: '501 한 벌의 부품을 처음 등장한 해와 함께 펼친 분해도.',
+    dek: '501 한 벌의 분해도. 각 부품이 처음 등장한 해를 함께 표시했다.',
     readMinutes: 1,
   },
   {

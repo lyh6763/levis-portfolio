@@ -71,7 +71,7 @@ export function routeMetas(): RouteMeta[] {
     {
       path: 'shop',
       title: 'Heritage Line',
-      description: '본문에 나온 세 시대의 501을 그해 디테일대로 복각한다고 가정한 콘셉트 상점. 1890 XX, 1944 Wartime, 1966 Big E (판매하지 않음).',
+      description: '본문에 나온 세 시대의 501을 당시 디테일에 맞춰 복각한다는 설정으로 만든 콘셉트 상점. 1890 XX, 1944 Wartime, 1966 Big E (판매하지 않음).',
       preload: ['src/pages/ShopPage.tsx'],
     },
     ...models.map((model) => ({

@@ -126,7 +126,7 @@ function Product({ model }: { model: Model }) {
               }}
             />
           </div>
-          <p className="pdp__chart-note">세탁 후 치수는 콘셉트용 수축률로 계산한 근사치(인치)입니다.</p>
+          <p className="pdp__chart-note">세탁 후 치수(인치)는 콘셉트용 수축률로 계산한 추정치입니다.</p>
 
           {/* 여닫기는 네이티브 details가 맡는다(키보드·펼침 상태 안내 포함). +/− 표시는 CSS가 [open]을 보고 바꾼다. */}
           <details className="pdp__advisor">

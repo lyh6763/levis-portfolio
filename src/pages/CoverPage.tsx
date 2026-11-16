@@ -76,8 +76,8 @@ export function CoverPage() {
               Heritage Line
             </h2>
             <p className="cover-shop__dek">
-              본문에 나온 세 시대({models.map((model) => model.year).join(', ')})의 501을 그해 디테일대로 복각한다고
-              가정한 콘셉트 상점입니다. 실제로 판매하지 않습니다.
+              본문에 나온 세 시대({models.map((model) => model.year).join(', ')})의 501을 당시 디테일에 맞춰 복각한다는
+              설정으로 만든 콘셉트 상점입니다. 실제로 판매하지 않습니다.
             </p>
             <Link to="/shop" className="cover-shop__link">
               상점 둘러보기
