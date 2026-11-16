@@ -1,6 +1,6 @@
 # WARP & WEFT | Levi's와 블루진의 150년
 
-Levi's와 블루진의 역사를 각주 달린 아홉 개의 짧은 장으로 읽는 포트폴리오입니다. 사진 대신 타이포그래피와 SVG 도식으로 이야기를 전하고, 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
+Levi's와 블루진의 역사를 각주 달린 아홉 개의 짧은 장으로 읽는 포트폴리오입니다. 타이포그래피와 도식으로 이야기를 전하고, 사실 서술에 각주로 출처를 답니다. Levi Strauss & Co.와 관계없는 비공식 콘셉트 작업입니다.
 
 AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI 결과물을 점검한 방식은 [CASE_STUDY.md](CASE_STUDY.md)의 "만든 방식"에 있습니다.
 
@@ -33,7 +33,7 @@ AI 코딩 도구 Claude Code와 함께 만들었습니다. 역할 분담과 AI �
 - `src/data/sources.ts`: 출처 목록
 - `src/data/citations.ts`: 본문의 출처·각주를 모으고 검증하는 공통 로직
 - `src/editorial/`: 레이아웃, 마스트헤드, 목차 다이얼로그, 읽기 진행 바, 각주, 링크 미리 불러오기, 청크 로딩 오류 경계
-- `src/editorial/ChapterPlate.tsx`: 장 첫 화면의 도판 9개. 넓은 화면의 옆주와 함께 편집 레이아웃을 구성
+- `src/editorial/ChapterPlate.tsx`: 장 첫 화면의 도판 9개. 02장은 1873년 미국 특허 제139,121호 [원본 도면](https://patentimages.storage.googleapis.com/36/44/79/5c0abae625daba/US139121.pdf)의 주머니 부분을 보여 줍니다.
 - `src/pages/`: 라우트별 페이지. 표지 외에는 `loaders.ts`를 거쳐 지연 로딩
 - `src/viz/`: 챕터별 SVG 시각화와 지연 로딩 레지스트리. `JeanBack`은 연도별 501 뒷면 도식으로 03장과 상점이 함께 쓴다
 - `src/insideOut/`, `src/data/insideOut.ts`: 숨은 층(실밥 수집, 뒤집기 전환, 감정 단서와 추정 로직)

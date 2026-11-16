@@ -1,9 +1,8 @@
 import type { ReactElement } from 'react';
 
 /**
- * 장 첫 화면의 도판. 그 장 도식의 한 조각을 표지 도식(CoverDrawing)과 같은 결로 그린다:
- * 인디고 바탕 위 채움 없는 생지색 선, 구리 리벳, 금색 스티치. 색과 선은 CSS 클래스(plate__*)로 준다.
- * 그림 안의 짧은 이름표(SVG 글자)는 도식 주석이라 13px 하한의 예외다. 그림이 말하는 내용은 캡션에 글로 적는다.
+ * 장 첫 화면에 본문의 도식이나 사료를 싣고 캡션에 맥락을 적는다.
+ * SVG 안의 짧은 이름표는 도식 주석이라 13px 하한의 예외다.
  */
 export function ChapterPlate({ slug }: { slug: string }) {
   const plate = PLATES[slug];
@@ -12,9 +11,20 @@ export function ChapterPlate({ slug }: { slug: string }) {
   }
   return (
     <figure className="opener__plate">
-      <svg className="plate" viewBox="0 0 320 200" aria-hidden="true">
-        {plate.drawing}
-      </svg>
+      {'image' in plate ? (
+        <img
+          className="plate"
+          src={plate.image.src}
+          alt={plate.image.alt}
+          width={plate.image.width}
+          height={plate.image.height}
+          decoding="async"
+        />
+      ) : (
+        <svg className="plate" viewBox="0 0 320 200" aria-hidden="true">
+          {plate.drawing}
+        </svg>
+      )}
       <figcaption className="opener__plate-cap">{plate.caption}</figcaption>
     </figure>
   );
@@ -22,7 +32,10 @@ export function ChapterPlate({ slug }: { slug: string }) {
 
 export const hasChapterPlate = (slug: string) => slug in PLATES;
 
-type Plate = { caption: string; drawing: ReactElement };
+type Plate = { caption: string } & (
+  | { drawing: ReactElement }
+  | { image: { src: string; alt: string; width: number; height: number } }
+);
 
 /* 원단 끝에서 되돌아오는 씨실 한 줄기 (06장) */
 function weftPath() {
@@ -61,23 +74,13 @@ const PLATES: Record<string, Plate> = {
     ),
   },
   'the-patent': {
-    caption: '힘이 몰리는 주머니 입구 양 끝의 리벳. 1873년 특허 제139,121호',
-    drawing: (
-      <>
-        <path className="plate__ink" d="M8,24 L312,24 M8,50 L312,50" />
-        <rect className="plate__ink" x="52" y="16" width="12" height="42" rx="1" />
-        <path className="plate__ink" d="M96,50 Q152,62 168,172" />
-        <path className="plate__stitch" d="M108,50 Q160,68 178,172" />
-        <circle className="plate__copper" cx="100" cy="55" r="6" />
-        <circle className="plate__copper" cx="166" cy="164" r="6" />
-        <path className="plate__arrow" d="M158,172 L124,194 M174,172 L208,194" />
-        <path className="plate__arrow" d="M124,194 l11,-1 M124,194 l5,-10 M208,194 l-11,-1 M208,194 l-5,-10" />
-        <path className="plate__note" d="M174,158 L246,104" />
-        <text className="plate__letter" x="250" y="102">
-          A
-        </text>
-      </>
-    ),
+    caption: '1873년 미국 특허 제139,121호 도면 1 일부',
+    image: {
+      src: `${import.meta.env.BASE_URL}images/us139121-fig-1-detail.webp`,
+      alt: '바지 주머니 입구의 리벳 위치를 소문자 b로 표시한 특허 도면',
+      width: 640,
+      height: 400,
+    },
   },
   'lot-501': {
     caption: '501 뒷면. 이 장에서 차례로 바뀌는 패치, 아큐에이트, 레드탭의 자리',
