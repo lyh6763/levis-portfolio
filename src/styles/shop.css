@@ -688,7 +688,7 @@
 }
 
 .cart::backdrop {
-  background: rgb(13 24 48 / 0.45);
+  background: rgb(var(--color-indigo-950-rgb) / 0.45);
 }
 
 .cart[open] {

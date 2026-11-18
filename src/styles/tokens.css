@@ -32,18 +32,22 @@
 
 :root {
   /* ---------- 색 · 인디고 (데님) ---------- */
-  --color-indigo-950: #0d1830;
+  --color-indigo-950-rgb: 13 24 48; /* #0d1830 · 반투명 막·그림자용 채널 */
+  --color-indigo-950: rgb(var(--color-indigo-950-rgb));
   --color-indigo-900: #12213d; /* 표지·챕터 첫 화면 바탕 */
   --color-indigo-800: #1c2e4f;
-  --color-indigo-700: #283f6a;
+  --color-indigo-700-rgb: 40 63 106; /* #283f6a */
+  --color-indigo-700: rgb(var(--color-indigo-700-rgb));
   --color-indigo-600: #3a527f;
   --color-indigo-500: #4e648c;
   --color-indigo-400: #6c80a4;
-  --color-indigo-300: #8fa0bd;
+  --color-indigo-300-rgb: 143 160 189; /* #8fa0bd */
+  --color-indigo-300: rgb(var(--color-indigo-300-rgb));
   --color-indigo-200: #b4c0d3;
 
   /* ---------- 색 · 에크루 (생지·종이) ---------- */
-  --color-ecru-50:  #f3ead7; /* 어두운 바탕 위 글자 */
+  --color-ecru-50-rgb: 243 234 215; /* #f3ead7 */
+  --color-ecru-50:  rgb(var(--color-ecru-50-rgb)); /* 어두운 바탕 위 글자 */
   --color-ecru-100: #e7dcc4;
   --color-ecru-200: #d8cdb8;
   --color-ecru-300: #c5b89c;
@@ -51,14 +55,23 @@
 
   /* ---------- 색 · 강조와 도식 ---------- */
   --color-selvedge-400: #c43048; /* 포커스 링 */
-  --color-selvedge-500: #a8112e; /* 셀비지 레드, 유일한 강조색 */
+  --color-selvedge-500-rgb: 168 17 46; /* #a8112e */
+  --color-selvedge-500: rgb(var(--color-selvedge-500-rgb)); /* 셀비지 레드, 유일한 강조색 */
   --color-selvedge-600: #8a0e26; /* 눌림·호버 */
   --color-copper-400:   #c98a4f;
   --color-copper-500:   #b06a2c; /* 리벳 */
   --color-topstitch-500:#d6a23e; /* 금색 탑스티치 */
-  --color-ink-900:      #14213d; /* 밝은 바탕 위 본문 */
+  --color-ink-900-rgb:  20 33 61; /* #14213d */
+  --color-ink-900:      rgb(var(--color-ink-900-rgb)); /* 밝은 바탕 위 본문 */
   --color-blueprint-bg:   #eceef1; /* 도식 배경 */
   --color-blueprint-line: #dce0e6; /* 도식 격자 */
+  --color-white-rgb: 255 255 255; /* 짙은 바탕 위 옅은 결(능직 무늬) */
+  --color-patch-leather: #7a5630; /* 가죽 패치 */
+  --color-patch-paper:   #c8ad7f; /* 종이 패치(.lot__patch.is-paper) */
+  --color-verdigris:     #8fa33c; /* 구리 리벳의 녹청 */
+  --color-inside-paper:      #fbf8f1; /* 감정 도구(안쪽) 지면 */
+  --color-inside-paper-deep: #f1ebdd;
+  --color-inside-rule:       #e2d9c6;
 
   /* ---------- 색 · 역할 ---------- */
   --color-text-on-light:       var(--color-ink-900);

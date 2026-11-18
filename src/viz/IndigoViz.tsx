@@ -60,7 +60,7 @@ export function IndigoViz() {
 
         <div
           className="indigo__swatch"
-          style={{ background: `color-mix(in srgb, ${color}, #f3ead7 ${swatchMix}%)` }}
+          style={{ background: `color-mix(in srgb, ${color}, var(--color-ecru-50) ${swatchMix}%)` }}
           aria-hidden="true"
         />
         <label className="indigo__wear-label" htmlFor={wearId}>
