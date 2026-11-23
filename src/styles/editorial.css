@@ -28,6 +28,17 @@ body {
   outline-offset: 3px;
 }
 
+/*
+ * 셀비지 레드 링은 남색·먹색 바탕에서 3:1에 못 미친다(#12213d 위 2.95:1). 어두운 면 안에서는 밝은 링으로 바꾼다.
+ * 푸터는 더 짙은 #0d1830이라 레드 링이 3.25:1로 통과하고, 감정 도구 쪽에서는 밝은 지면으로 바뀌므로 넣지 않는다.
+ */
+.toc,
+.cover,
+.opener,
+.fn__pop {
+  --color-focus-ring: var(--color-focus-ring-on-dark);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

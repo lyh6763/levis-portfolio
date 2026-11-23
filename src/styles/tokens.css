@@ -78,6 +78,7 @@
   --color-accent-selvedge:     var(--color-selvedge-500);
   --color-interactive-hover:   var(--color-selvedge-600);
   --color-focus-ring:          var(--color-selvedge-400);
+  --color-focus-ring-on-dark:  var(--color-ecru-50); /* 남색·먹색 바탕 위 포커스 링 */
 
   /* ---------- 색 · 지면 ---------- */
   --color-paper:        #f6f1e7; /* 본문 지면 — ecru-50보다 밝게, 장문 가독성 */

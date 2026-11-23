@@ -122,6 +122,8 @@
 }
 
 .toast {
+  --color-focus-ring: var(--color-focus-ring-on-dark);
+
   display: flex;
   align-items: center;
   gap: var(--space-4);
