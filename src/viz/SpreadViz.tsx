@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useScrollScrub } from '../hooks/useScrollScrub';
 
@@ -40,9 +40,30 @@ export function SpreadViz() {
 
   const height = TOP + ROWS.length * ROW_H + 10;
 
+  // 좁은 화면에서 도식이 가로로 넘칠 때만 키보드로 스크롤할 수 있는 이름 있는 영역으로 만든다.
+  // 넘치지 않는 화면에서는 아무 동작 없는 탭 정지가 생기지 않게 속성을 붙이지 않는다.
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [scrollable, setScrollable] = useState(false);
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) {
+      return;
+    }
+    const observer = new ResizeObserver(() => setScrollable(scroller.scrollWidth > scroller.clientWidth + 1));
+    observer.observe(scroller);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="viz spread" ref={ref}>
-      <div className="spread__scroller">
+      <div
+        className="spread__scroller"
+        ref={scrollerRef}
+        tabIndex={scrollable ? 0 : undefined}
+        role={scrollable ? 'region' : undefined}
+        aria-label={scrollable ? '지역별 확산 타임라인(가로 스크롤)' : undefined}
+      >
         <svg viewBox={`0 0 900 ${height}`} role="img" aria-labelledby="spread-desc">
           <desc id="spread-desc">
             {ROWS.map((row) => `${row.region}: ${row.marks.map((m) => m.label).join(', ')}`).join('. ')}
