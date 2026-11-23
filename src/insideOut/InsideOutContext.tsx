@@ -117,18 +117,12 @@ export function InsideOutProvider({ children }: { children: ReactNode }) {
     [threads, flip],
   );
 
-  // 알림은 잠시 뒤 사라진다. 행동 버튼이 있는 알림은 조금 더 오래 둔다.
-  useEffect(() => {
-    if (!toast) {
-      return;
-    }
-    const timer = window.setTimeout(() => setToast(null), toast.action ? 9000 : 4200);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
+  // 자동으로 사라지는 시간은 Toast가 센다. 마우스나 키보드 포커스가 알림 안에 있으면 멈춰야 해서다.
+  const dismissToast = useCallback(() => setToast(null), []);
 
   const value = useMemo(
-    () => ({ threads, collect, isInside, flip, toast, dismissToast: () => setToast(null) }),
-    [threads, collect, isInside, flip, toast],
+    () => ({ threads, collect, isInside, flip, toast, dismissToast }),
+    [threads, collect, isInside, flip, toast, dismissToast],
   );
 
   return (
